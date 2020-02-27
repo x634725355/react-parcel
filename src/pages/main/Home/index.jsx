@@ -12,31 +12,32 @@ export class Home extends Component {
             { title: '云村', sub: '2' },
             { title: '视频', sub: '3' },
         ],
-        activeTab: 1
+        activeTab: 1,
+        windowHeight: document.documentElement.clientHeight
     }
 
     render() {
-        const { tabs, activeTab } = this.state;
+        const { tabs, activeTab, windowHeight } = this.state;
         return (
-            <div>
+            <div className="home" style={{ height: windowHeight }} >
                 <div className="menu iconfont iconliebiao"></div>
                 <div className="search iconfont iconsousuo"></div>
                 <Tabs tabs={tabs}
                     initialPage={activeTab}
                     onChange={(tab, index) => { console.log('onChange', index, tab); }}
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
-                    tabBarUnderlineStyle={{border: "none"}}
+                    tabBarUnderlineStyle={{ border: "none" }}
                 >
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+                    <div className="tabs-item" >
                         Content of first tab
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+                    <div className="tabs-item" >
                         Content of second tab
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+                    <div className="tabs-item" >
                         Content of third tab
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '150px', backgroundColor: '#fff' }}>
+                    <div className="tabs-item" >
                         Content of third tab
                     </div>
                 </Tabs>
