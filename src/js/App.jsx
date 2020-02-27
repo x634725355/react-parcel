@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-import { HashRouter, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route } from "react-router-dom";
+
+import { Home } from '../pages/main/Home';
 
 import './App.less';
-
-const Home = () => (<h1>我是首页</h1>)
 
 export class App extends Component {
     render() {
         return (
-            <HashRouter>
-                <Route path="/" component={ Home } />
-            </HashRouter>
+            <Router>
+                <Route path="/" component={Home} />
+            </Router>
         )
     }
 }
