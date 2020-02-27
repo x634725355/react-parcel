@@ -9,7 +9,9 @@ export class App extends Component {
     render() {
         return (
             <Router>
-                <Route path="/" component={Home} />
+                <div className="box">
+                    <Route path="/" component={Home} />
+                </div>
             </Router>
         )
     }
