@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7395759",
+      "name": "列表",
+      "font_class": "liebiao",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
       "icon_id": "3015745",
       "name": "单曲",
       "font_class": "danqu",

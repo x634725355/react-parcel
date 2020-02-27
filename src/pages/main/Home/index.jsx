@@ -19,8 +19,8 @@ export class Home extends Component {
         const { tabs, activeTab } = this.state;
         return (
             <div>
-                <div className="menu"></div>
-                <div className="search"></div>
+                <div className="menu iconfont iconliebiao"></div>
+                <div className="search iconfont iconsousuo"></div>
                 <Tabs tabs={tabs}
                     initialPage={activeTab}
                     onChange={(tab, index) => { console.log('onChange', index, tab); }}
