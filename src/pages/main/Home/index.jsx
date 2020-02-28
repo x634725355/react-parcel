@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import { Tabs } from 'antd-mobile';
 
-import './index.module.less';
+import './index.less';
 
 export class Home extends Component {
     state = {
