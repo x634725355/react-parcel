@@ -3,8 +3,11 @@ import React, { Component } from 'react';
 import { Tabs } from 'antd-mobile';
 
 import { PlayMusic } from '../../../components/PlayMusic';
+import { Decorator } from '../../../components/Decorator/Decorator';
 
 import './index.less';
+
+
 
 export class Home extends Component {
     state = {
@@ -34,7 +37,7 @@ export class Home extends Component {
                         Content of first tab
                     </div>
                     <div className="tabs-item" >
-                        Content of second tab
+                        <Decorator></Decorator>
                     </div>
                     <div className="tabs-item" >
                         Content of third tab
