@@ -1,8 +1,39 @@
 .play-music {
     position: fixed;
     bottom: 0;
-    height: 50px;
+    width: 100%;
 }
+
 .common-mode {
-    
+    height: 50px;
+    display: flex;
+
+    .mode-left {
+        flex: 2;
+        background-color: pink;
+        display: flex;
+        align-items: center;
+        padding-left: 5px;
+        img {
+            width: 40px;
+            height: 40px;
+            background-color: purple;
+            border-radius: 20px;
+        }
+        .mode-left-introduction {
+            margin-left: 8px;
+            p {
+                font-size: 12px;
+                &:first-child {
+                    margin-bottom: 8px;
+                }
+            }
+            
+        }
+    }
+
+    .mode-right {
+        flex: 1;
+        background-color: khaki;
+    }
 }
