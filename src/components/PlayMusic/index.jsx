@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 
-import './index.module.less';
+import './index.less';
 
 export class PlayMusic extends Component {
     render() {
         return (
-            <div>
+            <div className="play-music">
                 <h1>音乐播放</h1>
             </div>
         )

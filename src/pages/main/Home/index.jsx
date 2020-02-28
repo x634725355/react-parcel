@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Tabs } from 'antd-mobile';
 
+import { PlayMusic } from '../../../components/PlayMusic';
+
 import './index.less';
 
 export class Home extends Component {
@@ -42,6 +44,8 @@ export class Home extends Component {
                     </div>
                 </Tabs>
 
+
+                <PlayMusic></PlayMusic>
             </div>
         )
     }
