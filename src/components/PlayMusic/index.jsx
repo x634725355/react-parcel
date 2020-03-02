@@ -1,8 +1,12 @@
 import React, { Component } from "react";
 import { Progress } from 'antd-mobile';
 
+import { ProgressCircle } from "../ProgressCircle";
+
 import './index.less';
 import niao from "../../assets/images/niao.jpg";
+
+
 
 export class PlayMusic extends Component {
 
@@ -24,7 +28,7 @@ export class PlayMusic extends Component {
                     </div>
                     <div className="mode-right">
                         <div className="mode-right-progress">
-                            <Progress className="progress-style" percent={30} position="normal" unfilled={false} />
+                            <ProgressCircle></ProgressCircle>
                             <svg className="icon" aria-hidden="true">
                                 <use xlinkHref="#iconyinle-bofang"></use>
                             </svg>

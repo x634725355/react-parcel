@@ -25,8 +25,17 @@ export class Home extends Component {
         const { tabs, activeTab, windowHeight } = this.state;
         return (
             <div className="home" style={{ height: windowHeight }} >
-                <div className="menu iconfont iconliebiao"></div>
-                <div className="search iconfont iconsousuo"></div>
+
+                <div className="menu iconfont iconliebiao">
+                    <svg className="icon" aria-hidden="true">
+                        <use xlinkHref="#iconliebiao"></use>
+                    </svg>
+                </div>
+                <div className="search iconfont iconsousuo">
+                    <svg className="icon" aria-hidden="true">
+                        <use xlinkHref="#iconsousuo"></use>
+                    </svg>
+                </div>
                 <Tabs tabs={tabs}
                     initialPage={activeTab}
                     onChange={(tab, index) => { console.log('onChange', index, tab); }}
