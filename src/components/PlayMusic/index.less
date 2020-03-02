@@ -14,26 +14,47 @@
         display: flex;
         align-items: center;
         padding-left: 5px;
+
         img {
             width: 40px;
             height: 40px;
             background-color: purple;
             border-radius: 20px;
         }
+
         .mode-left-introduction {
             margin-left: 8px;
+
             p {
                 font-size: 12px;
+
                 &:first-child {
                     margin-bottom: 8px;
                 }
             }
-            
+
         }
     }
 
     .mode-right {
         flex: 1;
         background-color: khaki;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        position: relative;
+
+        .mode-right-progress {
+            border-radius: 15px;
+            .progress-style {
+                width: 60px;
+                border-radius: 50%;
+            }
+        }
+
+        svg {
+            width: 30px;
+            height: 30px;
+        }
     }
 }
