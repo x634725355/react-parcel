@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { MemoryRouter as Router, Route, Link } from "react-router-dom";
 
-import { Button } from 'antd-mobile';
+import { Button, InputItem, WhiteSpace, WingBlank } from 'antd-mobile';
 
 const Momo = p => {
     return (
@@ -25,10 +25,10 @@ const Koko = p => {
 
 function back(entity) {
     console.log(entity);
-    
-    entity.prototype.back = function() {
+
+    entity.prototype.back = function () {
         console.log(123);
-        
+
     }
 }
 
@@ -50,6 +50,64 @@ class News extends Component {
     }
 }
 
+function validation(entity) {
+    entity.prototype.validata = function (name) {
+        if (this.state[name].length < 5) {
+            console.error(name + '小于5');
+        }
+    }
+}
+
+function validata2(length) {
+    return function (entity) {
+        entity.prototype.validata = function (name) {
+            if (this.state[name].length < length) {
+                console.error(name + '小于' + length);
+            }
+        }
+    }
+}
+
+function validata3(obj) {
+    return function (entity) {
+        entity.prototype.validata = function (name) {
+            if (this.state[name].length < obj[name]) {
+                console.error(name + '小于' + obj[name]);
+            }
+        }
+    }
+}
+
+@validata3({username: 8, pwd: 6})
+class Home2 extends Component {
+    state = {
+        username: "",
+        pwd: ''
+    }
+
+    InputChangeHandler(name, value) {
+        this.setState({ [name]: value });
+    }
+
+    render() {
+        const { username, pwd } = this.state;
+        return (
+            <div>
+                <InputItem value={username} onChange={this.InputChangeHandler.bind(this, 'username')} >账号</InputItem>
+                <InputItem value={pwd} onChange={this.InputChangeHandler.bind(this, 'pwd')} type="password" >密码</InputItem>
+                <WhiteSpace size="lg"></WhiteSpace>
+
+                <WingBlank>
+                    <Button type="primary" onClick={() => {
+                        this.validata('username');
+                        this.validata('pwd');
+                    }} >注册</Button>
+                </WingBlank>
+            </div>
+        )
+    }
+}
+
 export class Decorator extends Component {
 
     state = {
@@ -59,10 +117,11 @@ export class Decorator extends Component {
     render() {
         return (
             <Router>
-                <Route path="/" exact  component={Koko} />
+                {/* <Route path="/" exact component={Koko} />
                 <Route path="/about" component={Momo} />
                 <Route path="/conact" component={Contact} />
-                <Route path="/news" component={News} />
+                <Route path="/news" component={News} /> */}
+                <Home2></Home2>
             </Router>
         );
     }
