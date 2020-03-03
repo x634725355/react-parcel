@@ -1,0 +1,1 @@
+export const iphoneHeight = document.documentElement.clientHeight;

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Tabs } from 'antd-mobile';
 
 import { PlayMusic } from '../../../components/PlayMusic';
-// import { Decorator } from '../../../components/Decorator/Decorator';
+import { iphoneHeight } from '../../../utils/iphoneHeight';
 
 import './index.less';
 
@@ -18,7 +18,7 @@ export class Home extends Component {
             { title: '视频', sub: '3' },
         ],
         activeTab: 1,
-        windowHeight: document.documentElement.clientHeight
+        windowHeight: iphoneHeight
     }
 
     render() {
