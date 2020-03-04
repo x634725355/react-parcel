@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Tabs } from 'antd-mobile';
 
 import { PlayMusic } from '../../../components/PlayMusic';
+import { Find } from '../../../components/Find';
 import { iphoneHeight } from '../../../utils/iphoneHeight';
 
 import './index.less';
@@ -47,7 +48,7 @@ export class Home extends Component {
                         Content of first tab
                     </div>
                     <div className="tabs-item" >
-                        123456
+                        <Find></Find>
                     </div>
                     <div className="tabs-item" >
                         Content of third tab
@@ -60,6 +61,6 @@ export class Home extends Component {
 
                 <PlayMusic></PlayMusic>
             </div>
-        )
+        );
     }
 }
