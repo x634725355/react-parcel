@@ -19,12 +19,16 @@ export class Home extends Component {
             { title: '视频', sub: '3' },
         ],
         activeTab: 1,
-        userData: null
+        userData: null,
+        swipeable: true
+    }
 
+    changeSwipeable(swipeable) {
+        this.setState({ swipeable });
     }
 
     render() {
-        const { tabs, activeTab } = this.state;
+        const { tabs, activeTab, swipeable } = this.state;
         return (
             <div className="home" style={{ height: iphoneHeight }} >
 
@@ -43,12 +47,14 @@ export class Home extends Component {
                     onChange={(tab, index) => { console.log('onChange', index, tab); }}
                     onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                     tabBarUnderlineStyle={{ border: "none" }}
+                    swipeable={swipeable}
+                    useOnPan={false}
                 >
                     <div className="tabs-item" >
                         Content of first tab
                     </div>
                     <div className="tabs-item" >
-                        <Find></Find>
+                        <Find onWiperChange={this.changeSwipeable.bind(this)} ></Find>
                     </div>
                     <div className="tabs-item" >
                         Content of third tab

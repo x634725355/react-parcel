@@ -16,12 +16,16 @@ export class Find extends Component {
 
     componentDidMount() {
         this.getbannerData();
-        
+
         setTimeout(() => {
             this.setState({
                 data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
             });
         }, 100);
+    }
+    onClick() {
+        console.log(1111);
+
     }
 
     async getbannerData() {
@@ -33,8 +37,12 @@ export class Find extends Component {
     }
     // TODO：轮播图bug
     renderBanner() {
+        const { onWiperChange } = this.props
         return (
-            <div className="banners">
+            <div className="banners"
+                onTouchStart={() => onWiperChange(false)}
+                onTouchEnd={() => onWiperChange(true)}
+            >
                 <Carousel
                     autoplay
                     infinite
@@ -42,7 +50,7 @@ export class Find extends Component {
                     {this.state.data.map(val => (
                         <a
                             key={val}
-                            href="http://www.alipay.com"
+                            href="#"
                             style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
                         >
                             <img
