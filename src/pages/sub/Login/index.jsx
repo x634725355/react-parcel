@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { List, InputItem, Toast, Button } from 'antd-mobile';
+import { List, InputItem, Toast, Button, WingBlank, WhiteSpace } from 'antd-mobile';
 import { createForm } from 'rc-form';
 
 import { iphoneHeight } from "../../../utils/iphoneHeight";
@@ -21,19 +21,20 @@ class Login extends Component {
             if (!error) {
                 console.log(this.props.form.getFieldsValue());
             } else {
-                alert('Validation failed');
+                Toast.fail('验证失败');
             }
         });
     }
+
     onReset() {
         this.props.form.resetFields();
     }
+
     validateAccount(rule, value, callback) {
-        if (value && value.length > 4) {
-            callback();
-        } else {
-            callback(new Error('At least four characters for account'));
-        }
+        const regEmail = /^([a-zA-Z]|[0-9])(\w|\-)+@[a-zA-Z0-9]+\.([a-zA-Z]{2,4})$/;
+        const regMobile = /^(0|86|17951)?(13[0-9]|15[012356789]|17[678]|18[0-9]|14[57])[0-9]{8}$/;
+
+        (regEmail.test(value) || regMobile.test(value)) || callback(new Error('请输入正确的邮箱或者手机号'));
     }
 
     renderHeader() {
@@ -44,35 +45,44 @@ class Login extends Component {
         );
     }
 
+    renderFooter() {
+        return (
+            <div className="placeholder">{this.props.form.getFieldError('account')}</div>
+        );
+    }
+
     render() {
         const { getFieldProps, getFieldError } = this.props.form;
 
         return (
-            <div  style={{ height: iphoneHeight }} >
+            <div style={{ height: iphoneHeight }} >
                 <form className="login">
                     <List
                         renderHeader={this.renderHeader()}
-                        renderFooter={() => getFieldError('account') && getFieldError('account').join(',')}
+                        renderFooter={this.renderFooter.bind(this)}
+                        // activeStyle = {}
+                        className="login-body"
                     >
-                        <InputItem
+                        <InputItem 
                             {...getFieldProps('account', {
                                 // initialValue: 'little ant',
                                 rules: [
-                                    { required: true, message: 'Please input account' },
                                     { validator: this.validateAccount.bind(this) },
                                 ],
                             })}
                             clear
                             error={!!getFieldError('account')}
                             onErrorClick={() => {
-                                alert(getFieldError('account').join('、'));
+                                Toast.fail(getFieldError('account').join('、'));
                             }}
                             placeholder="请输入您的手机号或者邮箱"
                         ></InputItem>
+                        <WhiteSpace size="lg" />
                         <InputItem {...getFieldProps('password')} placeholder="请输入您的密码" type="password"></InputItem>
-                        <Item>
-                            <Button type="primary" size="small" inline onClick={this.onSubmit.bind(this)}>Submit</Button>
-                            <Button size="small" inline style={{ marginLeft: '2.5px' }} onClick={this.onReset.bind(this)}>Reset</Button>
+                        <WhiteSpace size="lg" />
+                        <Item className="login-button">
+                            <Button type="primary" size="small" inline onClick={this.onSubmit.bind(this)}>提交按钮</Button>
+                            <Button size="small" inline style={{ marginLeft: '2.5px' }} onClick={this.onReset.bind(this)}>重置</Button>
                         </Item>
                     </List>
                 </form>

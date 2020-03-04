@@ -4,7 +4,7 @@
 }
 
 .App-logo {
-    height: 50px;
+    height: 100px;
     pointer-events: none;
 }
 
@@ -26,5 +26,37 @@
 
 .login {
     height: 100%;
-    background-color: #db2b1f;
+    background-color: #35495e;
+
+    .logo {
+        display: flex;
+        justify-content: center;
+        margin: 80px 0;
+    }
+
+    .placeholder {
+        color: #fd5e53;
+        text-align: center;
+        height: 30px;
+        line-height: 30px;
+        width: 100%;
+    }
+
+    .login-button {
+        background-color: transparent;
+        border: none;
+        .am-list-content {
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    .login-body {
+        .am-list-body {
+            background-color: transparent;
+            &::after {
+                background-color: transparent;
+            }
+        }
+    }
 }
