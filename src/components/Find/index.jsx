@@ -31,7 +31,7 @@ export class Find extends Component {
 
         //  touchmove
     }
-
+    // TODO：轮播图bug
     renderBanner() {
         return (
             <div className="banners">
