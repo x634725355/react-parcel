@@ -18,13 +18,14 @@ export class Home extends Component {
             { title: '视频', sub: '3' },
         ],
         activeTab: 1,
-        windowHeight: iphoneHeight
+        userData: null
+
     }
 
     render() {
-        const { tabs, activeTab, windowHeight } = this.state;
+        const { tabs, activeTab } = this.state;
         return (
-            <div className="home" style={{ height: windowHeight }} >
+            <div className="home" style={{ height: iphoneHeight }} >
 
                 <div className="menu iconfont iconliebiao">
                     <svg className="icon" aria-hidden="true">

@@ -26,7 +26,7 @@
 
 .login {
     height: 100%;
-    background-color: #35495e;
+    background-color: #ededed;
 
     .logo {
         display: flex;
@@ -45,6 +45,7 @@
     .login-button {
         background-color: transparent;
         border: none;
+
         .am-list-content {
             display: flex;
             justify-content: space-between;
@@ -54,8 +55,47 @@
     .login-body {
         .am-list-body {
             background-color: transparent;
-            &::after {
+            .am-list-item {
                 background-color: transparent;
+                .am-list-line {
+                    &::after {
+                        content: none;
+                    }
+                }
+            }
+            input {
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                appearance: none;
+                background: #fff;
+                background-image: none;
+                border: .05rem solid #bcc3ce;
+                border-radius: .1rem;
+                color: #3b4351;
+                display: block;
+                font-size: .8rem;
+                height: 1.8rem;
+                line-height: 1.2rem;
+                max-width: 100%;
+                outline: 0;
+                padding: .25rem .4rem;
+                position: relative;
+                transition: background .2s, border .2s, box-shadow .2s, color .2s;
+                width: 100%;
+                border-radius: 30px;
+                height: 40px;
+                padding-left: 20px;
+                &:focus {
+                    border-color: #5755d9;
+                    box-shadow: 0 0 0 0.1rem rgba(87, 85, 217, .2);
+                }
+            }
+
+            &::after {
+                content: none;
+            }
+            &::before {
+                content: none;
             }
         }
     }
