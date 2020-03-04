@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { List, InputItem, Toast, Button, WhiteSpace } from 'antd-mobile';
 import { createForm } from 'rc-form';
 
-import { iphoneHeight, USER_DATA_KEY } from "../../../utils/iphoneHeight";
+import { iphoneHeight, USER_DATA_KEY } from "../../../utils/share";
 import { API } from "../../../utils/fetchAPI";
 
 import './index.less';

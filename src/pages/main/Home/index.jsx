@@ -4,7 +4,7 @@ import { Tabs } from 'antd-mobile';
 
 import { PlayMusic } from '../../../components/PlayMusic';
 import { Find } from '../../../components/Find';
-import { iphoneHeight } from '../../../utils/iphoneHeight';
+import { iphoneHeight } from '../../../utils/share';
 
 import './index.less';
 
