@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { Carousel } from 'antd-mobile';
 
 import { API } from "../../utils/fetchAPI";
-// import { stopTouchMove } from "../../utils/stopTouchmove";
 
 import './index.less';
 
@@ -23,19 +22,14 @@ export class Find extends Component {
             });
         }, 100);
     }
-    onClick() {
-        console.log(1111);
-
-    }
 
     async getbannerData() {
         const { banners } = await API.get('/banner', { type: 1 });
 
         this.setState({ bannerData: banners });
 
-        //  touchmove
     }
-    // TODO：轮播图bug
+
     renderBanner() {
         const { onWiperChange } = this.props
         return (
@@ -46,17 +40,19 @@ export class Find extends Component {
                 <Carousel
                     autoplay
                     infinite
+                    dotActiveStyle={{ backgroundColor: '#c81912' }}
+                    cellSpacing={15}
                 >
                     {this.state.data.map(val => (
                         <a
                             key={val}
                             href="#"
-                            style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight }}
+                            style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight, padding: "0px 10px" }}
                         >
                             <img
                                 src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
                                 alt=""
-                                style={{ width: '100%', verticalAlign: 'top' }}
+                                style={{ width: '100%', verticalAlign: 'top', height: 150, borderRadius: 10 }}
                                 onLoad={() => {
                                     // fire window resize event to change height
                                     window.dispatchEvent(new Event('resize'));
