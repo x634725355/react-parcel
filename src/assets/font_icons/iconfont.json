@@ -6,6 +6,34 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "878501",
+      "name": "排行榜",
+      "font_class": "paixingbang",
+      "unicode": "e624",
+      "unicode_decimal": 58916
+    },
+    {
+      "icon_id": "1718326",
+      "name": "日历5",
+      "font_class": "rili",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "1956095",
+      "name": "电台",
+      "font_class": "diantai",
+      "unicode": "e65e",
+      "unicode_decimal": 58974
+    },
+    {
+      "icon_id": "13203599",
+      "name": "电台",
+      "font_class": "diantai1",
+      "unicode": "e605",
+      "unicode_decimal": 58885
+    },
+    {
       "icon_id": "7395759",
       "name": "列表",
       "font_class": "liebiao",

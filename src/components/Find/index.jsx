@@ -9,29 +9,32 @@ export class Find extends Component {
 
     state = {
         bannerData: [],
-        data: ['1', '2', '3'],
         imgHeight: 176,
+        navList: [
+            ['每日推荐', '#iconrili', '/main/houses'],
+            ['歌单', '#iconlist', '/main/houses'],
+            ['排行榜', '#iconpaixingbang', '/map'],
+            ['电台', '#icondiantai', '/rent'],
+            ['私人FM', '#icondiantai1', '/rent']
+        ],
     }
 
     componentDidMount() {
         this.getbannerData();
-
-        setTimeout(() => {
-            this.setState({
-                data: ['AiyWuByWklrrUDlFignR', 'TekJlZRVCjLFexlOCuWn', 'IJOtIlfsYdTyaDTRVrLI'],
-            });
-        }, 100);
     }
 
     async getbannerData() {
         const { banners } = await API.get('/banner', { type: 1 });
 
-        this.setState({ bannerData: banners });
+        const newBanners = banners.map(p => ({ img: p.pic, id: p.targetId, type: p.targetType, song: p.song }));
+
+        this.setState({ bannerData: newBanners });
 
     }
 
     renderBanner() {
-        const { onWiperChange } = this.props
+        const { onWiperChange } = this.props;
+        const { bannerData } = this.state;
         return (
             <div className="banners"
                 onTouchStart={() => onWiperChange(false)}
@@ -42,22 +45,19 @@ export class Find extends Component {
                     infinite
                     dotActiveStyle={{ backgroundColor: '#c81912' }}
                     cellSpacing={15}
+                    swipeSpeed={8}
                 >
-                    {this.state.data.map(val => (
+                    {this.state.bannerData.map(p => (
                         <a
-                            key={val}
+                            key={p.id}
                             href="#"
                             style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight, padding: "0px 10px" }}
                         >
                             <img
-                                src={`https://zos.alipayobjects.com/rmsportal/${val}.png`}
+                                src={`${p.img}`}
                                 alt=""
                                 style={{ width: '100%', verticalAlign: 'top', height: 150, borderRadius: 10 }}
-                                onLoad={() => {
-                                    // fire window resize event to change height
-                                    window.dispatchEvent(new Event('resize'));
-                                    this.setState({ imgHeight: 'auto' });
-                                }}
+                                onLoad={() => this.setState({ imgHeight: 'auto' })}
                             />
                         </a>
                     ))}
@@ -71,6 +71,7 @@ export class Find extends Component {
             <div>
                 {/* 渲染轮播图 */}
                 {this.renderBanner()}
+                {/* 导航栏渲染 */}
             </div>
         );
     }
