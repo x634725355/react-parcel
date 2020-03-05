@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Carousel } from 'antd-mobile';
+import { Carousel, Flex } from 'antd-mobile';
+import { Link } from "react-router-dom";
 
 import { API } from "../../utils/fetchAPI";
 
@@ -11,11 +12,11 @@ export class Find extends Component {
         bannerData: [],
         imgHeight: 176,
         navList: [
-            ['每日推荐', '#iconrili', '/main/houses'],
-            ['歌单', '#iconlist', '/main/houses'],
-            ['排行榜', '#iconpaixingbang', '/map'],
-            ['电台', '#icondiantai', '/rent'],
-            ['私人FM', '#icondiantai1', '/rent']
+            ['每日推荐', '#iconrili', 'recommended'],
+            ['歌单', '#iconlist', 'recommended'],
+            ['排行榜', '#iconpaixingbang', 'recommended'],
+            ['电台', '#icondiantai', 'recommended'],
+            ['私人FM', '#icondiantai1', 'recommended']
         ],
     }
 
@@ -32,6 +33,7 @@ export class Find extends Component {
 
     }
 
+    /* 渲染轮播图 */
     renderBanner() {
         const { onWiperChange } = this.props;
         const { bannerData } = this.state;
@@ -66,12 +68,35 @@ export class Find extends Component {
         );
     }
 
+    // 导航栏渲染
+    renderNavButton() {
+        return (
+            <div>
+                <Flex className="nav">
+                    {this.state.navList.map((i, key) => (
+                        <Flex.Item key={key}>
+                            <Link to={i[2]}>
+                                <div className="nav-svg">
+                                    <svg class="icon" aria-hidden="true">
+                                        <use xlinkHref={i[1]}></use>
+                                    </svg>
+                                </div>
+                                <div className="title">{i[0]}</div>
+                            </Link>
+                        </Flex.Item>
+                    ))}
+                </Flex>
+            </div >
+        )
+    }
+
     render() {
         return (
             <div>
                 {/* 渲染轮播图 */}
                 {this.renderBanner()}
                 {/* 导航栏渲染 */}
+                {this.renderNavButton()}
             </div>
         );
     }
