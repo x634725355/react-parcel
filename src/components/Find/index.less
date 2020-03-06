@@ -1,48 +1,69 @@
-.banners {
-    position: relative;
-    .banners-title {
-        position: absolute;
-        bottom: 0;
-        right: 10px;
-        border-radius: 8px 0 8px 0;
-        color: #fff;
-        padding: 5px;
-        &.red {
-            background-color: #c81912;
+.find {
+
+    .banners {
+        position: relative;
+
+        .banners-title {
+            position: absolute;
+            bottom: 0;
+            right: 10px;
+            border-radius: 8px 0 8px 0;
+            color: #fff;
+            padding: 5px;
+
+            &.red {
+                background-color: #c81912;
+            }
+
+            &.blue {
+                background-color: #40e0d0;
+            }
         }
-        &.blue {
-            background-color: #40e0d0;           
+    }
+
+
+    .nav {
+        padding: 10px 5px;
+
+        a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #000;
+        }
+
+        svg {
+            width: 25px;
+            height: 25px;
+            color: #fff;
+        }
+
+        .nav-svg {
+            width: 40px;
+            height: 40px;
+            background-color: #72b5b7;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .title {
+            margin-top: 7px;
+            font-size: 13px;
         }
     }
-}
 
-.nav {
-    padding: 10px 5px;
-
-    a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        color: #000;
+    .song-list {
+        height: 150px;
+        .find-resource {
+            display: flex;
+            align-content: space-around;
+            img {
+                width: 100%;
+                height: 100px;
+            }
+        }
     }
 
-    svg {
-        width: 25px;
-        height: 25px;
-        color: #fff;
-    }
-    .nav-svg {
-        width: 40px;
-        height: 40px;
-        background-color: #72b5b7;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .title {
-        margin-top: 7px;
-        font-size: 13px;
-    }
 }

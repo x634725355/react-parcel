@@ -114,18 +114,41 @@ export class Find extends Component {
         const { onWiperChange } = this.props;
         const { resourceData } = this.state;
         return (
-            <div
-                onTouchStart={() => onWiperChange(false)}
-                onTouchEnd={() => onWiperChange(true)}
-            >
-                <Grid data={resourceData.slice(0,6).map(p => ({ icon: p.img, text: p.title }))} isCarousel={true} onClick={_el => console.log(_el)} />
+            <div>
+                <p>推荐歌单</p>
+                <h3>为你精挑细选</h3>
+                <div
+                    
+                    onTouchStart={() => onWiperChange(false)}
+                    onTouchEnd={() => onWiperChange(true)}
+                >
+                    <Grid
+                        className="song-list"
+                        renderItem={el => (
+                            <div className="find-resource">
+                                <Link to="/songList" >
+                                    {/* <span>{el.playcount}</span> */}
+                                    <img src={el.img} alt="" />
+                                    <p>{el.text}</p>
+                                </Link>
+                            </div>
+                        )}
+                        data={resourceData.slice(0, 6).map(p => ({ img: p.img, text: p.title, playcount: p.playcount }))}
+                        isCarousel={true}
+                        onClick={_el => console.log(_el)}
+                        columnNum={3}
+                        carouselMaxRow={1}
+                        square={false}
+                        dots={false}
+                    />
+                </div>
             </div>
         );
     }
 
     render() {
         return (
-            <div>
+            <div className="find">
                 {/* 渲染轮播图 */}
                 {this.renderBanner()}
                 {/* 导航栏渲染 */}
