@@ -1,10 +1,15 @@
 import React, { Component } from "react";
-import { Carousel, Flex } from 'antd-mobile';
+import { Carousel, Flex, Grid } from 'antd-mobile';
 import { Link } from "react-router-dom";
 
 import { API } from "../../utils/fetchAPI";
 
 import './index.less';
+
+const data = Array.from(new Array(9)).map((_val, i) => ({
+    icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png',
+    text: `name${i}`,
+}));
 
 export class Find extends Component {
 
@@ -18,18 +23,31 @@ export class Find extends Component {
             ['电台', '#icondiantai', 'recommended'],
             ['私人FM', '#icondiantai1', 'recommended']
         ],
+        resourceData: []
     }
 
     componentDidMount() {
-        this.getbannerData();
+        // 获取轮播图
+        this.getBannerData();
+        // 获取推荐歌单
+        this.getResourceData();
     }
 
-    async getbannerData() {
+    async getBannerData() {
         const { banners } = await API.get('/banner', { type: 1 });
 
-        const newBanners = banners.map(p => ({ img: p.pic, id: p.targetId, type: p.targetType, song: p.song }));
+        const newBanners = banners.map(p => ({ img: p.pic, id: p.targetId, type: p.targetType, song: p.song, title: p.typeTitle, color: p.titleColor, url: p.url }));
 
         this.setState({ bannerData: newBanners });
+
+    }
+
+    async getResourceData() {
+        const { recommend } = await API.get('/recommend/resource');
+
+        const newResource = recommend.map(p => ({ img: p.picUrl, id: p.id, type: p.type, userId: p.userId, title: p.name, playcount: p.playcount, creator: p.creator }));
+
+        this.setState({ resourceData: newResource });
 
     }
 
@@ -50,25 +68,26 @@ export class Find extends Component {
                     swipeSpeed={8}
                 >
                     {this.state.bannerData.map(p => (
-                        <a
+                        <Link
                             key={p.id}
-                            href="#"
+                            to="/home"
                             style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight, padding: "0px 10px" }}
                         >
+                            <div className="banners-title" style={{ backgroundColor: p.color }} >{p.title}</div>
                             <img
                                 src={`${p.img}`}
                                 alt=""
                                 style={{ width: '100%', verticalAlign: 'top', height: 150, borderRadius: 10 }}
                                 onLoad={() => this.setState({ imgHeight: 'auto' })}
                             />
-                        </a>
+                        </Link>
                     ))}
                 </Carousel>
             </div>
         );
     }
 
-    // 导航栏渲染
+    // 导航栏渲染 TODO: 点击传值未完成
     renderNavButton() {
         return (
             <div>
@@ -77,7 +96,7 @@ export class Find extends Component {
                         <Flex.Item key={key}>
                             <Link to={i[2]}>
                                 <div className="nav-svg">
-                                    <svg class="icon" aria-hidden="true">
+                                    <svg className="icon" aria-hidden="true">
                                         <use xlinkHref={i[1]}></use>
                                     </svg>
                                 </div>
@@ -90,6 +109,20 @@ export class Find extends Component {
         )
     }
 
+    // 歌单推荐
+    renderResource() {
+        const { onWiperChange } = this.props;
+        const { resourceData } = this.state;
+        return (
+            <div
+                onTouchStart={() => onWiperChange(false)}
+                onTouchEnd={() => onWiperChange(true)}
+            >
+                <Grid data={resourceData.slice(0,6).map(p => ({ icon: p.img, text: p.title }))} isCarousel={true} onClick={_el => console.log(_el)} />
+            </div>
+        );
+    }
+
     render() {
         return (
             <div>
@@ -97,6 +130,8 @@ export class Find extends Component {
                 {this.renderBanner()}
                 {/* 导航栏渲染 */}
                 {this.renderNavButton()}
+                {/* 推荐歌单 */}
+                {this.renderResource()}
             </div>
         );
     }

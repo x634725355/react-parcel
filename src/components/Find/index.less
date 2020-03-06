@@ -1,4 +1,20 @@
-.banners {}
+.banners {
+    position: relative;
+    .banners-title {
+        position: absolute;
+        bottom: 0;
+        right: 10px;
+        border-radius: 8px 0 8px 0;
+        color: #fff;
+        padding: 5px;
+        &.red {
+            background-color: #c81912;
+        }
+        &.blue {
+            background-color: #40e0d0;           
+        }
+    }
+}
 
 .nav {
     padding: 10px 5px;

@@ -8,7 +8,7 @@ export class RecommendedDaily extends Component {
     render() {
         return (
             <div>
-                <TopNav></TopNav>
+                <TopNav>每日推荐</TopNav>
                 <div>每日推荐</div>
             </div>
         );
