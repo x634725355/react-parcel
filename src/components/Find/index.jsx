@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import { Carousel, Flex, Grid } from 'antd-mobile';
 import { Link } from "react-router-dom";
 
+// swiper引入
+import Swiper from 'swiper/js/swiper'
+import 'swiper/css/swiper.css';
+
 import { API } from "../../utils/fetchAPI";
 
 import './index.less';
@@ -31,8 +35,11 @@ export class Find extends Component {
         this.getBannerData();
         // 获取推荐歌单
         this.getResourceData();
+        // 渲染swiper轮播图
+        this.renderSwiper();
     }
 
+    // 获取轮播图数据
     async getBannerData() {
         const { banners } = await API.get('/banner', { type: 1 });
 
@@ -42,6 +49,7 @@ export class Find extends Component {
 
     }
 
+    // 获取每日推荐歌单
     async getResourceData() {
         const { recommend } = await API.get('/recommend/resource');
 
@@ -49,6 +57,20 @@ export class Find extends Component {
 
         this.setState({ resourceData: newResource });
 
+    }
+
+    // 渲染swiper轮播图
+    renderSwiper() {
+        var swiper = new Swiper('.swiper-container', {
+            slidesPerView: 'auto',
+            spaceBetween: 5,
+            pagination: {
+                el: '.swiper-pagination',
+                clickable: true,
+            },
+            // 异步数据要打开这个开关
+            observer: true
+        });
     }
 
     /* 渲染轮播图 */
@@ -118,29 +140,25 @@ export class Find extends Component {
                 <p>推荐歌单</p>
                 <h3>为你精挑细选</h3>
                 <div
-                    
+                    className="song-list"
                     onTouchStart={() => onWiperChange(false)}
                     onTouchEnd={() => onWiperChange(true)}
                 >
-                    <Grid
-                        className="song-list"
-                        renderItem={el => (
-                            <div className="find-resource">
-                                <Link to="/songList" >
-                                    {/* <span>{el.playcount}</span> */}
-                                    <img src={el.img} alt="" />
-                                    <p>{el.text}</p>
-                                </Link>
-                            </div>
-                        )}
-                        data={resourceData.slice(0, 6).map(p => ({ img: p.img, text: p.title, playcount: p.playcount }))}
-                        isCarousel={true}
-                        onClick={_el => console.log(_el)}
-                        columnNum={3}
-                        carouselMaxRow={1}
-                        square={false}
-                        dots={false}
-                    />
+                    {/* Swiper  */}
+                    <div className="swiper-container">
+                        <div className="swiper-wrapper">
+                            {resourceData.map(p => (
+                                <div key={p.id} className="swiper-slide">
+
+                                    <Link className="find-resource" to="/songList" >
+                                        <span>▶{p.playcount}</span>
+                                        <img src={p.img} alt="" />
+                                        <p>{p.title}</p>
+                                    </Link>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
                 </div>
             </div>
         );
