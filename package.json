@@ -25,6 +25,7 @@
     "rc-form": "^2.4.11",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-router-dom": "^5.1.2"
+    "react-router-dom": "^5.1.2",
+    "swiper": "^5.3.6"
   }
 }
