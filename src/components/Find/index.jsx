@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Carousel, Flex, Grid } from 'antd-mobile';
+import { Carousel, Flex, WingBlank, Button } from 'antd-mobile';
 import { Link } from "react-router-dom";
 
 // swiper引入
@@ -131,36 +131,49 @@ export class Find extends Component {
         )
     }
 
-    // 歌单推荐
+    // 计算播放数据
+    getPlaycount(data) {
+        const length = data.length
+        return length > 5 ? (length > 8 ? data.substring(0, length - 7) + '.' + data.substring(1, length - 7) + '亿' : data.substring(0, length - 4) + '万') : data
+    }
+
+    // 歌单推荐 TODO:还没添加点击跳转
     renderResource() {
         const { onWiperChange } = this.props;
         const { resourceData } = this.state;
         return (
-            <div>
-                <p>推荐歌单</p>
-                <h3>为你精挑细选</h3>
-                <div
-                    className="song-list"
-                    onTouchStart={() => onWiperChange(false)}
-                    onTouchEnd={() => onWiperChange(true)}
-                >
-                    {/* Swiper  */}
-                    <div className="swiper-container">
-                        <div className="swiper-wrapper">
-                            {resourceData.map(p => (
-                                <div key={p.id} className="swiper-slide">
+            <WingBlank size='sm'>
+                <div>
+                    <p className='recommend-songlist'>推荐歌单</p>
+                    <h3 className="pick">
+                        为你精挑细选 
+                        <button className="button">查看更多</button>
+                    </h3>
+                    
+                    <div
+                        className="song-list"
+                        onTouchStart={() => onWiperChange(false)}
+                        onTouchEnd={() => onWiperChange(true)}
+                    >
+                        {/* Swiper  */}
+                        <div className="swiper-container">
+                            <div className="swiper-wrapper">
+                                {resourceData.map(p => (
+                                    <div key={p.id} className="swiper-slide">
 
-                                    <Link className="find-resource" to="/songList" >
-                                        <span>▶{p.playcount}</span>
-                                        <img src={p.img} alt="" />
-                                        <p>{p.title}</p>
-                                    </Link>
-                                </div>
-                            ))}
+                                        <Link className="find-resource" to="/songList" >
+                                            <span>▶{this.getPlaycount(p.playcount.toString())}</span>
+                                            <img src={p.img} alt="" />
+                                            <p>{p.title}</p>
+                                        </Link>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            </WingBlank>
+
         );
     }
 
