@@ -38,7 +38,7 @@ class Login extends Component {
 
                         break;
                     case 'email':
-                        ({ profile } = await API.post('/login', { email: account, password }))
+                        ({ profile } = await API.post('/login', { email: account, password }));
 
                         // 将用户数据保存到localStorage中
                         localStorage[USER_DATA_KEY] = JSON.stringify(profile);

@@ -27,16 +27,19 @@ export class Find extends Component {
             ['电台', '#icondiantai', 'recommended'],
             ['私人FM', '#icondiantai1', 'recommended']
         ],
-        resourceData: []
+        resourceListData: [],
+        songRecommendData: []
     }
 
     componentDidMount() {
         // 获取轮播图
         this.getBannerData();
         // 获取推荐歌单
-        this.getResourceData();
+        this.getResourceListData();
         // 渲染swiper轮播图
         this.renderSwiper();
+        // 获取风格推荐数据
+        this.getSongRecommend();
     }
 
     // 获取轮播图数据
@@ -50,14 +53,25 @@ export class Find extends Component {
     }
 
     // 获取每日推荐歌单
-    async getResourceData() {
+    async getResourceListData() {
         const { recommend } = await API.get('/recommend/resource');
 
-        const newResource = recommend.map(p => ({ img: p.picUrl, id: p.id, type: p.type, userId: p.userId, title: p.name, playcount: p.playcount, creator: p.creator }));
+        const newResource = recommend.slice(0, 6).map(p => ({ img: p.picUrl, id: p.id, type: p.type, userId: p.userId, title: p.name, playcount: p.playcount, creator: p.creator }));
 
-        this.setState({ resourceData: newResource });
+        this.setState({ resourceListData: newResource });
 
     }
+
+    // 获取每日推荐歌曲截取第12首当作风格推荐数据
+    async getSongRecommend() {
+        const { recommend } = await API.get('/recommend/songs');
+
+        const newResource = recommend.slice(0, 12).map(p => ({ alias: p.alias, starred: p.starred, artists: p.artists, id: p.id, duration: p.duration, album: p.album, title: p.name, playcount: p.playcount, bMusic: p.bMusic, commentThreadId: p.commentThreadId }));
+
+        this.setState({ songRecommendData: [newResource.slice(0, 3), newResource.slice(3, 6), newResource.slice(6, 9)] });
+
+    }
+
 
     // 渲染swiper轮播图
     renderSwiper() {
@@ -76,7 +90,7 @@ export class Find extends Component {
     /* 渲染轮播图 */
     renderBanner() {
         const { onWiperChange } = this.props;
-        const { bannerData } = this.state;
+        const { bannerData, imgHeight } = this.state;
         return (
             <div className="banners"
                 onTouchStart={() => onWiperChange(false)}
@@ -89,11 +103,11 @@ export class Find extends Component {
                     cellSpacing={15}
                     swipeSpeed={8}
                 >
-                    {this.state.bannerData.map(p => (
+                    {bannerData.map(p => (
                         <Link
                             key={p.id}
                             to="/home"
-                            style={{ display: 'inline-block', width: '100%', height: this.state.imgHeight, padding: "0px 10px" }}
+                            style={{ display: 'inline-block', width: '100%', height: imgHeight, padding: "0px 10px" }}
                         >
                             <div className="banners-title" style={{ backgroundColor: p.color }} >{p.title}</div>
                             <img
@@ -109,7 +123,7 @@ export class Find extends Component {
         );
     }
 
-    // 导航栏渲染 TODO: 点击传值未完成
+    // 导航栏渲染 TODO: 点击还不够完善
     renderNavButton() {
         return (
             <div>
@@ -138,18 +152,20 @@ export class Find extends Component {
     }
 
     // 歌单推荐 TODO:还没添加点击跳转
-    renderResource() {
+    renderListResource() {
         const { onWiperChange } = this.props;
-        const { resourceData } = this.state;
+
+        const { resourceListData } = this.state;
+
         return (
             <WingBlank size='sm'>
                 <div>
                     <p className='recommend-songlist'>推荐歌单</p>
                     <h3 className="pick">
-                        为你精挑细选 
+                        为你精挑细选
                         <button className="button">查看更多</button>
                     </h3>
-                    
+
                     <div
                         className="song-list"
                         onTouchStart={() => onWiperChange(false)}
@@ -158,7 +174,7 @@ export class Find extends Component {
                         {/* Swiper  */}
                         <div className="swiper-container">
                             <div className="swiper-wrapper">
-                                {resourceData.map(p => (
+                                {resourceListData.map(p => (
                                     <div key={p.id} className="swiper-slide">
 
                                         <Link className="find-resource" to="/songList" >
@@ -177,6 +193,47 @@ export class Find extends Component {
         );
     }
 
+    // 歌曲推荐
+    renderSongRecommend() {
+        const { onWiperChange } = this.props;
+
+        const { songRecommendData } = this.state;
+
+        return (
+            <WingBlank size='sm'>
+                <div>
+                    <p className='recommend-songlist'>风格推荐</p>
+                    <h3 className="pick">
+                        不知道什么风格
+                        <button className="button">▶播放全部</button>
+                    </h3>
+
+                    <div
+                        className="song-recommend"
+                        onTouchStart={() => onWiperChange(false)}
+                        onTouchEnd={() => onWiperChange(true)}
+                    >
+                        {/* Swiper  */}
+                        <div className="swiper-container">
+                            <div className="swiper-wrapper">
+                                {!!songRecommendData.length && songRecommendData.map((p, index) => (
+                                    <div key={index} className="swiper-slide">
+                                        {p.map(m => (
+                                            <div key={m.id}>
+                                                {m.id}
+                                            </div>
+                                        ))}
+                                    </div>
+                                ))}
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </WingBlank>
+        );
+    }
+
     render() {
         return (
             <div className="find">
@@ -185,7 +242,9 @@ export class Find extends Component {
                 {/* 导航栏渲染 */}
                 {this.renderNavButton()}
                 {/* 推荐歌单 */}
-                {this.renderResource()}
+                {this.renderListResource()}
+                {/* 推荐歌曲 */}
+                {this.renderSongRecommend()}
             </div>
         );
     }
