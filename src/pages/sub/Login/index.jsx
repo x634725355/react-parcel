@@ -28,20 +28,20 @@ class Login extends Component {
 
                 switch (type) {
                     case 'phone':
-                        let { profile } = await API.get('/login/cellphone', { phone: account, password });
+                        let { profile } = await API.post('/login/cellphone', { phone: account, password });
 
                         // 将用户数据保存到localStorage中
-                        localStorage.setItem(USER_DATA_KEY, JSON.stringify(profile));
+                        localStorage[USER_DATA_KEY] = JSON.stringify(profile);
 
                         // 跳转到home页面
                         this.props.history.push('/home');
 
                         break;
                     case 'email':
-                        ({ profile } = await API.get('/login', { email: account, password }))
+                        ({ profile } = await API.post('/login', { email: account, password }))
 
                         // 将用户数据保存到localStorage中
-                        localStorage.setItem(USER_DATA_KEY, JSON.stringify(profile));
+                        localStorage[USER_DATA_KEY] = JSON.stringify(profile);
 
                         // 跳转到home页面
                         this.props.history.push('/home');
