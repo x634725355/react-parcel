@@ -218,9 +218,16 @@ export class Find extends Component {
                             <div className="swiper-wrapper">
                                 {!!songRecommendData.length && songRecommendData.map((p, index) => (
                                     <div key={index} className="swiper-slide">
-                                        {p.map(m => (
-                                            <div key={m.id}>
-                                                {m.id}
+                                        {p.map(p => (
+                                            <div className='song-recommend-list' key={p.id}>
+                                                <img src={p.album.picUrl} alt=""/>
+                                                <div className='song-recommend-singer'>
+                                                    <div>
+                                                        <p>{p.title} - {p.artists.map(p => p.name)}</p>
+                                                        <p>这个推荐语真的有点难搞</p>
+                                                    </div>
+                                                    <span>1</span>
+                                                </div>
                                             </div>
                                         ))}
                                     </div>
