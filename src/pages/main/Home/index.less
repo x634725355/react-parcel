@@ -2,13 +2,14 @@
 
     .menu,
     .search {
-        position: absolute;
+        position: fixed;
         width: 10%;
         height: 33.5px;
         top: 0;
         font-size: 23px;
         background-color: #fff;
         padding-top: 10px;
+        z-index: 99;
     }
 
     .menu {
@@ -30,10 +31,16 @@
         transition: all 0.5s;
         font-size: 18px;
     }
-
+    .am-tabs-content-wrap {
+        margin-top: 43.5px;
+    }
     .am-tabs-tab-bar-wrap {
         width: 80%;
-        margin: 0 auto;
+        position: fixed;
+        top: 0;
+        left: 10%;
+        z-index: 99;
+        
     }
 
     .tabs-item {
