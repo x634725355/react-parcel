@@ -68,7 +68,7 @@ export class Find extends Component {
 
         const newResource = recommend.slice(0, 12).map(p => ({ alias: p.alias, starred: p.starred, artists: p.artists, id: p.id, duration: p.duration, album: p.album, title: p.name, playcount: p.playcount, bMusic: p.bMusic, commentThreadId: p.commentThreadId }));
 
-        this.setState({ songRecommendData: [newResource.slice(0, 3), newResource.slice(3, 6), newResource.slice(6, 9)] });
+        this.setState({ songRecommendData: [newResource.slice(0, 3), newResource.slice(3, 6), newResource.slice(6, 9), newResource.slice(9, 12)] });
 
     }
 
@@ -220,19 +220,24 @@ export class Find extends Component {
                                     <div key={index} className="swiper-slide">
                                         {p.map(p => (
                                             <div className='song-recommend-list' key={p.id}>
-                                                <img src={p.album.picUrl} alt=""/>
+                                                <img src={p.album.picUrl} alt="" />
                                                 <div className='song-recommend-singer'>
-                                                    <div>
-                                                        <p>{p.title} - {p.artists.map(p => p.name)}</p>
+                                                    <div className="song-recommend-singer-left">
+                                                        <div>
+                                                            <span>{p.title}</span><span>-{p.artists.map(p => p.name).join('/')}</span>
+                                                        </div>
                                                         <p>这个推荐语真的有点难搞</p>
                                                     </div>
-                                                    <span>1</span>
+                                                    <div className="song-recommend-singer-right">
+                                                        <svg className="icon" aria-hidden="true">
+                                                            <use xlinkHref="#iconyinle-bofang"></use>
+                                                        </svg>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))}
                                     </div>
                                 ))}
-
                             </div>
                         </div>
                     </div>

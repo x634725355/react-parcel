@@ -67,6 +67,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
+
         button {
             border: 1px solid #eee;
             border-radius: 12px;
@@ -149,8 +150,6 @@
         height: 180px;
 
         .swiper-slide {
-            text-align: center;
-            font-size: 18px;
             width: 100%;
             margin-left: -10%;
             padding-left: 10%;
@@ -161,8 +160,8 @@
             display: flex;
             flex-direction: column;
             justify-content: space-around;
+
             &:last-child {
-                background-color: orange;
                 margin-left: 0;
                 padding-left: 0;
             }
@@ -171,10 +170,50 @@
         .song-recommend-list {
             height: 50px;
             display: flex;
-            justify-content: space-between;
+
             img {
                 height: 100%;
-                width: 50%;
+                width: 15%;
+                border-radius: 5px;
+            }
+
+            .song-recommend-singer {
+                display: flex;
+                justify-content: space-between;
+                width: 260px;
+                margin-left: 10px;
+                .song-recommend-singer-left {
+                    width: 100%;
+                    overflow: hidden;
+                    font-size: 14px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+
+                    div {
+                        margin-bottom: 5px;
+                        display: flex;
+
+                        span {
+                            overflow: hidden;
+                            white-space: nowrap;
+                            text-overflow: ellipsis;
+                        }
+                    }
+                }
+
+                .song-recommend-singer-right {
+                    height: 100%;
+                    width: 40px;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    svg {
+                        width: 25px;
+                        height: 25px;
+                    }
+                }
             }
         }
     }

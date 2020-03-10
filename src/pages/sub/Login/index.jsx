@@ -26,30 +26,16 @@ class Login extends Component {
                 // 用getFieldsValue解构出用户和密码数据
                 const { account, password, type } = getFieldsValue();
 
-                switch (type) {
-                    case 'phone':
-                        let { profile } = await API.post('/login/cellphone', { phone: account, password });
+                let { profile, code } = await API.post(`/login${type === 'phone' ? '/cellphone' : ''}`, { [type]: account, password });
 
-                        // 将用户数据保存到localStorage中
-                        localStorage[USER_DATA_KEY] = JSON.stringify(profile);
-
-                        // 跳转到home页面
-                        this.props.history.push('/home');
-
-                        break;
-                    case 'email':
-                        ({ profile } = await API.post('/login', { email: account, password }));
-
-                        // 将用户数据保存到localStorage中
-                        localStorage[USER_DATA_KEY] = JSON.stringify(profile);
-
-                        // 跳转到home页面
-                        this.props.history.push('/home');
-
-                        break;
-                    default:
-                        break;
+                if (code !== 200) {
+                    return Toast.fail('登录失败请重试');
                 }
+                // 将用户数据保存到localStorage中
+                localStorage[USER_DATA_KEY] = JSON.stringify(profile);
+
+                // 跳转到home页面
+                this.props.history.push('/home');
 
             } else {
                 Toast.fail('验证失败');
