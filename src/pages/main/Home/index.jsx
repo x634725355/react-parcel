@@ -24,7 +24,7 @@ export class Home extends Component {
         userData: null,
         swipeable: true,
         songId: '',
-        songData: []
+        songData: {}
     }
 
     componentDidMount() {
@@ -35,12 +35,9 @@ export class Home extends Component {
     async getSong() {
         const { songs } = await API.get('/song/detail', { ids: this.state.songId || id });
 
-        const res = await API.get('/song/url', { id: this.state.songId || id })
+        const { data } = await API.get('/song/url', { id: this.state.songId || id })
 
-        console.log(res);
-        
-
-        this.setState({ songData: songs[0] });
+        this.setState({ songData: { ...songs[0], url: data[0].url } });
     }
 
     changeSwipeable(swipeable) {

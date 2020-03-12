@@ -1,14 +1,8 @@
 import React, { Component } from "react";
-import { Progress } from 'antd-mobile';
 
 import { ProgressCircle } from "../ProgressCircle";
 
 import './index.less';
-import niao from "../../assets/images/niao.jpg";
-import { API } from "../../utils/fetchAPI";
-import { SONG_ID_KEY } from "../../utils/share";
-
-
 
 export class PlayMusic extends Component {
 
@@ -29,16 +23,16 @@ export class PlayMusic extends Component {
 
     render() {
         console.log('更新');
-        const { songData } = this.state;
+        const { songData: { name, url, al = [], ar = [], tns = [] } } = this.state;
         return (
             <div className="play-music">
-                <audio src=""></audio>
+                <audio src={url}></audio>
                 <div className="common-mode">
                     <div className="mode-left">
-                        <img src={niao} alt="" />
+                        <img src={al.picUrl} alt="" />
                         <div className="mode-left-introduction">
-                            <p>歌名</p>
-                            <p>歌手</p>
+                            <p>{name}{tns.length ? `(${tns.join('/')})` : ''}</p>
+                            <p>{ar.map(p => p.name).join('/')}</p>
                         </div>
                     </div>
                     <div className="mode-right">
