@@ -193,9 +193,9 @@ export class Find extends Component {
         );
     }
 
-    // 歌曲推荐
+    // 风格推荐
     renderSongRecommend() {
-        const { onWiperChange } = this.props;
+        const { onWiperChange, onClickSongId } = this.props;
 
         const { songRecommendData } = this.state;
 
@@ -219,7 +219,7 @@ export class Find extends Component {
                                 {!!songRecommendData.length && songRecommendData.map((p, index) => (
                                     <div key={index} className="swiper-slide">
                                         {p.map(p => (
-                                            <div className='song-recommend-list' key={p.id}>
+                                            <div onClick={(e) => onClickSongId(e, p.id)} className='song-recommend-list' key={p.id}>
                                                 <img src={p.album.picUrl} alt="" />
                                                 <div className='song-recommend-singer'>
                                                     <div className="song-recommend-singer-left">

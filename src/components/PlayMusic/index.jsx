@@ -5,16 +5,31 @@ import { ProgressCircle } from "../ProgressCircle";
 
 import './index.less';
 import niao from "../../assets/images/niao.jpg";
+import { API } from "../../utils/fetchAPI";
+import { SONG_ID_KEY } from "../../utils/share";
 
 
 
 export class PlayMusic extends Component {
 
     state = {
+        songData: {}
+    }
 
+    // 用来控制props改变时 影响state
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (nextProps.songData === prevState.songData) return null;
+        return { songData: nextProps.songData };
+    }
+
+    shouldComponentUpdate(nextProps, nextState, nextContext) {
+        if (nextState.songData === this.state.songData) return false;
+        return true;
     }
 
     render() {
+        console.log('更新');
+        const { songData } = this.state;
         return (
             <div className="play-music">
                 <audio src=""></audio>

@@ -5,10 +5,12 @@ import { Tabs } from 'antd-mobile';
 import { PlayMusic } from '../../../components/PlayMusic';
 import { Find } from '../../../components/Find';
 import { iphoneHeight } from '../../../utils/share';
+import { SONG_ID_KEY } from '../../../utils/share';
+import { API } from '../../../utils/fetchAPI';
 
 import './index.less';
 
-
+const id = localStorage[SONG_ID_KEY];
 
 export class Home extends Component {
     state = {
@@ -20,15 +22,48 @@ export class Home extends Component {
         ],
         activeTab: 1,
         userData: null,
-        swipeable: true
+        swipeable: true,
+        songId: '',
+        songData: []
+    }
+
+    componentDidMount() {
+        !!id && this.getSong();
+    }
+
+    // 获取歌曲详情数据
+    async getSong() {
+        const { songs } = await API.get('/song/detail', { ids: this.state.songId || id });
+
+        const res = await API.get('/song/url', { id: this.state.songId || id })
+
+        console.log(res);
+        
+
+        this.setState({ songData: songs[0] });
     }
 
     changeSwipeable(swipeable) {
         this.setState({ swipeable });
     }
 
+    // 获取id点击事件
+    onClickSongId(e, songId) {
+        // 阻止冒泡到原生事件上面
+        e.nativeEvent.stopImmediatePropagation();
+
+        // 存储歌曲id到本地
+        localStorage[SONG_ID_KEY] = songId;
+
+        // 用来更新歌曲数据
+        this.setState({ songId }, () => this.getSong());
+    }
+
+
+
     render() {
-        const { tabs, activeTab, swipeable } = this.state;
+        const { tabs, activeTab, swipeable, songData } = this.state;
+
         return (
             <div className="home" style={{ height: iphoneHeight }} >
 
@@ -44,8 +79,6 @@ export class Home extends Component {
                 </div>
                 <Tabs tabs={tabs}
                     initialPage={activeTab}
-                    onChange={(tab, index) => { console.log('onChange', index, tab); }}
-                    onTabClick={(tab, index) => { console.log('onTabClick', index, tab); }}
                     tabBarUnderlineStyle={{ border: "none" }}
                     swipeable={swipeable}
                     useOnPan={false}
@@ -54,7 +87,7 @@ export class Home extends Component {
                         Content of first tab
                     </div>
                     <div className="tabs-item" >
-                        <Find onWiperChange={this.changeSwipeable.bind(this)} ></Find>
+                        <Find onClickSongId={this.onClickSongId.bind(this)} onWiperChange={this.changeSwipeable.bind(this)} ></Find>
                     </div>
                     <div className="tabs-item" >
                         Content of third tab
@@ -65,7 +98,7 @@ export class Home extends Component {
                 </Tabs>
 
 
-                <PlayMusic></PlayMusic>
+                <PlayMusic songData={songData} ></PlayMusic>
             </div>
         );
     }

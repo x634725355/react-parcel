@@ -14,6 +14,7 @@ export class API {
         // return (mark ? '?' : '') + new URLSearchParams(params).toString();
     }
 
+    // 如果要发送凭证 或者要在Cookie里面放东西记得添加credentials属性
     static _request(url, params, urlParams, method = 'GET', type = 'json', credentials = 'include') {
         const args = urlParams ? API.parseQueryString(urlParams, true) : '';
 
@@ -28,7 +29,7 @@ export class API {
         return (await API._request(url, undefined, urlParams, undefined, null)).json();
     }
 
-    // 如果要发送凭证 或者要在Cookie里面放东西记得添加credentials属性
+    
     static async post(url, params, urlParams) {
         return (await API._request(url, JSON.stringify(params), urlParams, 'POST')).json();
     }
