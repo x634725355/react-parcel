@@ -11,12 +11,12 @@ export class PlayMusic extends Component {
 
     state = {
         songData: {},
-        audio: React.createRef()
     }
 
     static contextType = MyPlayStore;
 
     componentDidMount() {
+
         this.setStore();
     }
 
@@ -26,9 +26,10 @@ export class PlayMusic extends Component {
         return { songData: nextProps.songData };
     }
 
-    setStore() {
+    async setStore() {
         const store = this.context;
-        store.setDuration();
+        await store.setDuration();
+        console.log(store);
     }
 
     // shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -37,10 +38,11 @@ export class PlayMusic extends Component {
     // }
 
     render() {
-        const { songData: { name, url, al = [], ar = [], tns = [] }, audio } = this.state;
+        const { songData: { name, al = [], ar = [], tns = [] } } = this.state;
+        const store = this.context;
         return (
             <MyPlayStore.Consumer>
-                {({ clickPlayMusic }) => (
+                {({ clickPlayMusic, currentTime, duration }) => (
                     <div className="play-music">
                         <div className="common-mode">
                             <div className="mode-left">
@@ -51,8 +53,9 @@ export class PlayMusic extends Component {
                                 </div>
                             </div>
                             <div className="mode-right">
-                                <div onClick={() => clickPlayMusic()} className="mode-right-progress">
-                                    <ProgressCircle></ProgressCircle>
+                                {/* 注意细节 要bind自己的AppState类 */}
+                                <div onClick={clickPlayMusic.bind(store)} className="mode-right-progress">
+                                    <ProgressCircle currentTime={currentTime} duration={duration} ></ProgressCircle>
                                     <svg className="icon" aria-hidden="true">
                                         <use xlinkHref="#iconyinle-bofang"></use>
                                     </svg>

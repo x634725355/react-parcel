@@ -7,11 +7,16 @@ import { Find } from '../../../components/Find';
 import { iphoneHeight, AUDIO_URL_KEY } from '../../../utils/share';
 import { SONG_ID_KEY } from '../../../utils/share';
 import { API } from '../../../utils/fetchAPI';
+// 状态管理器
+import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';
+import { observer } from 'mobx-react';
+
 
 import './index.less';
 
 const id = localStorage[SONG_ID_KEY];
 
+@observer
 export class Home extends Component {
     state = {
         tabs: [
@@ -27,6 +32,8 @@ export class Home extends Component {
         songData: {}
     }
 
+    static contextType = MyPlayStore;
+
     componentDidMount() {
         !!id && this.getSong();
     }
@@ -39,6 +46,12 @@ export class Home extends Component {
 
         // 将歌曲url保存到本地
         localStorage[AUDIO_URL_KEY] = data[0].url;
+
+        // 更新url
+        this.context.setAudioUrl();
+
+        // 更新到状态管理器
+        this.context.setDuration();
 
         this.setState({ songData: { ...songs[0], url: data[0].url } });
     }
