@@ -4,7 +4,7 @@ import { Tabs } from 'antd-mobile';
 
 import { PlayMusic } from '../../../components/PlayMusic';
 import { Find } from '../../../components/Find';
-import { iphoneHeight } from '../../../utils/share';
+import { iphoneHeight, AUDIO_URL_KEY } from '../../../utils/share';
 import { SONG_ID_KEY } from '../../../utils/share';
 import { API } from '../../../utils/fetchAPI';
 
@@ -36,6 +36,9 @@ export class Home extends Component {
         const { songs } = await API.get('/song/detail', { ids: this.state.songId || id });
 
         const { data } = await API.get('/song/url', { id: this.state.songId || id })
+
+        // 将歌曲url保存到本地
+        localStorage[AUDIO_URL_KEY] = data[0].url;
 
         this.setState({ songData: { ...songs[0], url: data[0].url } });
     }
@@ -94,8 +97,7 @@ export class Home extends Component {
                     </div>
                 </Tabs>
 
-
-                <PlayMusic songData={songData} ></PlayMusic>
+                {localStorage[SONG_ID_KEY] && <PlayMusic songData={songData} ></PlayMusic>}
             </div>
         );
     }

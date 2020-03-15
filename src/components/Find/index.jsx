@@ -4,16 +4,10 @@ import { Link } from "react-router-dom";
 
 // swiper引入
 import Swiper from 'swiper/js/swiper'
-import 'swiper/css/swiper.css';
-
 import { API } from "../../utils/fetchAPI";
 
+import 'swiper/css/swiper.css';
 import './index.less';
-
-const data = Array.from(new Array(9)).map((_val, i) => ({
-    icon: 'https://gw.alipayobjects.com/zos/rmsportal/nywPmnTAvTmLusPxHPSu.png',
-    text: `name${i}`,
-}));
 
 export class Find extends Component {
 

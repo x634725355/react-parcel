@@ -29,7 +29,6 @@ export class API {
         return (await API._request(url, undefined, urlParams, undefined, null)).json();
     }
 
-    
     static async post(url, params, urlParams) {
         return (await API._request(url, JSON.stringify(params), urlParams, 'POST')).json();
     }
