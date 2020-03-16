@@ -72,6 +72,11 @@ export class Home extends Component {
         this.setState({ songId }, () => this.getSong());
     }
 
+    // 跳转到音乐播放界面
+    onClickHandle() {
+        this.props.history.push('/playmusic');
+    }
+
 
 
     render() {
@@ -110,7 +115,9 @@ export class Home extends Component {
                     </div>
                 </Tabs>
 
-                {localStorage[SONG_ID_KEY] && <PlayMusic songData={songData} ></PlayMusic>}
+                <div onClick={this.onClickHandle.bind(this)}>
+                    {localStorage[SONG_ID_KEY] && <PlayMusic songData={songData} ></PlayMusic>}
+                </div>
             </div>
         );
     }

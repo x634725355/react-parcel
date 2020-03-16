@@ -10,13 +10,12 @@ import './index.less';
 export class PlayMusic extends Component {
 
     state = {
-        songData: {},
+        songData: {}
     }
 
     static contextType = MyPlayStore;
 
     componentDidMount() {
-
         this.setStore();
     }
 
@@ -26,10 +25,9 @@ export class PlayMusic extends Component {
         return { songData: nextProps.songData };
     }
 
-    async setStore() {
+    setStore() {
         const store = this.context;
-        await store.setDuration();
-        console.log(store);
+        store.setDuration();
     }
 
     // shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -38,36 +36,34 @@ export class PlayMusic extends Component {
     // }
 
     render() {
-        const { songData: { name, al = [], ar = [], tns = [] } } = this.state;
+        const { songData: { name, al = [], ar = [], alia = [] } } = this.state;
         const store = this.context;
+        console.log('更新');
+
         return (
-            <MyPlayStore.Consumer>
-                {({ clickPlayMusic, currentTime, duration }) => (
-                    <div className="play-music">
-                        <div className="common-mode">
-                            <div className="mode-left">
-                                <img src={al.picUrl} alt="" />
-                                <div className="mode-left-introduction">
-                                    <p>{name}{tns.length ? `(${tns.join('/')})` : ''}</p>
-                                    <p>{ar.map(p => p.name).join('/')}</p>
-                                </div>
-                            </div>
-                            <div className="mode-right">
-                                {/* 注意细节 要bind自己的AppState类 */}
-                                <div onClick={clickPlayMusic.bind(store)} className="mode-right-progress">
-                                    <ProgressCircle currentTime={currentTime} duration={duration} ></ProgressCircle>
-                                    <svg className="icon" aria-hidden="true">
-                                        <use xlinkHref="#iconyinle-bofang"></use>
-                                    </svg>
-                                </div>
-                                <svg className="icon mode-right-list" aria-hidden="true">
-                                    <use xlinkHref="#iconlist"></use>
-                                </svg>
-                            </div>
+            <div className="play-music">
+                <div className="common-mode">
+                    <div className="mode-left">
+                        <img src={al.picUrl} alt="" />
+                        <div className="mode-left-introduction">
+                            <p>{name}{alia.length ? `(${alia.join('/')})` : ''}</p>
+                            <p>{ar.map(p => p.name).join('/')}</p>
                         </div>
-                    </div >
-                )}
-            </MyPlayStore.Consumer>
+                    </div>
+                    <div className="mode-right">
+                        {/* 注意细节 要bind自己的AppState类 */}
+                        <div onClick={(e) => store.clickPlayMusic(e)} className="mode-right-progress">
+                            <ProgressCircle></ProgressCircle>
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref={store.audioPlay ? "#iconpcduanbizhixiazaicishutubiao1" : "#iconyinle-bofang"}></use>
+                            </svg>
+                        </div>
+                        <svg className="icon mode-right-list" aria-hidden="true">
+                            <use xlinkHref="#iconlist"></use>
+                        </svg>
+                    </div>
+                </div>
+            </div >
         )
-    }
+    }    
 }
