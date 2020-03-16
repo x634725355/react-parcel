@@ -7,8 +7,9 @@ import { observer } from 'mobx-react';
 import { Home } from '../pages/main/Home';
 import { BasicLogin } from '../pages/sub/Login';
 import { RecommendedDaily } from '../pages/sub/RecommendedDaily';
-import AppState from "../stores/AppState";
+import { Main } from '../pages/main';
 import { MyPlayStore } from '../components/MyPlayStore/MyPlayStore';
+import AppState from "../stores/AppState";
 
 import './App.less';
 import '../assets/font_icons/iconfont';
@@ -24,11 +25,7 @@ export class App extends Component {
         return (
             <Router>
                 <MyPlayStore.Provider value={store}>
-                    <div className="box">
-                        <Route path="/" exact component={BasicLogin} />
-                        <Route path="/home" component={Home} />
-                        <Route path="/recommended" exact component={RecommendedDaily} />
-                    </div>
+                    <Main></Main>
                 </MyPlayStore.Provider>
                 {/* <Decorator></Decorator> */}
             </Router>

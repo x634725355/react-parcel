@@ -38,8 +38,6 @@ export class PlayMusic extends Component {
     render() {
         const { songData: { name, al = [], ar = [], alia = [] } } = this.state;
         const store = this.context;
-        console.log('更新');
-
         return (
             <div className="play-music">
                 <div className="common-mode">
@@ -51,7 +49,6 @@ export class PlayMusic extends Component {
                         </div>
                     </div>
                     <div className="mode-right">
-                        {/* 注意细节 要bind自己的AppState类 */}
                         <div onClick={(e) => store.clickPlayMusic(e)} className="mode-right-progress">
                             <ProgressCircle></ProgressCircle>
                             <svg className="icon" aria-hidden="true">
