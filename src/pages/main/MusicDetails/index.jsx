@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Transition } from 'react-spring/renderprops'
 import { observer } from 'mobx-react';
+import { Toast, Progress } from 'antd-mobile';
 
 // 状态管理器
 import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';
@@ -16,13 +17,19 @@ export class MusicDetails extends Component {
 
     static contextType = MyPlayStore;
 
+    state = {
+        like: false
+    }
+
     async markLikeSong() {
         const id = localStorage[SONG_ID_KEY];
-        const res = await API.get('/like', { id });
-        console.log(res);
+        const { code } = await API.get('/like', { id });
+
+        this.setState({ like: !this.state.like });
     }
 
     render() {
+        const { like } = this.state;
         const { songData: { name, al = [], ar = [], alia = [] } } = this.props;
         const { onClickHandle, detailMark, audioPlay } = this.context;
         return (
@@ -35,7 +42,7 @@ export class MusicDetails extends Component {
                 <div className="details-top">
                     <TopNav leftClick={(e) => onClickHandle('detailMark', e)}>{(
                         <div className="details-top-title">
-                            <p>{name}</p>
+                            <p>{name}{alia.length ? `(${alia.join('/')})` : ''}</p>
                             <p>{ar.map(p => p.name).join('/')}</p>
                         </div>
                     )}</TopNav>
@@ -52,7 +59,7 @@ export class MusicDetails extends Component {
                                 <li></li>
                                 <li>
                                     <svg onClick={this.markLikeSong.bind(this)} className="icon" aria-hidden="true">
-                                        <use xlinkHref="#iconfav-n"></use>
+                                        <use xlinkHref={like ? "#iconshoucang1" : "#iconfav-n"}></use>
                                     </svg>
                                 </li>
                                 <li></li>
@@ -61,6 +68,15 @@ export class MusicDetails extends Component {
                         </div>
                     </div>
                     <div className="details-middle-lyrics"></div>
+                </div>
+
+                <div className="details-bottom">
+                    <div className="details-progress-bar">
+                        <Progress percent={30} position="normal" style={{}} />
+                    </div>
+                    <div className="details-bottom-icon">
+
+                    </div>
                 </div>
             </div >
             // {/* </Transition> */}

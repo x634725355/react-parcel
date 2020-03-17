@@ -33,6 +33,8 @@ export class PlayMusic extends Component {
     setStore() {
         const store = this.context;
 
+        store.setAudioUrl(); // 获取音频
+
         store.setDuration(); // 获取音频总时间
 
         store.timeUpData(); // 更新音乐播放位置

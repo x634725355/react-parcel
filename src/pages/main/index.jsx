@@ -44,9 +44,6 @@ export class Main extends Component {
         // 更新url
         this.context.setAudioUrl();
 
-        // 更新到状态管理器
-        this.context.setDuration();
-
         // 更新歌曲数据 并保存在本地
         this.setState({ songData: { ...songs[0], url: data[0].url } }, () => localStorage[SONG_DATA_KEY] = JSON.stringify(this.state.songData));
     }

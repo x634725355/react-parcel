@@ -76,12 +76,13 @@ export default class AppState {
     @action.bound setAudioUrl() {
         this.audioUrl = localStorage[AUDIO_URL_KEY];
 
+        this._audio.src = this.audioUrl;
+
         this.audioPlay = false;
     }
 
     // 获取到当前音频的总时长
     @action.bound setDuration() {
-        this._audio.src = this.audioUrl;
         this._audio.ondurationchange = () => {
             this.duration = Math.ceil(this._audio.duration);
         }

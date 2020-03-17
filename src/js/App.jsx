@@ -13,7 +13,6 @@ import AppState from "../stores/AppState";
 import './App.less';
 import '../assets/font_icons/iconfont';
 
-
 // 创建状态管理器实例
 const store = new AppState();
 
