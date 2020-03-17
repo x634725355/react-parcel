@@ -27,16 +27,36 @@ export default class AppState {
     @observable audioPlay = false;
     // 播放模式
     @observable playMode = true;
+    // 音乐详情页面是否展开
+    @observable detailMark = false;
+    // 音乐播放列表是否展开
+    @observable listMark = false;
 
 
+    // 音乐详情与列表点击事件
+    @action.bound onClickHandle(mark, e) {
+        e && e.stopPropagation();
+        this[mark] = !this[mark];
+        console.log(this[mark]);
+
+    }
 
     // 播放结束事件
     @action.bound ended() {
         this._audio.onended = () => {
+            this.currentTime = 0;
             this.playMode ? this.audioPlay = false : this._audio.play();
         }
         // this._audio.addEventListener('ended', () => {
         // })
+    }
+
+    // 播放事件出错
+    @action.bound audioError() {
+        this._audio.addEventListener('error', () => {
+            console.log('出错了');
+            Toast.info('播放错误，自动跳到下一首', 2, null, false);
+        });
     }
 
     // 绑定播放位置改变事件 timeupdate

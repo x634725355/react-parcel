@@ -5,13 +5,14 @@ import { observer } from 'mobx-react';
 import { Home } from '../../pages/main/Home';
 import { BasicLogin } from '../../pages/sub/Login';
 import { RecommendedDaily } from '../../pages/sub/RecommendedDaily';
+import { MusicDetails } from "./MusicDetails";
 import { PlayMusic } from "../../components/PlayMusic";
+import { PlayList } from "./PlayList";
 // 状态管理器
 import { MyPlayStore } from '../../components/MyPlayStore/MyPlayStore';
 
 import { API } from "../../utils/fetchAPI";
-import { SONG_ID_KEY, SONG_DATA_KEY, AUDIO_URL_KEY  } from "../../utils/share";
-
+import { SONG_ID_KEY, SONG_DATA_KEY, AUDIO_URL_KEY } from "../../utils/share";
 
 import './index.less'
 
@@ -50,7 +51,6 @@ export class Main extends Component {
         this.setState({ songData: { ...songs[0], url: data[0].url } }, () => localStorage[SONG_DATA_KEY] = JSON.stringify(this.state.songData));
     }
 
-
     // 获取id点击事件
     onClickSongId(e, songId) {
         // 阻止冒泡到原生事件上面
@@ -63,23 +63,24 @@ export class Main extends Component {
         this.setState({ songId }, () => this.getSong());
     }
 
-    // 跳转到音乐播放界面
-    onClickHandle() {
-        this.props.history.push('/playmusic');
-    }
-
     render() {
         const { songData } = this.state;
+        const { detailMark, onClickHandle, listMark } = this.context;
         return (
-            <div>
-                <div className="box">
-                    <Route path="/" exact component={BasicLogin} />
-                    <Route path="/home" onClickSongId={this.onClickSongId.bind(this)} component={Home} />
-                    <Route path="/recommended" exact component={RecommendedDaily} />
+            <div className="box">
+                <Route path="/main/home" onClickSongId={this.onClickSongId.bind(this)} component={Home} />
+                <Route path="/main/recommended" exact component={RecommendedDaily} />
 
-                    <div onClick={this.onClickHandle.bind(this)}>
-                        {localStorage[SONG_ID_KEY] && <PlayMusic songData={songData} ></PlayMusic>}
-                    </div>
+                <div onClick={() => onClickHandle('detailMark')}>
+                    {localStorage[SONG_ID_KEY] && <PlayMusic songData={songData} ></PlayMusic>}
+                </div>
+                {/* 音乐详情页面 */}
+                <div className={detailMark ? "display-block" : "display-none"} >
+                    <MusicDetails></MusicDetails>
+                </div>
+                {/* 音乐列表页面 */}
+                <div className={listMark ? "display-block" : "display-none"} >
+                    <PlayList></PlayList>
                 </div>
             </div>
         )

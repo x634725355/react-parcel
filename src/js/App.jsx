@@ -4,9 +4,8 @@ import { observer } from 'mobx-react';
 
 // import { Decorator } from '../components/Decorator/Decorator';
 // import { bus } from "../../utils/eventBus";
-import { Home } from '../pages/main/Home';
+
 import { BasicLogin } from '../pages/sub/Login';
-import { RecommendedDaily } from '../pages/sub/RecommendedDaily';
 import { Main } from '../pages/main';
 import { MyPlayStore } from '../components/MyPlayStore/MyPlayStore';
 import AppState from "../stores/AppState";
@@ -25,7 +24,8 @@ export class App extends Component {
         return (
             <Router>
                 <MyPlayStore.Provider value={store}>
-                    <Main></Main>
+                    <Route path="/" exact component={BasicLogin} />
+                    <Route path="/main" component={Main} />
                 </MyPlayStore.Provider>
                 {/* <Decorator></Decorator> */}
             </Router>

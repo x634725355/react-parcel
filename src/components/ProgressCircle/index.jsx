@@ -31,17 +31,6 @@ export class ProgressCircle extends Component {
         }
     }
 
-    componentDidMount() {
-        const store = this.context;
-
-        store.timeUpData();
-        store.ended();
-    }
-
-    componentWillUnmount() {
-        const store = this.context;
-    }
-
     render() {
         return (
             <div className="circle">

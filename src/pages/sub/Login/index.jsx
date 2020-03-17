@@ -35,7 +35,7 @@ class Login extends Component {
                 localStorage[USER_DATA_KEY] = JSON.stringify(profile);
 
                 // 跳转到home页面
-                this.props.history.push('/home');
+                this.props.history.push('/main/home');
 
             } else {
                 Toast.fail('验证失败');

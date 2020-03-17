@@ -25,9 +25,15 @@ export class PlayMusic extends Component {
         return { songData: nextProps.songData };
     }
 
+    // 绑定音乐状态事件 
     setStore() {
         const store = this.context;
-        store.setDuration();
+
+        store.setDuration(); // 获取音频总时间
+
+        store.timeUpData(); // 更新音乐播放位置
+
+        store.ended(); // 音乐结束事件
     }
 
     // shouldComponentUpdate(nextProps, nextState, nextContext) {
@@ -37,7 +43,7 @@ export class PlayMusic extends Component {
 
     render() {
         const { songData: { name, al = [], ar = [], alia = [] } } = this.state;
-        const store = this.context;
+        const { clickPlayMusic, audioPlay, onClickHandle } = this.context;
         return (
             <div className="play-music">
                 <div className="common-mode">
@@ -49,18 +55,18 @@ export class PlayMusic extends Component {
                         </div>
                     </div>
                     <div className="mode-right">
-                        <div onClick={(e) => store.clickPlayMusic(e)} className="mode-right-progress">
+                        <div onClick={(e) => clickPlayMusic(e)} className="mode-right-progress">
                             <ProgressCircle></ProgressCircle>
                             <svg className="icon" aria-hidden="true">
-                                <use xlinkHref={store.audioPlay ? "#iconpcduanbizhixiazaicishutubiao1" : "#iconyinle-bofang"}></use>
+                                <use xlinkHref={audioPlay ? "#iconpcduanbizhixiazaicishutubiao1" : "#iconyinle-bofang"}></use>
                             </svg>
                         </div>
-                        <svg className="icon mode-right-list" aria-hidden="true">
+                        <svg onClick={(e) => onClickHandle("listMark", e)} className="icon mode-right-list" aria-hidden="true">
                             <use xlinkHref="#iconlist"></use>
                         </svg>
                     </div>
                 </div>
             </div >
         )
-    }    
+    }
 }

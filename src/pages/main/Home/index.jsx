@@ -14,7 +14,6 @@ import { observer } from 'mobx-react';
 import './index.less';
 
 
-
 @observer
 export class Home extends Component {
     state = {
@@ -29,9 +28,8 @@ export class Home extends Component {
         swipeable: true,
     }
 
+    // Context 获取状态管理器
     static contextType = MyPlayStore;
-
-
 
     changeSwipeable(swipeable) {
         this.setState({ swipeable });
