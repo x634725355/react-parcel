@@ -65,23 +65,19 @@ export class Main extends Component {
 
     render() {
         const { songData } = this.state;
-        const { detailMark, onClickHandle, listMark } = this.context;
+        const { onClickHandle } = this.context;
         return (
             <div className="box">
-                <Route path="/main/home" onClickSongId={this.onClickSongId.bind(this)} component={Home} />
+                <Route path="/main/home" component={() => (<Home onClickSongId={this.onClickSongId.bind(this)} ></Home>)} />
                 <Route path="/main/recommended" exact component={RecommendedDaily} />
 
                 <div onClick={() => onClickHandle('detailMark')}>
                     {localStorage[SONG_ID_KEY] && <PlayMusic songData={songData} ></PlayMusic>}
                 </div>
                 {/* 音乐详情页面 */}
-                <div className={detailMark ? "display-block" : "display-none"} >
-                    <MusicDetails></MusicDetails>
-                </div>
+                <MusicDetails songData={songData}></MusicDetails>
                 {/* 音乐列表页面 */}
-                <div className={listMark ? "display-block" : "display-none"} >
-                    <PlayList></PlayList>
-                </div>
+                <PlayList></PlayList>
             </div>
         )
     }

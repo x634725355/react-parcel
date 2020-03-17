@@ -19,11 +19,15 @@ export class PlayMusic extends Component {
         this.setStore();
     }
 
-    // 用来控制props改变时 影响state
-    static getDerivedStateFromProps(nextProps, prevState) {
-        if (nextProps.songData === prevState.songData) return null;
-        return { songData: nextProps.songData };
+    componentWillUnmount() {
+        this.context.untieMusicHandle();
     }
+
+    // 用来控制props改变时 影响state
+    // static getDerivedStateFromProps(nextProps, prevState) {
+    //     if (nextProps.songData === prevState.songData) return null;
+    //     return { songData: nextProps.songData };
+    // }
 
     // 绑定音乐状态事件 
     setStore() {
@@ -42,8 +46,9 @@ export class PlayMusic extends Component {
     // }
 
     render() {
-        const { songData: { name, al = [], ar = [], alia = [] } } = this.state;
+        const { songData: { name, al = [], ar = [], alia = [] } } = this.props;
         const { clickPlayMusic, audioPlay, onClickHandle } = this.context;
+        
         return (
             <div className="play-music">
                 <div className="common-mode">

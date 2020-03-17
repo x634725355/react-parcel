@@ -1,0 +1,129 @@
+.music-details {
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 150;
+    background-color: rgba(0, 0, 0, .5);
+
+    // 背景模糊
+    .details-background {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        &::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, .5);
+        }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            -webkit-filter: blur(20px);
+            filter: blur(20px);
+            -webkit-transform: scale(1.1);
+            transform: scale(1.1);
+        }
+    }
+
+    // 顶部
+    .details-top {
+        position: relative;
+        margin-bottom: 25px;
+        color: #fff;
+        text-align: center;
+        transition: all .4s cubic-bezier(.86, .18, .82, 1.32);
+
+        .details-top-title {
+            p {
+                letter-spacing: 2px;
+
+                &:first-child {
+                    font-size: 18px;
+                }
+
+                &:last-child {
+                    color: #666;
+                    font-size: 14px;
+                }
+            }
+        }
+    }
+
+    // 中部
+    .details-middle {
+        position: fixed;
+        top: 80px;
+        bottom: 170px;
+        display: flex;
+        width: 100%;
+        text-align: center;
+
+
+        .details-middle-cover {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+
+            .details-middle-img {
+                width: 80%;
+                margin: 0 auto;
+
+                img {
+                    width: 100%;
+                    height: 100%;
+                    border-radius: 50%;
+                    border: 10px solid hsla(0, 0%, 100%, .1);
+                    box-sizing: border-box;
+                }
+            }
+
+            .details-middle-icon {
+                ul {
+                    display: flex;
+                    justify-content: space-around;
+                    list-style: none;
+                    padding: 0 20px;
+
+                    li {
+                        flex: 1;
+                        margin: 0 20px;
+                        height: 30px;
+                        svg {
+                            width: 100%;
+                            height: 100%;
+                            color: #fff;
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+}
+
+.spin {
+    animation: spin 20s linear 0s infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}

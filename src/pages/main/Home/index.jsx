@@ -38,7 +38,8 @@ export class Home extends Component {
 
     render() {
         const { tabs, activeTab, swipeable } = this.state;
-        const {onClickSongId} = this.props;
+        const { onClickSongId } = this.props;
+        
         return (
             <div className="home" style={{ height: iphoneHeight }} >
 

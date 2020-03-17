@@ -37,8 +37,6 @@ export default class AppState {
     @action.bound onClickHandle(mark, e) {
         e && e.stopPropagation();
         this[mark] = !this[mark];
-        console.log(this[mark]);
-
     }
 
     // 播放结束事件
@@ -84,9 +82,9 @@ export default class AppState {
     // 获取到当前音频的总时长
     @action.bound setDuration() {
         this._audio.src = this.audioUrl;
-        this._audio.addEventListener('durationchange', () => {
+        this._audio.ondurationchange = () => {
             this.duration = Math.ceil(this._audio.duration);
-        });
+        }
         // 这里 -> 魔幻的代码 
         // await this._audio.play();
         // this._audio.pause();
@@ -94,7 +92,7 @@ export default class AppState {
 
     // 解绑durationchange事件
     @action.bound untieDurationchange() {
-        this._audio.removeEventListener('durationchange');
+        this._audio.ondurationchange = null;
     }
 
     @action.bound clickPlayMusic(e) {
@@ -102,5 +100,12 @@ export default class AppState {
         this.audioPlay = !this.audioPlay;
 
         this.audioPlay ? this._audio.play() : this._audio.pause();
+    }
+
+    // 音乐组件卸载时解绑
+    @action.bound untieMusicHandle() {
+        this._audio.ondurationchange = null;
+        this._audio.ontimeupdate = null;
+        this._audio.onended = null;
     }
 }
