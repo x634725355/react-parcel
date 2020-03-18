@@ -38,8 +38,8 @@ export class PlayMusic extends Component {
     // }
 
     render() {
-        const { clickPlayMusic, audioPlay, onClickHandle, playList: { name, al = [], ar = [], alia = [] } } = this.context;
-
+        const { clickPlayMusic, audioPlay, onClickHandle, playList } = this.context;
+        const { name, al = [], ar = [], alia = [] } = playList.find(p => p.current === true);
         return (
             <div className="play-music">
                 <div className="common-mode">

@@ -47,12 +47,12 @@ export default class AppState {
     }
 
     // 获取音乐播放列表
-    playListHandler = flow(function* (listId, currentId) {
+    @action.bound async playListHandler(listId, currentId) {
         const strId = listId.join(',');
 
-        const { songs } = yield API.get('/song/detail', { ids: strId });
+        const { songs } = await API.get('/song/detail', { ids: strId });
 
-        const { data } = yield API.get('/song/url', { id: strId });
+        const { data } = await API.get('/song/url', { id: strId });
 
         localStorage[AUDIO_URL_KEY] = data.find(p => p.id === currentId).url;
 
@@ -66,7 +66,7 @@ export default class AppState {
         console.log(this.playList);
 
         localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
-    })
+    }
 
     // 切换播放模式
     @action.bound onSwitchMode() {
