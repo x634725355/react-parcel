@@ -34,8 +34,13 @@ export default class AppState {
     // 音乐播放列表是否展开
     @observable listMark = false;
     // 音乐播放列表
-    @observable playList = JSON.parse(localStorage[SONG_LIST_KEY]) || [];
+    @observable playList = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY])) || [];
 
+
+    // 音乐切换事件
+    @action.bound musicSwitchHandler() {
+
+    }
 
     // 获取id点击事件
     @action.bound onClickSongListId(e, listId, currentId) {
@@ -44,28 +49,50 @@ export default class AppState {
 
         // 用来更新歌曲数据
         this.playListHandler(listId, currentId);
+
+        this.setAudioUrl();
+
+        this.setDuration();
+
+        this.clickPlayMusic();
     }
 
     // 获取音乐播放列表
     @action.bound async playListHandler(listId, currentId) {
-        const strId = listId.join(',');
+        const mork = this.playList.every(p => p.id === currentId);
 
-        const { songs } = await API.get('/song/detail', { ids: strId });
+        if (mork) {
+            const strId = listId.join(',');
 
-        const { data } = await API.get('/song/url', { id: strId });
+            const { songs } = await API.get('/song/detail', { ids: strId });
 
-        localStorage[AUDIO_URL_KEY] = data.find(p => p.id === currentId).url;
+            const { data } = await API.get('/song/url', { id: strId });
 
-        // 给playList添加当前播放歌曲标记与url mobx自动转换成了proxy
-        this.playList = songs.map(p => ({
-            ...p,
-            current: p.id === currentId ? true : false,
-            url: data.find(m => m.id === p.id).url
-        }));
+            localStorage[AUDIO_URL_KEY] = data.find(p => p.id === currentId).url;
 
-        console.log(this.playList);
+            // 给playList添加当前播放歌曲标记与url mobx自动转换成了proxy
+            this.playList = songs.map(p => ({
+                ...p,
+                current: p.id === currentId ? true : false,
+                url: data.find(m => m.id === p.id).url
+            }));
 
-        localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+            console.log(this.playList);
+
+            localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+        } else {
+            const currentSong = this.playList.find(p => p.id === currentId);
+
+            localStorage[AUDIO_URL_KEY] = currentSong.url;
+
+            this.playList.find(p => p.current === true).current = false;
+
+            currentSong.current = true;
+
+            localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+
+            console.log(this.playList);
+        }
     }
 
     // 切换播放模式
@@ -83,7 +110,7 @@ export default class AppState {
     @action.bound ended() {
         this._audio.onended = () => {
             this.currentTime = 0;
-            this.playMode ? this.audioPlay = false : this._audio.play();
+            this._audio.play();
         }
         // this._audio.addEventListener('ended', () => {
         // })
@@ -138,7 +165,7 @@ export default class AppState {
 
     // 音乐是否播放
     @action.bound clickPlayMusic(e) {
-        e.stopPropagation();
+        e && e.stopPropagation();
         this.audioPlay = !this.audioPlay;
 
         this.audioPlay ? this._audio.play() : this._audio.pause();

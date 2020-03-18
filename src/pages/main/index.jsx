@@ -12,15 +12,12 @@ import { PlayList } from "./PlayList";
 import { MyPlayStore } from '../../components/MyPlayStore/MyPlayStore';
 
 import { API } from "../../utils/fetchAPI";
-import { SONG_ID_KEY, SONG_DATA_KEY, AUDIO_URL_KEY } from "../../utils/share";
+import { SONG_LIST_KEY } from "../../utils/share";
 
 import './index.less'
 
-const id = localStorage[SONG_ID_KEY];
-
 @observer
 export class Main extends Component {
-
 
     static contextType = MyPlayStore;
 
@@ -32,12 +29,15 @@ export class Main extends Component {
                 <Route path="/main/recommended" exact component={RecommendedDaily} />
 
                 <div onClick={() => onClickHandle('detailMark')}>
-                    {localStorage[SONG_ID_KEY] && <PlayMusic ></PlayMusic>}
+                    <PlayMusic></PlayMusic>
                 </div>
+
                 {/* 音乐详情页面 */}
-                <MusicDetails ></MusicDetails>
+                <MusicDetails></MusicDetails>
+
                 {/* 音乐列表页面 */}
                 <PlayList></PlayList>
+
             </div>
         )
     }

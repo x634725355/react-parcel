@@ -94,7 +94,7 @@ export class MusicDetails extends Component {
                         <span>{currentTime}</span>
                         <Progress percent={30} position="normal" />
                         {/* 每秒移动2.1px */}
-                        <div style={{ transform: `translateX(${currentTime * 2.92456}%)` }} className="details-progress-circle">
+                        <div style={{ transform: `translateX(${700 / duration * currentTime}%)` }} className="details-progress-circle">
                             <div className="progress-circle-btn"></div>
                         </div>
                         <span>{duration}</span>
