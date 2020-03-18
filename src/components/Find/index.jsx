@@ -5,9 +5,11 @@ import { Link } from "react-router-dom";
 // swiper引入
 import Swiper from 'swiper/js/swiper'
 import { API } from "../../utils/fetchAPI";
+import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
 
 import 'swiper/css/swiper.css';
 import './index.less';
+
 
 export class Find extends Component {
 
@@ -22,8 +24,11 @@ export class Find extends Component {
             ['私人FM', '#icondiantai1', 'recommended']
         ],
         resourceListData: [],
-        songRecommendData: []
+        songRecommendData: [],
+        songRecommendId: []
     }
+
+    static contextType = MyPlayStore;
 
     componentDidMount() {
         // 获取轮播图
@@ -62,7 +67,10 @@ export class Find extends Component {
 
         const newResource = recommend.slice(0, 12).map(p => ({ alias: p.alias, starred: p.starred, artists: p.artists, id: p.id, duration: p.duration, album: p.album, title: p.name, playcount: p.playcount, bMusic: p.bMusic, commentThreadId: p.commentThreadId }));
 
-        this.setState({ songRecommendData: [newResource.slice(0, 3), newResource.slice(3, 6), newResource.slice(6, 9), newResource.slice(9, 12)] });
+        this.setState({
+            songRecommendData: [newResource.slice(0, 3), newResource.slice(3, 6), newResource.slice(6, 9), newResource.slice(9, 12)],
+            songRecommendId: newResource.map(p => p.id)
+        });
 
     }
 
@@ -189,9 +197,11 @@ export class Find extends Component {
 
     // 风格推荐
     renderSongRecommend() {
-        const { onWiperChange, onClickSongId } = this.props;
+        const { onWiperChange } = this.props;
 
-        const { songRecommendData } = this.state;
+        const { songRecommendData, songRecommendId } = this.state;
+
+        const { onClickSongListId } = this.context;
 
         return (
             <WingBlank size='sm'>
@@ -213,7 +223,7 @@ export class Find extends Component {
                                 {!!songRecommendData.length && songRecommendData.map((p, index) => (
                                     <div key={index} className="swiper-slide">
                                         {p.map(p => (
-                                            <div onClick={(e) => onClickSongId(e, p.id)} className='song-recommend-list' key={p.id}>
+                                            <div onClick={(e) => onClickSongListId(e, songRecommendId, p.id)} className='song-recommend-list' key={p.id}>
                                                 <img src={p.album.picUrl} alt="" />
                                                 <div className='song-recommend-singer'>
                                                     <div className="song-recommend-singer-left">

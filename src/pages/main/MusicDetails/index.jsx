@@ -28,10 +28,11 @@ export class MusicDetails extends Component {
         this.setState({ like: !this.state.like });
     }
 
+    onTouchStar
+
     render() {
         const { like } = this.state;
-        const { songData: { name, al = [], ar = [], alia = [] } } = this.props;
-        const { onClickHandle, detailMark, audioPlay } = this.context;
+        const { onClickHandle, detailMark, audioPlay, duration, currentTime, playMode, clickPlayMusic, onSwitchMode, playList: { name, al = [], ar = [], alia = [] } } = this.context;
         return (
             // <Transition>
             <div className={["music-details", detailMark ? "display-block" : "display-none"].join(' ')}>
@@ -39,6 +40,7 @@ export class MusicDetails extends Component {
                     <img src={al.picUrl} alt="" />
                 </div>
 
+                {/* 详情顶部 */}
                 <div className="details-top">
                     <TopNav leftClick={(e) => onClickHandle('detailMark', e)}>{(
                         <div className="details-top-title">
@@ -48,6 +50,7 @@ export class MusicDetails extends Component {
                     )}</TopNav>
                 </div>
 
+                {/* TODO: 还没写歌词滚动  详情中部 */}
                 <div className="details-middle">
                     <div className="details-middle-cover">
                         <div className="details-middle-img spin" style={{ animationPlayState: audioPlay ? 'running' : 'paused' }} >
@@ -55,27 +58,76 @@ export class MusicDetails extends Component {
                         </div>
                         <div className="details-middle-icon">
                             <ul>
-                                <li></li>
-                                <li></li>
                                 <li>
                                     <svg onClick={this.markLikeSong.bind(this)} className="icon" aria-hidden="true">
                                         <use xlinkHref={like ? "#iconshoucang1" : "#iconfav-n"}></use>
                                     </svg>
                                 </li>
-                                <li></li>
-                                <li></li>
+                                <li>
+                                    <svg onClick={this.markLikeSong.bind(this)} className="icon" aria-hidden="true">
+                                        <use xlinkHref={like ? "#iconshoucang1" : "#iconfav-n"}></use>
+                                    </svg>
+                                </li>
+                                <li>
+                                    <svg onClick={this.markLikeSong.bind(this)} className="icon" aria-hidden="true">
+                                        <use xlinkHref={like ? "#iconshoucang1" : "#iconfav-n"}></use>
+                                    </svg>
+                                </li>
+                                <li>
+                                    <svg onClick={this.markLikeSong.bind(this)} className="icon" aria-hidden="true">
+                                        <use xlinkHref={like ? "#iconshoucang1" : "#iconfav-n"}></use>
+                                    </svg>
+                                </li>
+                                <li>
+                                    <svg onClick={this.markLikeSong.bind(this)} className="icon" aria-hidden="true">
+                                        <use xlinkHref={like ? "#iconshoucang1" : "#iconfav-n"}></use>
+                                    </svg>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div className="details-middle-lyrics"></div>
                 </div>
 
+                {/* 详情底部 */}
                 <div className="details-bottom">
                     <div className="details-progress-bar">
-                        <Progress percent={30} position="normal" style={{}} />
+                        <span>{currentTime}</span>
+                        <Progress percent={30} position="normal" />
+                        {/* 每秒移动2.1px */}
+                        <div style={{ transform: `translateX(${currentTime * 2.92456}%)` }} className="details-progress-circle">
+                            <div className="progress-circle-btn"></div>
+                        </div>
+                        <span>{duration}</span>
                     </div>
                     <div className="details-bottom-icon">
-
+                        <ul>
+                            <li>
+                                <svg onClick={() => onSwitchMode()} className="icon" aria-hidden="true">
+                                    <use xlinkHref={playMode ? "#iconshunxu" : "#icondanqu"}></use>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg className="icon" aria-hidden="true">
+                                    <use xlinkHref="#iconshangyishou"></use>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg onClick={(e) => clickPlayMusic(e)} className="icon" aria-hidden="true">
+                                    <use xlinkHref={audioPlay ? "#iconpcduanbizhixiazaicishutubiao1" : "#iconyinle-bofang"}></use>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg className="icon" aria-hidden="true">
+                                    <use xlinkHref="#iconxiayishou"></use>
+                                </svg>
+                            </li>
+                            <li>
+                                <svg className="icon" aria-hidden="true">
+                                    <use xlinkHref="#iconliebiao"></use>
+                                </svg>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div >

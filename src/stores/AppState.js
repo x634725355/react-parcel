@@ -2,11 +2,13 @@ import {
     observable,
     configure,
     action,
-    computed
+    computed,
+    flow
 } from 'mobx';
 import {
-    AUDIO_URL_KEY
+    AUDIO_URL_KEY, SONG_LIST_KEY
 } from '../utils/share';
+import { API } from '../utils/fetchAPI';
 
 // 严格模式
 configure({
@@ -31,7 +33,45 @@ export default class AppState {
     @observable detailMark = false;
     // 音乐播放列表是否展开
     @observable listMark = false;
+    // 音乐播放列表
+    @observable playList = JSON.parse(localStorage[SONG_LIST_KEY]) || [];
 
+
+    // 获取id点击事件
+    @action.bound onClickSongListId(e, listId, currentId) {
+        // 阻止冒泡到原生事件上面
+        e.nativeEvent.stopImmediatePropagation();
+
+        // 用来更新歌曲数据
+        this.playListHandler(listId, currentId);
+    }
+
+    // 获取音乐播放列表
+    playListHandler = flow(function* (listId, currentId) {
+        const strId = listId.join(',');
+
+        const { songs } = yield API.get('/song/detail', { ids: strId });
+
+        const { data } = yield API.get('/song/url', { id: strId });
+
+        localStorage[AUDIO_URL_KEY] = data.find(p => p.id === currentId).url;
+
+        // 给playList添加当前播放歌曲标记与url mobx自动转换成了proxy
+        this.playList = songs.map(p => ({
+            ...p,
+            current: p.id === currentId ? true : false,
+            url: data.find(m => m.id === p.id).url
+        }));
+
+        console.log(this.playList);
+
+        localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+    })
+
+    // 切换播放模式
+    @action.bound onSwitchMode() {
+        this.playMode = !this.playMode;
+    }
 
     // 音乐详情与列表点击事件
     @action.bound onClickHandle(mark, e) {
@@ -96,6 +136,7 @@ export default class AppState {
         this._audio.ondurationchange = null;
     }
 
+    // 音乐是否播放
     @action.bound clickPlayMusic(e) {
         e.stopPropagation();
         this.audioPlay = !this.audioPlay;

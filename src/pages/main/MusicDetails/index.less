@@ -43,7 +43,6 @@
         color: #fff;
         text-align: center;
         transition: all .4s cubic-bezier(.86, .18, .82, 1.32);
-
         .details-top-title {
             p {
                 letter-spacing: 2px;
@@ -54,7 +53,7 @@
                 }
 
                 &:last-child {
-                    color: #666;
+                    color: #eee;
                     font-size: 14px;
                 }
             }
@@ -96,7 +95,7 @@
                     justify-content: space-around;
                     list-style: none;
                     padding: 0 20px;
-
+                    margin-bottom: 20px;
                     li {
                         flex: 1;
                         margin: 0 20px;
@@ -118,10 +117,72 @@
     // 底部
     .details-bottom {
         position: fixed;
-        bottom: 50px;
+        bottom: 100px;
         width: 100%;
         text-align: center;
         transition: all .4s cubic-bezier(.86, .18, .82, 1.32);
+
+        .details-progress-bar {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .details-progress-circle {
+                position: absolute;
+                width: 30px;
+                height: 30px;
+                left: 60px;
+                .progress-circle-btn {
+                    position: relative;
+                    top: 7px;
+                    left: 7px;
+                    box-sizing: border-box;
+                    width: 16px;
+                    height: 16px;
+                    border: 3px solid #fff;
+                    border-radius: 50%;
+                    background-color: #1eb2a6;
+                }
+            }
+
+            span {
+                color: #fff;
+            }
+
+            .am-progress-outer {
+                position: relative;
+                width: 60%;
+                height: 4px;
+                margin: 0 5px;
+            }
+        }
+
+        .details-bottom-icon {
+            position: relative;
+            top: 30px;
+            ul {
+                display: flex;
+                justify-content: space-around;
+                list-style: none;
+                padding: 0 20px;
+
+                li {
+                    flex: 1;
+                    margin: 0 20px;
+                    height: 30px;
+                    &:nth-child(3) {
+                        transform: scale(2);
+                    }
+
+                    svg {
+                        width: 100%;
+                        height: 100%;
+                        color: #fff;
+                    }
+                }
+            }
+        }
     }
 }
 

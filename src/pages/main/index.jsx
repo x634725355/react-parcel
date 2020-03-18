@@ -21,58 +21,21 @@ const id = localStorage[SONG_ID_KEY];
 @observer
 export class Main extends Component {
 
-    state = {
-        songId: '',
-        songData: {}
-    }
 
     static contextType = MyPlayStore;
 
-    componentDidMount() {
-        !!id && this.getSong();
-    }
-
-    // 获取歌曲详情数据
-    async getSong() {
-        const { songs } = await API.get('/song/detail', { ids: this.state.songId || id });
-
-        const { data } = await API.get('/song/url', { id: this.state.songId || id });
-
-        // 将歌曲url保存到本地
-        localStorage[AUDIO_URL_KEY] = data[0].url;
-
-        // 更新url
-        this.context.setAudioUrl();
-
-        // 更新歌曲数据 并保存在本地
-        this.setState({ songData: { ...songs[0], url: data[0].url } }, () => localStorage[SONG_DATA_KEY] = JSON.stringify(this.state.songData));
-    }
-
-    // 获取id点击事件
-    onClickSongId(e, songId) {
-        // 阻止冒泡到原生事件上面
-        e.nativeEvent.stopImmediatePropagation();
-
-        // 存储歌曲id到本地
-        localStorage[SONG_ID_KEY] = songId;
-
-        // 用来更新歌曲数据
-        this.setState({ songId }, () => this.getSong());
-    }
-
     render() {
-        const { songData } = this.state;
         const { onClickHandle } = this.context;
         return (
             <div className="box">
-                <Route path="/main/home" component={() => (<Home onClickSongId={this.onClickSongId.bind(this)} ></Home>)} />
+                <Route path="/main/home" component={() => (<Home ></Home>)} />
                 <Route path="/main/recommended" exact component={RecommendedDaily} />
 
                 <div onClick={() => onClickHandle('detailMark')}>
-                    {localStorage[SONG_ID_KEY] && <PlayMusic songData={songData} ></PlayMusic>}
+                    {localStorage[SONG_ID_KEY] && <PlayMusic ></PlayMusic>}
                 </div>
                 {/* 音乐详情页面 */}
-                <MusicDetails songData={songData}></MusicDetails>
+                <MusicDetails ></MusicDetails>
                 {/* 音乐列表页面 */}
                 <PlayList></PlayList>
             </div>

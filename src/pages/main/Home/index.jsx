@@ -38,7 +38,6 @@ export class Home extends Component {
 
     render() {
         const { tabs, activeTab, swipeable } = this.state;
-        const { onClickSongId } = this.props;
         
         return (
             <div className="home" style={{ height: iphoneHeight }} >
@@ -63,7 +62,7 @@ export class Home extends Component {
                         Content of first tab
                     </div>
                     <div className="tabs-item" >
-                        <Find onClickSongId={onClickSongId} onWiperChange={this.changeSwipeable.bind(this)} ></Find>
+                        <Find onWiperChange={this.changeSwipeable.bind(this)} ></Find>
                     </div>
                     <div className="tabs-item" >
                         Content of third tab

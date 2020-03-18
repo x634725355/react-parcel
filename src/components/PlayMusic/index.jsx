@@ -9,10 +9,6 @@ import './index.less';
 @observer
 export class PlayMusic extends Component {
 
-    state = {
-        songData: {}
-    }
-
     static contextType = MyPlayStore;
 
     componentDidMount() {
@@ -22,12 +18,6 @@ export class PlayMusic extends Component {
     componentWillUnmount() {
         this.context.untieMusicHandle();
     }
-
-    // 用来控制props改变时 影响state
-    // static getDerivedStateFromProps(nextProps, prevState) {
-    //     if (nextProps.songData === prevState.songData) return null;
-    //     return { songData: nextProps.songData };
-    // }
 
     // 绑定音乐状态事件 
     setStore() {
@@ -48,9 +38,8 @@ export class PlayMusic extends Component {
     // }
 
     render() {
-        const { songData: { name, al = [], ar = [], alia = [] } } = this.props;
-        const { clickPlayMusic, audioPlay, onClickHandle } = this.context;
-        
+        const { clickPlayMusic, audioPlay, onClickHandle, playList: { name, al = [], ar = [], alia = [] } } = this.context;
+
         return (
             <div className="play-music">
                 <div className="common-mode">
