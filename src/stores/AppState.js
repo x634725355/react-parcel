@@ -34,6 +34,8 @@ export default class AppState {
     @observable listMark = false;
     // 音乐播放列表
     @observable playList = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY])) || [];
+    // 音乐列表长度
+    @observable playListLength = JSON.parse(localStorage[SONG_LIST_KEY]).length;
 
     // 获取音乐播放百分比
     @computed get percent() {
@@ -46,24 +48,25 @@ export default class AppState {
 
     // 音乐切换事件
     @action.bound musicSwitchHandler(mode) {
-        switch (mode) {
-            case 'next':
-                const index = this.playList.findIndex(p => p.id === currentId);
-                const nextIndex = (index + 1) % this.playList.length;
-                localStorage[AUDIO_URL_KEY] = currentSong.url;
 
-                this.playList.find(p => p.current === true).current = false;
 
-                currentSong.current = true;
+        const index = this.playList.findIndex(p => p.current === true);
+        // 获取下一首或上一首的索引
+        const nextIndex = ((index + (mode === 'next' ? 1 : -1)) % this.playListLength) < 0 ? this.playListLength - 1 : (index + (mode === 'next' ? 1 : -1)) % this.playListLength;
 
-                localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
-                break;
-            case 'previous':
+        localStorage[AUDIO_URL_KEY] = this.playList[nextIndex].url;
 
-                break;
-            default:
-                break;
-        }
+        this.playList[index].current = false;
+
+        this.playList[nextIndex].current = true;
+
+        localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+
+        this.setAudioUrl();
+
+        this.setDuration();
+
+        this.clickPlayMusic();
     }
 
     // 获取id点击事件
@@ -90,16 +93,19 @@ export default class AppState {
 
             const { songs } = await API.get('/song/detail', { ids: strId });
 
-            const { data } = await API.get('/song/url', { id: strId });
+            // api接口缺陷
+            // const { data } = await API.get('/song/url', { id: strId });
 
-            localStorage[AUDIO_URL_KEY] = data.find(p => p.id === currentId).url;
+            localStorage[AUDIO_URL_KEY] = `https://music.163.com/song/media/outer/url?id=${currentId}.mp3`;
 
             // 给playList添加当前播放歌曲标记与url mobx自动转换成了proxy
             this.playList = songs.map(p => ({
                 ...p,
                 current: p.id === currentId ? true : false,
-                url: data.find(m => m.id === p.id).url
+                url: `https://music.163.com/song/media/outer/url?id=${p.id}.mp3`
             }));
+
+            this.playListLength = songs.length;
 
             console.log(this.playList);
 
@@ -133,8 +139,8 @@ export default class AppState {
     // 播放结束事件
     @action.bound ended() {
         this._audio.onended = () => {
-            this.currentTime = 0;
-            this._audio.play();
+            this.playMode ? this.musicSwitchHandler('next') : this.clickPlayMusic()
+            
         }
         // this._audio.addEventListener('ended', () => {
         // })
@@ -151,10 +157,8 @@ export default class AppState {
     // 绑定播放位置改变事件 timeupdate
     @action.bound timeUpData() {
         this._audio.ontimeupdate = () => {
-            this.currentTime = Math.ceil(this._audio.currentTime);
+            this.currentTime = Math.floor(this._audio.currentTime);
         }
-        // this._audio.addEventListener('timeupdate', () => {
-        // });
     }
 
     // 解除播放位置改变事件 timeupdate 与 播放结束事件
@@ -190,6 +194,7 @@ export default class AppState {
     // 音乐是否播放
     @action.bound clickPlayMusic(e) {
         e && e.stopPropagation();
+
         this.audioPlay = !this.audioPlay;
 
         this.audioPlay ? this._audio.play() : this._audio.pause();
