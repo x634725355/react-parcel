@@ -21,13 +21,12 @@ export class ProgressCircle extends Component {
 
     // 圆形进度条函数
     Semicircle(flag = true) {
-        const { currentTime, duration } = this.context;
-        const TimeHalf = duration / 2;
+        const { percent } = this.context;
 
         if (flag) {
-            return TimeHalf < currentTime ? 180 : currentTime * 180 / TimeHalf;
+            return 50 < percent ? 180 : 3.6 * percent;
         } else {
-            return TimeHalf < currentTime ? ((currentTime - TimeHalf) * 180 / TimeHalf >= TimeHalf ? 180 : (currentTime - TimeHalf) * 180 / TimeHalf) : 0;
+            return 50 < percent ? (percent >= 100 ? 180 : 3.6 * (percent-50)) : 0;
         }
     }
 

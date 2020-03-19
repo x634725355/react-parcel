@@ -30,7 +30,7 @@ export class MusicDetails extends Component {
 
     render() {
         const { like } = this.state;
-        const { onClickHandle, detailMark, audioPlay, duration, currentTime, playMode, clickPlayMusic, onSwitchMode, playList } = this.context;
+        const { onClickHandle, detailMark, audioPlay, playMode, currentTime, duration, clickPlayMusic, onSwitchMode, playList, percent } = this.context;
         const { name, al = [], ar = [], alia = [] } = playList.find(p => p.current === true);
         return (
             // <Transition>
@@ -94,7 +94,7 @@ export class MusicDetails extends Component {
                         <span>{currentTime}</span>
                         <Progress percent={30} position="normal" />
                         {/* 每秒移动2.1px */}
-                        <div style={{ transform: `translateX(${700 / duration * currentTime}%)` }} className="details-progress-circle">
+                        <div style={{ transform: `translateX(${percent >= 100 ? 700 : percent * 7}%)` }} className="details-progress-circle">
                             <div className="progress-circle-btn"></div>
                         </div>
                         <span>{duration}</span>

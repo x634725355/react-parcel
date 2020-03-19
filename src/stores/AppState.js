@@ -2,8 +2,7 @@ import {
     observable,
     configure,
     action,
-    computed,
-    flow
+    computed
 } from 'mobx';
 import {
     AUDIO_URL_KEY, SONG_LIST_KEY
@@ -24,7 +23,7 @@ export default class AppState {
     // 音频的总时长
     @observable duration = 0;
     // 当前的播放时长
-    @observable currentTime = Math.ceil(this._audio.currentTime);
+    @observable currentTime = Math.floor(this._audio.currentTime);
     // 是否播放音乐
     @observable audioPlay = false;
     // 播放模式
@@ -36,10 +35,35 @@ export default class AppState {
     // 音乐播放列表
     @observable playList = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY])) || [];
 
+    // 获取音乐播放百分比
+    @computed get percent() {
+        if (this.duration) {
+            return this.currentTime / this.duration * 100;
+        } else {
+            return 0;
+        }
+    }
 
     // 音乐切换事件
-    @action.bound musicSwitchHandler() {
+    @action.bound musicSwitchHandler(mode) {
+        switch (mode) {
+            case 'next':
+                const index = this.playList.findIndex(p => p.id === currentId);
+                const nextIndex = (index + 1) % this.playList.length;
+                localStorage[AUDIO_URL_KEY] = currentSong.url;
 
+                this.playList.find(p => p.current === true).current = false;
+
+                currentSong.current = true;
+
+                localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+                break;
+            case 'previous':
+
+                break;
+            default:
+                break;
+        }
     }
 
     // 获取id点击事件
@@ -59,9 +83,9 @@ export default class AppState {
 
     // 获取音乐播放列表
     @action.bound async playListHandler(listId, currentId) {
-        const mork = this.playList.every(p => p.id === currentId);
+        const mork = this.playList.some(p => p.id === currentId);
 
-        if (mork) {
+        if (!mork) {
             const strId = listId.join(',');
 
             const { songs } = await API.get('/song/detail', { ids: strId });
@@ -151,7 +175,7 @@ export default class AppState {
     // 获取到当前音频的总时长
     @action.bound setDuration() {
         this._audio.ondurationchange = () => {
-            this.duration = Math.ceil(this._audio.duration);
+            this.duration = Math.floor(this._audio.duration);
         }
         // 这里 -> 魔幻的代码 
         // await this._audio.play();
