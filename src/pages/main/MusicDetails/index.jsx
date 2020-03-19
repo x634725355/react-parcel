@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Transition } from 'react-spring/renderprops'
 import { observer } from 'mobx-react';
-import { Toast, Progress } from 'antd-mobile';
+import { Progress } from 'antd-mobile';
 
 // 状态管理器
 import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';
@@ -92,7 +92,7 @@ export class MusicDetails extends Component {
                 <div className="details-bottom">
                     <div className="details-progress-bar">
                         <span>{currentTime}</span>
-                        <Progress percent={30} position="normal" />
+                        <Progress percent={percent} position="normal" />
                         {/* 每秒移动2.1px */}
                         <div style={{ transform: `translateX(${percent >= 100 ? 720 : percent * 7.2}%)` }} className="details-progress-circle">
                             <div className="progress-circle-btn"></div>

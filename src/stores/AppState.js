@@ -51,7 +51,6 @@ export default class AppState {
     // 音乐切换事件
     @action.bound musicSwitchHandler(mode) {
 
-
         const index = this.playList.findIndex(p => p.current === true);
         // 获取下一首或上一首的索引
         const nextIndex = ((index + (mode === 'next' ? 1 : -1)) % this.playListLength) < 0 ? this.playListLength - 1 : (index + (mode === 'next' ? 1 : -1)) % this.playListLength;

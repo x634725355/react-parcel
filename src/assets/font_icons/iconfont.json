@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "2763902",
+      "name": "删除筛选项",
+      "font_class": "delete2",
+      "unicode": "e7a5",
+      "unicode_decimal": 59301
+    },
+    {
+      "icon_id": "10647142",
+      "name": "垃圾",
+      "font_class": "trash",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
       "icon_id": "11759035",
       "name": "播放中",
       "font_class": "bofangzhong",

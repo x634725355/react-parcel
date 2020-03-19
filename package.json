@@ -30,6 +30,8 @@
     "react-dom": "^16.13.0",
     "react-router-dom": "^5.1.2",
     "react-spring": "^8.0.27",
+    "react-tiny-virtual-list": "^2.2.0",
+    "react-virtualized": "^9.21.2",
     "swiper": "^5.3.6",
     "uninstall": "0.0.0"
   }
