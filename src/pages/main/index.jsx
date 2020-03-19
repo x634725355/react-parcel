@@ -23,7 +23,6 @@ export class Main extends Component {
 
     render() {
         const { onClickHandle, musicMark } = this.context;
-        console.log(musicMark);
         
         return (
             <div className="box">
