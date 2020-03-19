@@ -4,7 +4,6 @@ import { Tabs } from 'antd-mobile';
 
 import { Find } from '../../../components/Find';
 import { iphoneHeight } from '../../../utils/share';
-import { API } from '../../../utils/fetchAPI';
 
 // 状态管理器
 import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';

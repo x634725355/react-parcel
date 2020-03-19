@@ -35,7 +35,9 @@ export default class AppState {
     // 音乐播放列表
     @observable playList = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY])) || [];
     // 音乐列表长度
-    @observable playListLength = JSON.parse(localStorage[SONG_LIST_KEY]).length;
+    @observable playListLength = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY]).length) || false;
+    // 是否显示音乐播放组件
+    @observable musicMark = this.playListLength;
 
     // 获取音乐播放百分比
     @computed get percent() {
@@ -77,11 +79,6 @@ export default class AppState {
         // 用来更新歌曲数据
         this.playListHandler(listId, currentId);
 
-        this.setAudioUrl();
-
-        this.setDuration();
-
-        this.clickPlayMusic();
     }
 
     // 获取音乐播放列表
@@ -106,10 +103,17 @@ export default class AppState {
             }));
 
             this.playListLength = songs.length;
+            !!this.playListLength && (this.musicMark = true);
 
-            console.log(this.playList);
+            console.log('1', this.playList);
 
             localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+
+            this.setAudioUrl();
+
+            this.setDuration();
+
+            this.clickPlayMusic();
         } else {
             const currentSong = this.playList.find(p => p.id === currentId);
 
@@ -121,7 +125,13 @@ export default class AppState {
 
             localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
 
-            console.log(this.playList);
+            console.log('2', this.playList);
+
+            this.setAudioUrl();
+
+            this.setDuration();
+
+            this.clickPlayMusic();
         }
     }
 
@@ -139,8 +149,13 @@ export default class AppState {
     // 播放结束事件
     @action.bound ended() {
         this._audio.onended = () => {
-            this.playMode ? this.musicSwitchHandler('next') : this.clickPlayMusic()
-            
+            if (this.playMode) {
+                this.musicSwitchHandler('next');
+            } else {
+                this.currentTime = 0;
+                this.audioPlay = true;
+                this._audio.play();
+            }
         }
         // this._audio.addEventListener('ended', () => {
         // })

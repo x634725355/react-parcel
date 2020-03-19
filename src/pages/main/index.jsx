@@ -22,21 +22,30 @@ export class Main extends Component {
     static contextType = MyPlayStore;
 
     render() {
-        const { onClickHandle } = this.context;
+        const { onClickHandle, musicMark } = this.context;
+        console.log(musicMark);
+        
         return (
             <div className="box">
                 <Route path="/main/home" component={() => (<Home ></Home>)} />
                 <Route path="/main/recommended" exact component={RecommendedDaily} />
 
-                <div onClick={() => onClickHandle('detailMark')}>
-                    <PlayMusic></PlayMusic>
-                </div>
+                {
+                    musicMark && (
+                        <>
+                            <div onClick={() => onClickHandle('detailMark')}>
+                                <PlayMusic></PlayMusic>
+                            </div>
 
-                {/* 音乐详情页面 */}
-                <MusicDetails></MusicDetails>
+                            {/* 音乐详情页面  */}
+                            <MusicDetails></MusicDetails>
 
-                {/* 音乐列表页面 */}
-                <PlayList></PlayList>
+                            {/* 音乐列表页面 */}
+                            <PlayList></PlayList>
+                        </>
+                    )
+                }
+
 
             </div>
         )
