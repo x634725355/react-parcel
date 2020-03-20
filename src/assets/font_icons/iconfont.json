@@ -6,6 +6,41 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "7823875",
+      "name": "选 中",
+      "font_class": "xuanzhong",
+      "unicode": "e65a",
+      "unicode_decimal": 58970
+    },
+    {
+      "icon_id": "9301751",
+      "name": "下载",
+      "font_class": "download",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "12898298",
+      "name": "分 享",
+      "font_class": "fenxiang",
+      "unicode": "e606",
+      "unicode_decimal": 58886
+    },
+    {
+      "icon_id": "13228349",
+      "name": "消息",
+      "font_class": "xiaoxi",
+      "unicode": "e70b",
+      "unicode_decimal": 59147
+    },
+    {
+      "icon_id": "1639980",
+      "name": "省略",
+      "font_class": "shenglve",
+      "unicode": "e617",
+      "unicode_decimal": 58903
+    },
+    {
       "icon_id": "2763902",
       "name": "删除筛选项",
       "font_class": "delete2",
