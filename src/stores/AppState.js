@@ -98,23 +98,25 @@ export default class AppState {
     }
 
     // 获取id点击事件
-    @action.bound onClickSongListId(currentId, e, listId = []) {
+    @action.bound onClickSongListId(currentId, e, listId = [], listData = []) {
         // 阻止冒泡到原生事件上面
         e && e.nativeEvent.stopImmediatePropagation();
 
         // 用来更新歌曲数据
-        this.playListHandler(listId, currentId);
+        this.playListHandler(listId, currentId, listData);
 
     }
 
     // 获取音乐播放列表
-    @action.bound async playListHandler(listId, currentId) {
+    @action.bound async playListHandler(listId, currentId, listData) {
         const mork = this.playList.some(p => p.id === currentId);
 
         if (!mork) {
             const strId = listId.join(',');
 
-            const { songs } = await API.get('/song/detail', { ids: strId });
+            let res = { songs: [] };
+
+            (listData.length && (res.songs = listData)) || (res = await API.get('/song/detail', { ids: strId }));
 
             // api接口缺陷
             // const { data } = await API.get('/song/url', { id: strId });
@@ -122,13 +124,13 @@ export default class AppState {
             localStorage[AUDIO_URL_KEY] = `https://music.163.com/song/media/outer/url?id=${currentId}.mp3`;
 
             // 给playList添加当前播放歌曲标记与url mobx自动转换成了proxy
-            this.playList = songs.map(p => ({
+            this.playList = res.songs.map(p => ({
                 ...p,
                 current: p.id === currentId ? true : false,
                 url: `https://music.163.com/song/media/outer/url?id=${p.id}.mp3`
             }));
 
-            this.playListLength = songs.length;
+            this.playListLength = res.songs.length;
             !!this.playListLength && (this.musicMark = true);
 
             console.log('1', this.playList);

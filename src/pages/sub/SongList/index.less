@@ -1,0 +1,55 @@
+.recommend-sonlist {
+    padding: 0 10px;
+    background-color: rgba(0, 0, 0, .4);
+
+    .recommend-sonlist-header {
+        padding-bottom: 10px;
+        .sonlist-header-up {
+            display: flex;
+            justify-content: space-between;
+            height: 120px;
+
+            .sonlist-header-up-left {
+                flex: 1;
+                height: 100%;
+                border-radius: 5px;
+            }
+
+            .sonlist-header-up-right {
+                flex: 2;
+                margin-left: 10px;
+
+                h3 {
+                    color: #fff;
+                    margin-bottom: 10px;
+                }
+
+                .creator {
+                    margin-bottom: 10px;
+
+                    img {
+                        width: 30px;
+                        height: 30px;
+                        border-radius: 15px;
+                        margin-right: 5px;
+                    }
+                }
+
+                p {
+                    font-size: 14px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-line-clamp: 2; //2行
+                    -webkit-box-orient: vertical;
+                }
+            }
+        }
+
+        .sonlist-header-down {
+
+        }
+    }
+
+
+}

@@ -17,11 +17,11 @@ export class Find extends Component {
         bannerData: [],
         imgHeight: 176,
         navList: [
-            ['每日推荐', '#iconrili', 'recommended'],
-            ['歌单', '#iconlist', 'recommended'],
-            ['排行榜', '#iconpaixingbang', 'recommended'],
-            ['电台', '#icondiantai', 'recommended'],
-            ['私人FM', '#icondiantai1', 'recommended']
+            ['每日推荐', '#iconrili', '/main/recommended'],
+            ['歌单', '#iconlist', '/main/recommended'],
+            ['排行榜', '#iconpaixingbang', '/main/recommended'],
+            ['电台', '#icondiantai', '/main/recommended'],
+            ['私人FM', '#icondiantai1', '/main/recommended']
         ],
         resourceListData: [],
         songRecommendData: [],
@@ -153,7 +153,7 @@ export class Find extends Component {
         return length > 5 ? (length > 8 ? data.substring(0, length - 7) + '.' + data.substring(1, length - 7) + '亿' : data.substring(0, length - 4) + '万') : data
     }
 
-    // 歌单推荐 TODO:还没添加点击跳转
+    //  TODO:还没添加点击跳转 歌单推荐
     renderListResource() {
         const { onWiperChange } = this.props;
 
@@ -179,7 +179,7 @@ export class Find extends Component {
                                 {resourceListData.map(p => (
                                     <div key={p.id} className="swiper-slide">
 
-                                        <Link className="find-resource" to="/songList" >
+                                        <Link className="find-resource" to={`/main/songlist/${p.id}`} >
                                             <span>▶{this.getPlaycount(p.playcount.toString())}</span>
                                             <img src={p.img} alt="" />
                                             <p>{p.title}</p>

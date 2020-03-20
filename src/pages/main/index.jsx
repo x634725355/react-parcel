@@ -3,18 +3,16 @@ import { Route } from "react-router-dom";
 import { observer } from 'mobx-react';
 
 import { Home } from '../../pages/main/Home';
-import { BasicLogin } from '../../pages/sub/Login';
 import { RecommendedDaily } from '../../pages/sub/RecommendedDaily';
 import { MusicDetails } from "./MusicDetails";
 import { PlayMusic } from "../../components/PlayMusic";
 import { PlayList } from "./PlayList";
+import { SongList } from "../sub/SongList";
 // 状态管理器
 import { MyPlayStore } from '../../components/MyPlayStore/MyPlayStore';
 
-import { API } from "../../utils/fetchAPI";
-import { SONG_LIST_KEY } from "../../utils/share";
 
-import './index.less'
+import './index.less';
 
 @observer
 export class Main extends Component {
@@ -27,8 +25,9 @@ export class Main extends Component {
         return (
             <div className="box">
                 <Route path="/main/home" component={() => (<Home ></Home>)} />
-                <Route path="/main/recommended" exact component={RecommendedDaily} />
-
+                <Route path="/main/recommended/:id?" exact component={RecommendedDaily} />
+                <Route path="/main/songlist/:id" exact component={SongList} />
+                
                 {
                     musicMark && (
                         <>
