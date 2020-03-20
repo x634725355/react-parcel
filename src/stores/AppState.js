@@ -32,7 +32,7 @@ export default class AppState {
     @observable detailMark = false;
     // 音乐播放列表是否展开
     @observable listMark = false;
-    // 音乐播放列表
+    // 音乐播放列表  mobx 将playList转换成了proxy
     @observable playList = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY])) || [];
     // 音乐列表长度
     @observable playListLength = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY]).length) || false;
@@ -45,6 +45,33 @@ export default class AppState {
             return this.currentTime / this.duration * 100;
         } else {
             return 0;
+        }
+    }
+
+    // 删除音乐操作
+    @action.bound deleteMusic(e, id, index) {
+        e && e.stopPropagation();
+        if (id && this.playListLength !== 1) {
+
+            this.playList[index].current ? this.playList[(index + 1) % (this.playListLength)].current = true : '';
+            // 删除单个
+            this.playListLength--;
+
+            this.playList = this.playList.filter(p => p.id !== id);
+
+            // localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+
+            console.log(this.playList);
+
+
+        } else {
+            // 清空
+            this.playList = [];
+            this.playListLength = 0;
+            this.musicMark = false;
+            this.detailMark = false;
+            this.listMark = false;
+            localStorage.removeItem(SONG_LIST_KEY);
         }
     }
 
@@ -71,9 +98,9 @@ export default class AppState {
     }
 
     // 获取id点击事件
-    @action.bound onClickSongListId(e, listId, currentId) {
+    @action.bound onClickSongListId(currentId, e, listId = []) {
         // 阻止冒泡到原生事件上面
-        e.nativeEvent.stopImmediatePropagation();
+        e && e.nativeEvent.stopImmediatePropagation();
 
         // 用来更新歌曲数据
         this.playListHandler(listId, currentId);
@@ -108,11 +135,6 @@ export default class AppState {
 
             localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
 
-            this.setAudioUrl();
-
-            this.setDuration();
-
-            this.clickPlayMusic();
         } else {
             const currentSong = this.playList.find(p => p.id === currentId);
 
@@ -126,12 +148,13 @@ export default class AppState {
 
             console.log('2', this.playList);
 
-            this.setAudioUrl();
-
-            this.setDuration();
-
-            this.clickPlayMusic();
         }
+
+        this.setAudioUrl();
+
+        this.setDuration();
+
+        this.clickPlayMusic();
     }
 
     // 切换播放模式

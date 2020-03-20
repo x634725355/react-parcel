@@ -22,8 +22,8 @@ export class MusicDetails extends Component {
     }
 
     async markLikeSong() {
-        const id = localStorage[SONG_ID_KEY];
-        const { code } = await API.get('/like', { id });
+        // TODO: 未完成收藏功能
+        // const { code } = await API.get('/like', { id });
 
         this.setState({ like: !this.state.like });
     }

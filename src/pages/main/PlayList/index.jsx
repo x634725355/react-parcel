@@ -24,44 +24,42 @@ export class PlayList extends Component {
         this.setState({ like: !this.state.like });
     }
 
-    rowRenderer() {
-        const { playList } = this.context;
+    // TODO: 点击后无法更新current 解决 使用this.forceUpdate();
+    rowRenderer(playList, onClickSongListId, deleteMusic, { key, index, style }) {
+        const { id, name, current } = playList[index];
         return (
-            <>
-                {playList.map(p => (
-                    <div className="">
-                        <div>{p.name}</div>
-                        <div>
-                            <svg onClick={this.markLikeSong.bind(this)} className="icon" aria-hidden="true">
-                                <use xlinkHref={this.state.like ? "#iconshoucang1" : "#iconfav-n"}></use>
-                            </svg>
-                            <svg class="icon" aria-hidden="true">
-                                <use xlinkHref="#icondelete2"></use>
-                            </svg>
-                        </div>
-                    </div>
-                ))}
-            </>
+            <div key={key} style={style} onClick={(e) => { this.forceUpdate(); onClickSongListId(id, e); }} className={["wrapper-middle-item", current ? "current-blue" : ""].join(' ')} >
+                <div className="middle-item-left">{name}</div>
+                <div onClick={(e) => { this.forceUpdate(); deleteMusic(e, id, index)}} className="middle-item-right">
+                    <svg className="icon" aria-hidden="true">
+                        <use xlinkHref="#icondelete2"></use>
+                    </svg>
+                </div>
+            </div >
         )
     }
 
 
-    renderSongList() {
+    renderSongList(playListLength, playList, onClickSongListId, deleteMusic) {
         return (
             <div>
-                <List
-                    width={300}
-                    height={300}
-                    rowCount={this.context.playListLength}
-                    rowHeight={45}
-                    rowRenderer={this.rowRenderer.bind(this)}
-                />
+                <AutoSizer>
+                    {({ width }) => (
+                        <List
+                            width={width}
+                            height={300}
+                            rowCount={playListLength}
+                            rowHeight={40}
+                            rowRenderer={this.rowRenderer.bind(this, playList, onClickSongListId, deleteMusic)}
+                        />
+                    )}
+                </AutoSizer>
             </div>
         );
     }
 
     render() {
-        const { listMark, onClickHandle, onSwitchMode, playMode } = this.context;
+        const { listMark, onClickHandle, onSwitchMode, playMode, playListLength, playList, onClickSongListId, deleteMusic } = this.context;
 
         return (
             <div className={["play-music-list", listMark ? "display-block" : "display-none"].join(' ')}>
@@ -74,9 +72,9 @@ export class PlayList extends Component {
                             <svg onClick={() => onSwitchMode()} className="icon" aria-hidden="true">
                                 <use xlinkHref={playMode ? "#iconshunxu" : "#icondanqu"}></use>
                             </svg>
-                            {playMode ? '顺序播放' : '单曲循环'}
+                            {playMode ? '顺序播放' : '单曲循环'}({playListLength})
                         </div>
-                        <div className="wrapper-top-right">
+                        <div onClick={(e) => deleteMusic(e)} className="wrapper-top-right">
                             <svg className="icon" aria-hidden="true">
                                 <use xlinkHref="#icontrash"></use>
                             </svg>
@@ -84,7 +82,7 @@ export class PlayList extends Component {
                     </div>
                     <div className="play-list-wrapper-middle">
                         <div>
-                            {this.renderSongList()}
+                            {this.renderSongList(playListLength, playList, onClickSongListId, deleteMusic)}
                         </div>
                     </div>
                 </div>
