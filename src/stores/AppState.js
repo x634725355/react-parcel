@@ -54,8 +54,6 @@ export default class AppState {
     @action.bound setPlayId(currentId) {
         this.playId = currentId;
 
-        console.log(this.playId);
-
         localStorage[SONG_ID_KEY] = currentId;
     }
 
@@ -82,9 +80,9 @@ export default class AppState {
             this.detailMark = false;
             this.listMark = false;
             this.playId = 0;
+            this._audio.src = '';
             localStorage.removeItem(SONG_LIST_KEY);
             localStorage.removeItem(SONG_ID_KEY);
-            this.clickPlayMusic();
         }
     }
 

@@ -6,7 +6,7 @@ import { SongBook } from "../../../components/Songbook";
 
 import { API } from "../../../utils/fetchAPI";
 
-import './index.less'
+import './index.less';
 
 @observer
 export class SongList extends Component {

@@ -13,13 +13,18 @@ export class SongBook extends Component {
 
     static contextType = MyPlayStore;
 
-    rowRenderer(playList, onClickSongListId, tracks, { key, index, style }) {
-        // const { current } = playList[index];
-
+    rowRenderer(onClickSongListId, tracks, { key, index, style }) {
         return (
-            <div key={key} style={style} onClick={(e) => { this.forceUpdate(); onClickSongListId(tracks && tracks[index].id, e); }} >
+            <div key={key} style={style} onClick={(e) => { onClickSongListId(tracks && tracks[index].id, e, [], tracks); this.forceUpdate(); }} >
                 <div className="songbook-item">
-                    <div className="songbook-item-index">{index + 1}</div>
+                    <div className="songbook-item-index">
+                        {this.context.playId == tracks[index].id ? (
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref="#iconbofangzhong"></use>
+                            </svg>
+                        ) : index + 1}
+
+                    </div>
                     <div className="songbook-item-songname">
                         <p>{tracks && tracks[index].name}{tracks && tracks[index].alia.length ? `(${tracks[index].alia.join('/')})` : ''}</p>
                         <p>{tracks && tracks[index].ar.map(p => p.name).join('/')} - {tracks && tracks[index].al.name}</p>
@@ -37,7 +42,7 @@ export class SongBook extends Component {
         )
     }
 
-    renderSongBookMain(playListLength, playList, onClickSongListId, tracks) {
+    renderSongBookMain(onClickSongListId, tracks) {
         return (
             <WindowScroller>
                 {({ height, isScrolling, scrollTop }) => (
@@ -53,7 +58,7 @@ export class SongBook extends Component {
                                     height={height}
                                     rowCount={tracks && tracks.length}
                                     rowHeight={45}
-                                    rowRenderer={this.rowRenderer.bind(this, playList, onClickSongListId, tracks)}
+                                    rowRenderer={this.rowRenderer.bind(this, onClickSongListId, tracks)}
                                 />
                                 <div style={{ height: 50, width: 100 }}></div>
                             </>
@@ -66,7 +71,7 @@ export class SongBook extends Component {
 
     render() {
         const { songListData: { tracks = false, subscribedCount } } = this.props;
-        const { playListLength, playList, onClickSongListId } = this.context;
+        const { onClickSongListId } = this.context;
         return (
             <div className="songbook-main" >
                 <div className="songbook-main-top">
@@ -83,7 +88,7 @@ export class SongBook extends Component {
                 </div>
 
                 <div className="songbook-main-middle">
-                    {this.renderSongBookMain(playListLength, playList, onClickSongListId, tracks)}
+                    {this.renderSongBookMain(onClickSongListId, tracks)}
                 </div>
 
             </div>

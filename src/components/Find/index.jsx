@@ -201,7 +201,7 @@ export class Find extends Component {
 
         const { songRecommendData, songRecommendId } = this.state;
 
-        const { onClickSongListId } = this.context;
+        const { onClickSongListId, playId } = this.context;        
 
         return (
             <WingBlank size='sm'>
@@ -223,7 +223,7 @@ export class Find extends Component {
                                 {!!songRecommendData.length && songRecommendData.map((p, index) => (
                                     <div key={index} className="swiper-slide">
                                         {p.map(p => (
-                                            <div onClick={(e) => onClickSongListId(p.id, e, songRecommendId)} className='song-recommend-list' key={p.id}>
+                                            <div onClick={(e) => { onClickSongListId(p.id, e, songRecommendId); this.forceUpdate(); }} className='song-recommend-list' key={p.id}>
                                                 <img src={p.album.picUrl} alt="" />
                                                 <div className='song-recommend-singer'>
                                                     <div className="song-recommend-singer-left">
@@ -234,7 +234,7 @@ export class Find extends Component {
                                                     </div>
                                                     <div className="song-recommend-singer-right">
                                                         <svg className="icon" aria-hidden="true">
-                                                            <use xlinkHref="#iconyinle-bofang"></use>
+                                                            <use xlinkHref={playId == p.id ? "#iconbofangzhong" : "#iconyinle-bofang"}></use>
                                                         </svg>
                                                     </div>
                                                 </div>
