@@ -5,7 +5,7 @@ import {
     computed
 } from 'mobx';
 import {
-    AUDIO_URL_KEY, SONG_LIST_KEY
+    AUDIO_URL_KEY, SONG_LIST_KEY, SONG_ID_KEY
 } from '../utils/share';
 import { API } from '../utils/fetchAPI';
 
@@ -38,6 +38,8 @@ export default class AppState {
     @observable playListLength = (localStorage[SONG_LIST_KEY] && JSON.parse(localStorage[SONG_LIST_KEY]).length) || false;
     // 是否显示音乐播放组件
     @observable musicMark = this.playListLength;
+    // 当前选中的id号
+    @observable playId = localStorage[SONG_ID_KEY];
 
     // 获取音乐播放百分比
     @computed get percent() {
@@ -48,21 +50,29 @@ export default class AppState {
         }
     }
 
+    // 修改当前播放id
+    @action.bound setPlayId(currentId) {
+        this.playId = currentId;
+
+        console.log(this.playId);
+
+        localStorage[SONG_ID_KEY] = currentId;
+    }
+
     // 删除音乐操作
     @action.bound deleteMusic(e, id, index) {
         e && e.stopPropagation();
         if (id && this.playListLength !== 1) {
 
-            this.playList[index].current ? this.playList[(index + 1) % (this.playListLength)].current = true : '';
+            // 删除的是否是当前播放的歌曲
+            this.playId == id ? this.setPlayId(this.playList[(index + 1) % (this.playListLength)].id) : '';
+
             // 删除单个
             this.playListLength--;
 
             this.playList = this.playList.filter(p => p.id !== id);
 
-            // localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
-
-            console.log(this.playList);
-
+            localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
 
         } else {
             // 清空
@@ -71,24 +81,25 @@ export default class AppState {
             this.musicMark = false;
             this.detailMark = false;
             this.listMark = false;
+            this.playId = 0;
             localStorage.removeItem(SONG_LIST_KEY);
+            localStorage.removeItem(SONG_ID_KEY);
+            this.clickPlayMusic();
         }
     }
 
     // 音乐切换事件
     @action.bound musicSwitchHandler(mode) {
 
-        const index = this.playList.findIndex(p => p.current === true);
+        const index = this.playList.findIndex(p => p.id == this.playId);
         // 获取下一首或上一首的索引
         const nextIndex = ((index + (mode === 'next' ? 1 : -1)) % this.playListLength) < 0 ? this.playListLength - 1 : (index + (mode === 'next' ? 1 : -1)) % this.playListLength;
 
         localStorage[AUDIO_URL_KEY] = this.playList[nextIndex].url;
 
-        this.playList[index].current = false;
-
-        this.playList[nextIndex].current = true;
-
         localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
+
+        this.setPlayId(this.playList[nextIndex].id);
 
         this.setAudioUrl();
 
@@ -112,6 +123,9 @@ export default class AppState {
         const mork = this.playList.some(p => p.id === currentId);
 
         if (!mork) {
+            // 获取当前的播放id
+            this.setPlayId(currentId);
+
             const strId = listId.join(',');
 
             let res = { songs: [] };
@@ -126,7 +140,6 @@ export default class AppState {
             // 给playList添加当前播放歌曲标记与url mobx自动转换成了proxy
             this.playList = res.songs.map(p => ({
                 ...p,
-                current: p.id === currentId ? true : false,
                 url: `https://music.163.com/song/media/outer/url?id=${p.id}.mp3`
             }));
 
@@ -138,13 +151,10 @@ export default class AppState {
             localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
 
         } else {
-            const currentSong = this.playList.find(p => p.id === currentId);
+            // 获取当前的播放id
+            this.setPlayId(currentId);
 
-            localStorage[AUDIO_URL_KEY] = currentSong.url;
-
-            this.playList.find(p => p.current === true).current = false;
-
-            currentSong.current = true;
+            localStorage[AUDIO_URL_KEY] = this.playList.find(p => p.id === currentId).url;
 
             localStorage[SONG_LIST_KEY] = JSON.stringify(this.playList);
 

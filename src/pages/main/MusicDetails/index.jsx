@@ -30,8 +30,8 @@ export class MusicDetails extends Component {
 
     render() {
         const { like } = this.state;
-        const { onClickHandle, detailMark, audioPlay, playMode, currentTime, duration, clickPlayMusic, onSwitchMode, playList, percent, musicSwitchHandler } = this.context;
-        const { name, al = [], ar = [], alia = [] } = playList.find(p => p.current === true);
+        const { onClickHandle, detailMark, audioPlay, playMode, currentTime, duration, clickPlayMusic, onSwitchMode, playList, percent, musicSwitchHandler, playId } = this.context;
+        const { name, al = [], ar = [], alia = [] } = playList.find(p => p.id == playId);
         return (
             // <Transition>
             <div className={["music-details", detailMark ? "display-block" : "display-none"].join(' ')}>

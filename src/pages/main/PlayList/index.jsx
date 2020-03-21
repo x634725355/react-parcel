@@ -26,14 +26,16 @@ export class PlayList extends Component {
 
     // TODO: 点击后无法更新current 解决 使用this.forceUpdate();
     rowRenderer(playList, onClickSongListId, deleteMusic, { key, index, style }) {
-        const { id, name, current } = playList[index];
+        const { id, name } = playList[index];
         return (
-            <div key={key} style={style} onClick={(e) => { this.forceUpdate(); onClickSongListId(id, e); }} className={["wrapper-middle-item", current ? "current-blue" : ""].join(' ')} >
-                <div className="middle-item-left">{name}</div>
-                <div onClick={(e) => { this.forceUpdate(); deleteMusic(e, id, index)}} className="middle-item-right">
-                    <svg className="icon" aria-hidden="true">
-                        <use xlinkHref="#icondelete2"></use>
-                    </svg>
+            <div key={key} style={style}>
+                <div onClick={(e) => { onClickSongListId(id, e); this.forceUpdate(); }} className={["wrapper-middle-item", this.context.playId == id ? "current-blue" : ""].join(' ')}>
+                    <div className="middle-item-left">{name}</div>
+                    <div onClick={(e) => { this.forceUpdate(); deleteMusic(e, id, index) }} className="middle-item-right">
+                        <svg className="icon" aria-hidden="true">
+                            <use xlinkHref="#icondelete2"></use>
+                        </svg>
+                    </div>
                 </div>
             </div >
         )
