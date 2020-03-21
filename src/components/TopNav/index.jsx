@@ -27,7 +27,7 @@ class EnhanceTitleBar extends Component {
         return (
             <NavBar
                 mode="light"
-                icon={<Icon type="left" />}
+                icon={<Icon type="left" size='lg' style={{color: '#fff'}} />}
                 onLeftClick={leftClick}
                 rightContent={rightContent}
             >{children}</NavBar>

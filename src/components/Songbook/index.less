@@ -1,0 +1,94 @@
+.songbook-main {
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+
+    .songbook-main-top {
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 15px;
+
+        .main-top-left {
+            display: flex;
+            justify-content: center;
+
+            svg {
+                width: 20px;
+                height: 20px;
+                margin-right: 10px;
+            }
+
+            span {
+                font-size: 16px;
+
+                i {
+                    margin-left: 5px;
+                    font-style: normal;
+                    font-size: 14px;
+                    color: #666;
+                }
+            }
+        }
+
+        .main-top-right {
+            background-color: #fa163f;
+            padding: 8px;
+            font-size: 16px;
+            border-radius: 20px;
+            color: #fff;
+        }
+    }
+
+    .songbook-main-middle {
+        .songbook-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .songbook-item-index {
+                width: 15px;
+                padding: 0 18px;
+                text-align: center;
+            }
+
+            .songbook-item-songname {
+                width: 67%;
+                overflow: hidden;
+
+                p {
+                    &:first-child {
+                        width: 100%;
+                        font-size: 15px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                    }
+
+                    &:last-child {
+                        width: 100%;
+                        font-size: 12px;
+                        margin-top: 5px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        color: #444;
+                    }
+                }
+            }
+
+            .songbook-item-icon {
+                width: 70px;
+                display: flex;
+                justify-content: center;
+                svg {
+                    width: 20px;
+                    height: 25px;
+                    padding: 0 5px;
+                }
+            }
+
+
+        }
+    }
+}

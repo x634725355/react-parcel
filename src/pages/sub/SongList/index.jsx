@@ -1,16 +1,18 @@
 import React, { Component } from "react";
+import { observer } from "mobx-react";
 
 import { TopNav } from "../../../components/TopNav";
+import { SongBook } from "../../../components/Songbook";
 
 import { API } from "../../../utils/fetchAPI";
 
 import './index.less'
 
+@observer
 export class SongList extends Component {
 
     state = {
-        songListData: [],
-        songListId: []
+        songListData: []
     }
 
     componentDidMount() {
@@ -23,11 +25,8 @@ export class SongList extends Component {
         const { playlist } = await API.get('/playlist/detail', { id });
 
         this.setState({
-            songListData: playlist,
-            songListId: playlist.tracks.map(p => p.id)
+            songListData: playlist
         });
-
-        console.log(playlist);
 
     }
 
@@ -54,11 +53,18 @@ export class SongList extends Component {
     }
 
     render() {
-
+        const { songListData } = this.state;
         return (
             <div className="recommend-sonlist">
-                <TopNav>歌单</TopNav>
+
+                <div className="recommend-sonlist-topnav">
+                    <TopNav>歌单</TopNav>
+                </div>
+
                 {this.renderRreator()}
+
+                {/* 渲染主体部分 */}
+                <SongBook songListData={songListData}></SongBook>
             </div>
         );
     }

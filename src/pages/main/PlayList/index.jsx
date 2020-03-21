@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { observer } from "mobx-react";
 import { Spring } from "react-spring/renderprops";
-import { List, AutoSizer, WindowScroller, InfiniteLoader } from "react-virtualized";
+import { List, AutoSizer } from "react-virtualized";
 
 import { MyPlayStore } from "../../../components/MyPlayStore/MyPlayStore";
 
