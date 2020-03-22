@@ -5,9 +5,13 @@ import {
     computed
 } from 'mobx';
 import {
-    AUDIO_URL_KEY, SONG_LIST_KEY, SONG_ID_KEY
+    AUDIO_URL_KEY,
+    SONG_LIST_KEY,
+    SONG_ID_KEY
 } from '../utils/share';
-import { API } from '../utils/fetchAPI';
+import {
+    API
+} from '../utils/fetchAPI';
 
 // 严格模式
 configure({
@@ -126,9 +130,13 @@ export default class AppState {
 
             const strId = listId.join(',');
 
-            let res = { songs: [] };
+            let res = {
+                songs: []
+            };
 
-            (listData.length && (res.songs = listData)) || (res = await API.get('/song/detail', { ids: strId }));
+            (listData.length && (res.songs = listData)) || (res = await API.get('/song/detail', {
+                ids: strId
+            }));
 
             // api接口缺陷
             // const { data } = await API.get('/song/url', { id: strId });
@@ -175,6 +183,9 @@ export default class AppState {
     // 音乐详情与列表点击事件
     @action.bound onClickHandle(mark, e) {
         e && e.stopPropagation();
+        // 禁止主页面滚动
+        this[mark] ? document.body.style.overflow = '' : document.body.style.overflow = 'hidden';
+        
         this[mark] = !this[mark];
     }
 
@@ -196,8 +207,8 @@ export default class AppState {
     // 播放事件出错
     @action.bound audioError() {
         this._audio.addEventListener('error', () => {
-            console.log('出错了');
             Toast.info('播放错误，自动跳到下一首', 2, null, false);
+            this.musicSwitchHandler('next');
         });
     }
 

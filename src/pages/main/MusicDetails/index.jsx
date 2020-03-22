@@ -7,9 +7,6 @@ import { Progress } from 'antd-mobile';
 import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';
 import { TopNav } from "../../../components/TopNav";
 
-import { API } from '../../../utils/fetchAPI';
-import { SONG_ID_KEY } from '../../../utils/share';
-
 import './index.less';
 
 @observer
@@ -33,7 +30,6 @@ export class MusicDetails extends Component {
         const { onClickHandle, detailMark, audioPlay, playMode, currentTime, duration, clickPlayMusic, onSwitchMode, playList, percent, musicSwitchHandler, playId } = this.context;
         const { name, al = [], ar = [], alia = [] } = playList.find(p => p.id == playId);
         return (
-            // <Transition>
             <div className={["music-details", detailMark ? "display-block" : "display-none"].join(' ')}>
                 <div className="details-background">
                     <img src={al.picUrl} alt="" />
@@ -130,7 +126,6 @@ export class MusicDetails extends Component {
                     </div>
                 </div>
             </div >
-            // {/* </Transition> */}
         )
     }
 }

@@ -21,13 +21,13 @@ export class Main extends Component {
 
     render() {
         const { onClickHandle, musicMark } = this.context;
-        
+
         return (
             <div className="box">
                 <Route path="/main/home" component={() => (<Home ></Home>)} />
                 <Route path="/main/recommended/:id?" exact component={RecommendedDaily} />
                 <Route path="/main/songlist/:id" exact component={SongList} />
-                
+
                 {
                     musicMark && (
                         <>

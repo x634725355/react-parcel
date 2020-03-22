@@ -38,18 +38,20 @@
 
     // 顶部
     .details-top {
-        position: relative;
-        margin-bottom: 25px;
+        position: fixed;
         color: #fff;
+        width: 100%;
+        top: 0;
+        left: 0;
         text-align: center;
-        transition: all .4s cubic-bezier(.86, .18, .82, 1.32);
+
         .details-top-title {
             p {
                 letter-spacing: 2px;
 
                 &:first-child {
                     font-size: 18px;
-                    margin: 8px 0;
+                    margin: 4px 0;
                 }
 
                 &:last-child {
@@ -96,6 +98,7 @@
                     list-style: none;
                     padding: 0 20px;
                     margin-bottom: 20px;
+
                     li {
                         flex: 1;
                         margin: 0 20px;
@@ -133,6 +136,7 @@
                 width: 30px;
                 height: 30px;
                 left: 60px;
+
                 .progress-circle-btn {
                     position: relative;
                     top: 7px;
@@ -161,6 +165,7 @@
         .details-bottom-icon {
             position: relative;
             top: 30px;
+
             ul {
                 display: flex;
                 justify-content: space-around;
@@ -171,6 +176,7 @@
                     flex: 1;
                     margin: 0 20px;
                     height: 30px;
+
                     &:nth-child(3) {
                         transform: scale(2);
                     }
