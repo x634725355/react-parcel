@@ -4,6 +4,7 @@ import { Tabs } from 'antd-mobile';
 
 import { Find } from '../../../components/Find';
 import { iphoneHeight } from '../../../utils/share';
+import { MyMusic } from '../../../components/MyMusic';
 
 // 状态管理器
 import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';
@@ -22,7 +23,7 @@ export class Home extends Component {
             { title: '云村', sub: '2' },
             { title: '视频', sub: '3' },
         ],
-        activeTab: 1,
+        activeTab: 0,
         userData: null,
         swipeable: true,
     }
@@ -37,9 +38,9 @@ export class Home extends Component {
 
     render() {
         const { tabs, activeTab, swipeable } = this.state;
-        
+
         return (
-            <div className="home" style={{ height: iphoneHeight+50 }} >
+            <div className="home" style={{ height: iphoneHeight + 50 }} >
 
                 <div className="menu iconfont iconliebiao">
                     <svg className="icon" aria-hidden="true">
@@ -58,7 +59,7 @@ export class Home extends Component {
                     useOnPan={false}
                 >
                     <div className="tabs-item" >
-                        Content of first tab
+                        <MyMusic></MyMusic>
                     </div>
                     <div className="tabs-item" >
                         <Find onWiperChange={this.changeSwipeable.bind(this)} ></Find>

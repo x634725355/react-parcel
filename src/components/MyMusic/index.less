@@ -1,0 +1,80 @@
+.my-music {
+    padding-top: 20px;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+
+    .my-music-introduction {
+        width: 100%;
+        padding: 0 20px;
+        height: 50px;
+        display: flex;
+        align-items: center;
+        margin: 10px 0;
+        color: #fff;
+
+        img {
+            border-radius: 50%;
+            height: 100%;
+            margin-right: 10px;
+        }
+
+        p {
+            font-size: 18px;
+
+            &:last-child {
+                background-color: rgba(102, 102, 102, 0.5);
+                text-align: center;
+            }
+        }
+    }
+
+    // 我的歌单
+    .my-music-songlist {
+        background-color: #fff;
+        border-radius: 20px 20px 0 0;
+        padding-top: 10px;
+
+        .my-music-text {
+            color: #000;
+            font-size: 18px;
+            font-weight: 500;
+            margin: 0 0 10px 10px;
+        }
+
+        .music-songlist-main {
+            display: flex;
+            padding: 0 10px;
+            flex-wrap: wrap;
+
+            .music-songlist-individual {
+                width: 50%;
+                height: 60px;
+                display: flex;
+                padding-right: 10px;
+                margin-bottom: 10px;
+
+                img {
+                    height: 100%;
+                    width: 60px;
+                    border-radius: 8px;
+                    border: 1px solid #eee;
+                }
+
+                .songlist-individual-introduction {
+                    margin-left: 10px;
+                    p {
+                        &:first-child {
+                            margin-bottom: 10px;
+                            overflow: hidden;
+                            text-overflow: ellipsis;
+                            display: -webkit-box;
+                            -webkit-line-clamp: 2; //2行
+                            -webkit-box-orient: vertical;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
