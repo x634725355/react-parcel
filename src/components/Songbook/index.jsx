@@ -84,10 +84,13 @@ export class SongBook extends Component {
                             </svg>
                             <span>播放全部<i>共({tracks.length})首</i></span>
                         </div>
-                        <div className="main-top-right">
-                            <span>+</span>
-                            <span>收藏({subscribedCount})</span>
-                        </div>
+                        {subscribedCount && (
+                            <div className="main-top-right">
+                                <span>+</span>
+                                <span>收藏({subscribedCount})</span>
+                            </div>
+                        )}
+
                     </div>
                 </Sticky>
 
