@@ -39,7 +39,7 @@ export class Home extends Component {
         const { tabs, activeTab, swipeable } = this.state;
         
         return (
-            <div className="home" style={{ height: iphoneHeight }} >
+            <div className="home" style={{ height: iphoneHeight+50 }} >
 
                 <div className="menu iconfont iconliebiao">
                     <svg className="icon" aria-hidden="true">

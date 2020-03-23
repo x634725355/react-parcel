@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { List, AutoSizer, WindowScroller } from "react-virtualized";
 import { observer } from "mobx-react";
 
-
+import { Sticky } from "../../components/Sticky";
 import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
 
 import './index.less';
@@ -12,6 +12,7 @@ export class SongBook extends Component {
 
 
     static contextType = MyPlayStore;
+
 
     rowRenderer(onClickSongListId, tracks, { key, index, style }) {
         return (
@@ -44,12 +45,13 @@ export class SongBook extends Component {
 
     renderSongBookMain(onClickSongListId, tracks) {
         return (
-            <WindowScroller>
+            <WindowScroller  >
                 {({ height, isScrolling, scrollTop }) => (
                     <AutoSizer>
                         {({ width }) => (
                             <>
                                 <List
+
                                     style={{ backgroundColor: '#fff' }}
                                     autoHeight
                                     isScrolling={isScrolling}
@@ -74,18 +76,21 @@ export class SongBook extends Component {
         const { onClickSongListId } = this.context;
         return (
             <div className="songbook-main" >
-                <div className="songbook-main-top">
-                    <div className="main-top-left">
-                        <svg className="icon" aria-hidden="true">
-                            <use xlinkHref="#iconyinle-bofang"></use>
-                        </svg>
-                        <span>播放全部<i>共({tracks.length})首</i></span>
+                <Sticky>
+                    <div className="songbook-main-top">
+                        <div className="main-top-left">
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref="#iconyinle-bofang"></use>
+                            </svg>
+                            <span>播放全部<i>共({tracks.length})首</i></span>
+                        </div>
+                        <div className="main-top-right">
+                            <span>+</span>
+                            <span>收藏({subscribedCount})</span>
+                        </div>
                     </div>
-                    <div className="main-top-right">
-                        <span>+</span>
-                        <span>收藏({subscribedCount})</span>
-                    </div>
-                </div>
+                </Sticky>
+
 
                 <div className="songbook-main-middle">
                     {this.renderSongBookMain(onClickSongListId, tracks)}
