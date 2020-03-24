@@ -5,6 +5,7 @@ import { Progress } from 'antd-mobile';
 
 // 状态管理器
 import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';
+import { iphoneWidth } from '../../../utils/share';
 import { TopNav } from "../../../components/TopNav";
 
 import './index.less';
@@ -26,21 +27,25 @@ export class MusicDetails extends Component {
         this.setState({ like: !this.state.like });
     }
 
+    // TODO: 滚动条未完善
     onTouchStart(e) {
         const touch = e.touches[0];
+        // 当我点击时的值
         this.touch = {
             startX: touch.pageX,
             startY: touch.pageY,
         }
+        console.log('现在的值', touch.pageX);
     }
 
     onTouchMove(e) {
+        let translateX = 0;
         if (!this.touch) { return }
 
         const touch = e.touches[0];
 
         //计算X、Y方向的移动距离
-        const offsetX = touch.pageX - this.touch.startX;
+        let offsetX = touch.pageX - this.touch.startX;
         const offsetY = touch.pageY - this.touch.startY;
 
         if (Math.abs(offsetY) > Math.abs(offsetX)) {
@@ -48,13 +53,17 @@ export class MusicDetails extends Component {
             return
         }
 
-        console.log(offsetX, offsetY);
+        translateX = offsetX < 0 ? 0 : offsetX >= this.context.duration ? this.context.duration : offsetX;
 
-        this.setState({ current: offsetX });
+        // console.log(translateX);
+
+        this.context.changeCurrentTime(translateX);
+
+        this.setState({ current: translateX });
     }
 
     onTouchEnd(e) {
-        this.context.changeCurrentTime(this.state.current);
+        this.context.changeCurrentTime(this.state.current, true);
     }
 
     render() {

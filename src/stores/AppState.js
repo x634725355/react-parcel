@@ -64,7 +64,7 @@ export default class AppState {
     // 修改当前进度条位置
     @action.bound changeCurrentTime(current, flag = false) {
         this.currentTime = current;
-        
+        flag && (this._audio.currentTime = this.currentTime);
     }
 
     // 修改当前播放id
