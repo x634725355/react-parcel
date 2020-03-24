@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import { Tabs } from 'antd-mobile';
 
@@ -9,7 +10,6 @@ import { MyMusic } from '../../../components/MyMusic';
 // 状态管理器
 import { MyPlayStore } from '../../../components/MyPlayStore/MyPlayStore';
 import { observer } from 'mobx-react';
-
 
 import './index.less';
 
@@ -23,7 +23,7 @@ export class Home extends Component {
             { title: '云村', sub: '2' },
             { title: '视频', sub: '3' },
         ],
-        activeTab: 0,
+        activeTab: 1,
         userData: null,
         swipeable: true,
     }
@@ -48,9 +48,11 @@ export class Home extends Component {
                     </svg>
                 </div>
                 <div className="search iconfont iconsousuo">
-                    <svg className="icon" aria-hidden="true">
-                        <use xlinkHref="#iconsousuo"></use>
-                    </svg>
+                    <Link to="/main/seach">
+                        <svg className="icon" aria-hidden="true">
+                            <use xlinkHref="#iconsousuo"></use>
+                        </svg>
+                    </Link>
                 </div>
                 <Tabs tabs={tabs}
                     initialPage={activeTab}
