@@ -47,6 +47,11 @@ export default class AppState {
     // 当前选中的id号
     @observable playId = localStorage[SONG_ID_KEY];
 
+    // 阻止页面滚动
+    mo(e) {
+        e.preventDefault();
+    }
+
     // 获取音乐播放百分比
     @computed get percent() {
         if (this.duration) {
@@ -54,6 +59,12 @@ export default class AppState {
         } else {
             return 0;
         }
+    }
+
+    // 修改当前进度条位置
+    @action.bound changeCurrentTime(current, flag = false) {
+        this.currentTime = current;
+        
     }
 
     // 修改当前播放id
@@ -186,7 +197,14 @@ export default class AppState {
     @action.bound onClickHandle(mark, e) {
         e && e.stopPropagation();
         // 禁止主页面滚动
-        this[mark] ? document.body.style.overflow = '' : document.body.style.overflow = 'hidden';
+
+        if (this[mark]) {
+            document.body.style.overflow = '';
+            document.removeEventListener("touchmove",this.mo,false); 
+        } else {
+            document.body.style.overflow = 'hidden';
+            document.addEventListener("touchmove",this.mo,false);
+        }
         
         this[mark] = !this[mark];
     }
@@ -209,8 +227,8 @@ export default class AppState {
     // 播放事件出错
     @action.bound audioError() {
         this._audio.addEventListener('error', () => {
-            Toast.info('播放错误，自动跳到下一首', 2, null, false);
             this.musicSwitchHandler('next');
+            Toast.info('播放错误，自动跳到下一首', 2, null, false);
         });
     }
 

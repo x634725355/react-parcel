@@ -29,8 +29,6 @@ export class MyMusic extends Component {
     async getUserSongList() {
         const { playlist } = await API.get('/user/playlist', { uid: this.state.userData.userId });
 
-        console.log(playlist);
-
         this.setState({ mySongList: playlist });
 
     }
@@ -45,7 +43,7 @@ export class MyMusic extends Component {
                     mySongList.length &&
                     <div  className="music-songlist-main">
                         {mySongList.map(p => (
-                            <Link to={`/main/songlist/${p.id}`} className="music-songlist-individual">
+                            <Link key={p.id} to={`/main/songlist/${p.id}`} className="music-songlist-individual">
                                 <img src={p.coverImgUrl} alt="" />
                                 <div className="songlist-individual-introduction">
                                     <p>{p.name}</p>

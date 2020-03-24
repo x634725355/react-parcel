@@ -15,7 +15,8 @@ export class MusicDetails extends Component {
     static contextType = MyPlayStore;
 
     state = {
-        like: false
+        like: false,
+        current: 0
     }
 
     async markLikeSong() {
@@ -23,6 +24,37 @@ export class MusicDetails extends Component {
         // const { code } = await API.get('/like', { id });
 
         this.setState({ like: !this.state.like });
+    }
+
+    onTouchStart(e) {
+        const touch = e.touches[0];
+        this.touch = {
+            startX: touch.pageX,
+            startY: touch.pageY,
+        }
+    }
+
+    onTouchMove(e) {
+        if (!this.touch) { return }
+
+        const touch = e.touches[0];
+
+        //计算X、Y方向的移动距离
+        const offsetX = touch.pageX - this.touch.startX;
+        const offsetY = touch.pageY - this.touch.startY;
+
+        if (Math.abs(offsetY) > Math.abs(offsetX)) {
+            //如果Y轴方向移动距离大于X轴则return
+            return
+        }
+
+        console.log(offsetX, offsetY);
+
+        this.setState({ current: offsetX });
+    }
+
+    onTouchEnd(e) {
+        this.context.changeCurrentTime(this.state.current);
     }
 
     render() {
@@ -90,7 +122,7 @@ export class MusicDetails extends Component {
                         <span>{currentTime}</span>
                         <Progress percent={percent} position="normal" />
                         {/* 每秒移动2.1px */}
-                        <div style={{ transform: `translateX(${percent >= 100 ? 720 : percent * 7.2}%)` }} className="details-progress-circle">
+                        <div onTouchEnd={this.onTouchEnd.bind(this)} onTouchMove={this.onTouchMove.bind(this)} onTouchStart={this.onTouchStart.bind(this)} style={{ transform: `translateX(${percent >= 100 ? 720 : percent * 7.2}%)` }} className="details-progress-circle">
                             <div className="progress-circle-btn"></div>
                         </div>
                         <span>{duration}</span>
