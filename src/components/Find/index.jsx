@@ -65,11 +65,11 @@ export class Find extends Component {
     async getSongRecommend() {
         const { recommend } = await API.get('/recommend/songs');
 
-        const newResource = recommend.slice(0, 12).map(p => ({ alias: p.alias, starred: p.starred, artists: p.artists, id: p.id, duration: p.duration, album: p.album, title: p.name, playcount: p.playcount, bMusic: p.bMusic, commentThreadId: p.commentThreadId }));
+        const newResource = recommend.slice(0, 12);
 
         this.setState({
             songRecommendData: [newResource.slice(0, 3), newResource.slice(3, 6), newResource.slice(6, 9), newResource.slice(9, 12)],
-            songRecommendId: newResource.map(p => p.id)
+            songRecommendId: newResource.map(p => ({ ...p, alia: p.alias, ar: p.artists, al: p.album }))
         });
 
     }

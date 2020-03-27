@@ -1,4 +1,3 @@
-
 const BASE_URL = 'http://chengsancai.club:3000';
 
 const CONTENT_TYPE_MAP = {
@@ -19,9 +18,17 @@ export class API {
         const args = urlParams ? API.parseQueryString(urlParams, true) : '';
 
         return fetch(BASE_URL + url + args, {
-            method, body: params, credentials,
-            xhrFields: credentials ? { withCredentials: true } : {},
-            headers: { ...CONTENT_TYPE_MAP[type] ? ({ 'Content-Type': CONTENT_TYPE_MAP[type] }) : {} }
+            method,
+            body: params,
+            credentials,
+            xhrFields: credentials ? {
+                withCredentials: true
+            } : {},
+            headers: {
+                ...CONTENT_TYPE_MAP[type] ? ({
+                    'Content-Type': CONTENT_TYPE_MAP[type]
+                }) : {}
+            }
         })
     }
 

@@ -8,15 +8,15 @@ import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
 import './index.less';
 
 @observer
-export class SongBook extends Component {
+export default class SongBook extends Component {
 
 
     static contextType = MyPlayStore;
 
-
+    // 可以优化
     rowRenderer(onClickSongListId, tracks, { key, index, style }) {
         return (
-            <div key={key} style={style} onClick={(e) => { onClickSongListId(tracks && tracks[index].id, e, [], tracks); this.forceUpdate(); }} >
+            <div key={key} style={style} onClick={(e) => { onClickSongListId(tracks[index].id, e, tracks); this.forceUpdate(); }} >
                 <div className="songbook-item">
                     <div className="songbook-item-index">
                         {this.context.playId == tracks[index].id ? (
@@ -27,8 +27,8 @@ export class SongBook extends Component {
 
                     </div>
                     <div className="songbook-item-songname">
-                        <p>{tracks && tracks[index].name}{tracks && tracks[index].alia.length ? `(${tracks[index].alia.join('/')})` : ''}</p>
-                        <p>{tracks && tracks[index].ar.map(p => p.name).join('/')} - {tracks && tracks[index].al.name}</p>
+                        <p>{tracks[index].name}{tracks[index].alia.length ? `(${tracks[index].alia.join('/')})` : ''}</p>
+                        <p>{tracks[index].ar.map(p => p.name).join('/')} - {tracks[index].al.name}</p>
                     </div>
                     <div className="songbook-item-icon">
                         <svg className="icon" aria-hidden="true">
@@ -45,7 +45,7 @@ export class SongBook extends Component {
 
     renderSongBookMain(onClickSongListId, tracks) {
         return (
-            <WindowScroller  >
+            <WindowScroller>
                 {({ height, isScrolling, scrollTop }) => (
                     <AutoSizer>
                         {({ width }) => (
@@ -58,7 +58,7 @@ export class SongBook extends Component {
                                     scrollTop={scrollTop}
                                     width={width}
                                     height={height}
-                                    rowCount={tracks && tracks.length}
+                                    rowCount={tracks.length}
                                     rowHeight={45}
                                     rowRenderer={this.rowRenderer.bind(this, onClickSongListId, tracks)}
                                 />
@@ -72,32 +72,37 @@ export class SongBook extends Component {
     }
 
     render() {
-        const { songListData: { tracks = false, subscribedCount } } = this.props;
+        const { songListData: { tracks = [], subscribedCount } } = this.props;
         const { onClickSongListId } = this.context;
         return (
             <div className="songbook-main" >
-                <Sticky>
-                    <div className="songbook-main-top">
-                        <div className="main-top-left">
-                            <svg className="icon" aria-hidden="true">
-                                <use xlinkHref="#iconyinle-bofang"></use>
-                            </svg>
-                            <span>播放全部<i>共({tracks.length})首</i></span>
-                        </div>
-                        {subscribedCount && (
-                            <div className="main-top-right">
-                                <span>+</span>
-                                <span>收藏({subscribedCount})</span>
+                {
+                    tracks.length &&
+                    <div>
+                        <Sticky>
+                            <div className="songbook-main-top">
+                                <div className="main-top-left">
+                                    <svg className="icon" aria-hidden="true">
+                                        <use xlinkHref="#iconyinle-bofang"></use>
+                                    </svg>
+                                    <span>播放全部<i>共({tracks.length})首</i></span>
+                                </div>
+                                {!!subscribedCount && (
+                                    <div className="main-top-right">
+                                        <span>+</span>
+                                        <span>收藏({subscribedCount})</span>
+                                    </div>
+                                )}
+
                             </div>
-                        )}
+                        </Sticky>
 
+
+                        <div className="songbook-main-middle">
+                            {this.renderSongBookMain(onClickSongListId, tracks)}
+                        </div>
                     </div>
-                </Sticky>
-
-
-                <div className="songbook-main-middle">
-                    {this.renderSongBookMain(onClickSongListId, tracks)}
-                </div>
+                }
 
             </div>
         );

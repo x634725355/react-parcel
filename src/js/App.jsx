@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import React, { Component, Suspense } from 'react';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 import { observer } from 'mobx-react';
 
 // import { Decorator } from '../components/Decorator/Decorator';
@@ -22,10 +22,13 @@ export class App extends Component {
     render() {
         return (
             <Router>
-                <MyPlayStore.Provider value={store}>
-                    <Route path="/" exact component={BasicLogin} />
-                    <Route path="/main" component={Main} />
-                </MyPlayStore.Provider>
+                <Suspense fallback={<div>Loading.....</div>} >
+                    <MyPlayStore.Provider value={store}>
+                        <Route path="/" exact render={() => <Redirect to='/login' />} />
+                        <Route path="/login" exact component={BasicLogin} />
+                        <Route path="/main" component={Main} />
+                    </MyPlayStore.Provider>
+                </Suspense>
                 {/* <Decorator></Decorator> */}
             </Router>
         )

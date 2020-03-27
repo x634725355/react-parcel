@@ -39,30 +39,34 @@ export class PlayMusic extends Component {
 
     render() {
         const { clickPlayMusic, audioPlay, onClickHandle, playList, playId } = this.context;
-        const { name, al = [], ar = [], alia = [] } = playList.find(p => p.id == playId);
+        const { name = '', al = [], ar = [], alia = [] } = playList.find(p => p.id == playId);
         return (
-            <div className="play-music">
-                <div className="common-mode">
-                    <div className="mode-left">
-                        <img src={al.picUrl} alt="" />
-                        <div className="mode-left-introduction">
-                            <p>{name}{alia.length ? `(${alia.join('/')})` : ''}</p>
-                            <p>{ar.map(p => p.name).join('/')}</p>
+            <>
+                {
+                    playList.length && <div className="play-music">
+                        <div className="common-mode">
+                            <div className="mode-left">
+                                <img src={al.picUrl} alt="" />
+                                <div className="mode-left-introduction">
+                                    <p>{name}{alia.length ? `(${alia.join('/')})` : ''}</p>
+                                    <p>{ar.map(p => p.name).join('/')}</p>
+                                </div>
+                            </div>
+                            <div className="mode-right">
+                                <div onClick={(e) => clickPlayMusic(e)} className="mode-right-progress">
+                                    <ProgressCircle></ProgressCircle>
+                                    <svg className="icon" aria-hidden="true">
+                                        <use xlinkHref={audioPlay ? "#iconpcduanbizhixiazaicishutubiao1" : "#iconyinle-bofang"}></use>
+                                    </svg>
+                                </div>
+                                <svg onClick={(e) => onClickHandle("listMark", e)} className="icon mode-right-list" aria-hidden="true">
+                                    <use xlinkHref="#iconlist"></use>
+                                </svg>
+                            </div>
                         </div>
-                    </div>
-                    <div className="mode-right">
-                        <div onClick={(e) => clickPlayMusic(e)} className="mode-right-progress">
-                            <ProgressCircle></ProgressCircle>
-                            <svg className="icon" aria-hidden="true">
-                                <use xlinkHref={audioPlay ? "#iconpcduanbizhixiazaicishutubiao1" : "#iconyinle-bofang"}></use>
-                            </svg>
-                        </div>
-                        <svg onClick={(e) => onClickHandle("listMark", e)} className="icon mode-right-list" aria-hidden="true">
-                            <use xlinkHref="#iconlist"></use>
-                        </svg>
-                    </div>
-                </div>
-            </div >
+                    </div >
+                }
+            </>
         )
     }
 }

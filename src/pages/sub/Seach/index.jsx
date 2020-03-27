@@ -1,10 +1,15 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import { observer } from 'mobx-react';
-import { SearchBar, Button, WhiteSpace, WingBlank } from 'antd-mobile';
+import { SearchBar } from 'antd-mobile';
+
+
+import { SeachTabs } from "../../../components/SeachTabs";
 
 // 状态管理器
 import { MyPlayStore } from "../../../components/MyPlayStore/MyPlayStore";
-
+import { API } from "../../../utils/fetchAPI";
+import { iphoneHeight } from "../../../utils/share";
 
 import './index.less';
 
@@ -14,36 +19,73 @@ export class Seach extends Component {
     static contextType = MyPlayStore;
 
     state = {
-        value: '美食',
+        value: '',
+        hotValue: '',
+        hotPlaceholder: '',
+        seachData: null
     };
+
     componentDidMount() {
         this.autoFocusInst.focus();
+        this.getHotSeach();
     }
-    onChange = (value) => {
+
+    onChange(value) {
         this.setState({ value });
-    };
-    clear = () => {
+    }
+
+    clear() {
         this.setState({ value: '' });
-    };
-    handleClick = () => {
+    }
+
+    handleClick() {
         this.manualFocusInst.focus();
     }
-    render() {
-        return (<div>
-            <SearchBar
-                value={this.state.value}
-                placeholder="Search"
-                onSubmit={value => console.log(value, 'onSubmit')}
-                onClear={value => console.log(value, 'onClear')}
-                onFocus={() => console.log('onFocus')}
-                onBlur={() => console.log('onBlur')}
-                onCancel={() => console.log('onCancel')}
-                showCancelButton
-                onChange={this.onChange}
-                placeholder="自动获取光标"
-                ref={ref => this.autoFocusInst = ref} />
 
-        </div>);
+    onSubmit() {
+        const { value, hotValue } = this.state;
+
+        this.setState({ value: value.trim().length ? value : hotValue })
+
+        this.getSeachData(value.trim().length ? value : hotValue);
+
+        this.props.history.push('/main/seach/tabs');
+    }
+
+    async getSeachData(keywords, offset = 0, type = 1) {
+        const { result } = await API.get('/search', { keywords, offset, type });
+
+        const newAry = result.songs.map(p => ({ ...p, alia: p.alias, ar: p.artists, al: p.album }));
+
+        this.setState({ seachData: { tracks: newAry, value: keywords } }, () => console.log(this.state.seachData));
+    }
+
+    async getHotSeach() {
+        const { data: { showKeyword: hotPlaceholder, realkeyword: hotValue } } = await API.get('/search/default');
+
+        this.setState({ hotPlaceholder, hotValue });
+    }
+
+    render() {
+        const { value, hotPlaceholder, seachData } = this.state;
+
+
+        return (
+            <div style={{ height: iphoneHeight }} >
+                <SearchBar
+                    cancelText='返回'
+                    showCancelButton
+                    value={value}
+                    placeholder={hotPlaceholder}
+                    onSubmit={this.onSubmit.bind(this)}
+                    onClear={this.clear.bind(this)}
+                    onCancel={() => this.props.history.go(-1)}
+                    onChange={this.onChange.bind(this)}
+                    ref={ref => this.autoFocusInst = ref} />
+
+                <Route path="/main/seach/tabs" render={() => <SeachTabs seachData={seachData} ></SeachTabs>} />
+            </div>
+        );
     }
 
 }

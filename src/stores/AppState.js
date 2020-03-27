@@ -4,7 +4,9 @@ import {
     action,
     computed
 } from 'mobx';
-import { Toast } from 'antd-mobile';
+import {
+    Toast
+} from 'antd-mobile';
 import {
     AUDIO_URL_KEY,
     SONG_LIST_KEY,
@@ -124,32 +126,22 @@ export default class AppState {
     }
 
     // 获取id点击事件
-    @action.bound onClickSongListId(currentId, e, listId = [], listData = []) {
+    @action.bound onClickSongListId(currentId, e, listData = []) {
         // 阻止冒泡到原生事件上面
         e && e.nativeEvent.stopImmediatePropagation();
 
         // 用来更新歌曲数据
-        this.playListHandler(listId, currentId, listData);
+        this.playListHandler(currentId, listData);
 
     }
 
     // 获取音乐播放列表
-    @action.bound async playListHandler(listId, currentId, listData) {
+    @action.bound playListHandler(currentId, listData) {
         const mork = this.playList.some(p => p.id === currentId);
 
         if (!mork) {
             // 获取当前的播放id
             this.setPlayId(currentId);
-
-            const strId = listId.join(',');
-
-            let res = {
-                songs: []
-            };
-
-            (listData.length && (res.songs = listData)) || (res = await API.get('/song/detail', {
-                ids: strId
-            }));
 
             // api接口缺陷
             // const { data } = await API.get('/song/url', { id: strId });
@@ -157,12 +149,12 @@ export default class AppState {
             localStorage[AUDIO_URL_KEY] = `https://music.163.com/song/media/outer/url?id=${currentId}.mp3`;
 
             // 给playList添加当前播放歌曲标记与url mobx自动转换成了proxy
-            this.playList = res.songs.map(p => ({
+            this.playList = listData.map(p => ({
                 ...p,
                 url: `https://music.163.com/song/media/outer/url?id=${p.id}.mp3`
             }));
 
-            this.playListLength = res.songs.length;
+            this.playListLength = listData.length;
             !!this.playListLength && (this.musicMark = true);
 
             console.log('1', this.playList);
@@ -200,12 +192,12 @@ export default class AppState {
 
         if (this[mark]) {
             document.body.style.overflow = '';
-            document.removeEventListener("touchmove",this.mo,false); 
+            document.removeEventListener("touchmove", this.mo, false);
         } else {
             document.body.style.overflow = 'hidden';
-            document.addEventListener("touchmove",this.mo,false);
+            document.addEventListener("touchmove", this.mo, false);
         }
-        
+
         this[mark] = !this[mark];
     }
 

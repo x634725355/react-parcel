@@ -22,7 +22,6 @@ export class MyMusic extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.userData);
         this.getUserSongList();
     }
 
@@ -41,7 +40,7 @@ export class MyMusic extends Component {
 
                 {
                     mySongList.length &&
-                    <div  className="music-songlist-main">
+                    <div className="music-songlist-main">
                         {mySongList.map(p => (
                             <Link key={p.id} to={`/main/songlist/${p.id}`} className="music-songlist-individual">
                                 <img src={p.coverImgUrl} alt="" />
@@ -77,7 +76,7 @@ export class MyMusic extends Component {
 
                 {this.renderMySongList()}
 
-                <div style={{height: 50, width: 20}}></div>
+                <div style={{ height: 50, width: 20 }}></div>
             </div>
         )
     }

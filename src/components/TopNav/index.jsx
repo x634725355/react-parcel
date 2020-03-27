@@ -35,4 +35,4 @@ class EnhanceTitleBar extends Component {
     }
 }
 
-export const TopNav = withRouter(EnhanceTitleBar)
+export const TopNav = withRouter(EnhanceTitleBar);

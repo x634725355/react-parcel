@@ -29,7 +29,7 @@ export class Main extends Component {
                 <Route path="/main/home" component={() => (<Home ></Home>)} />
                 <Route path="/main/recommended/:id?" exact component={RecommendedDaily} />
                 <Route path="/main/songlist/:id" exact component={SongList} />
-                <Route path="/main/seach" exact component={Seach} />
+                <Route path="/main/seach" component={Seach} />
 
                 {
                     musicMark && (

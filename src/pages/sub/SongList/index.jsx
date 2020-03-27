@@ -1,9 +1,8 @@
-import React, { Component } from "react";
+import React, { Component, Suspense, lazy } from "react";
 import { observer } from "mobx-react";
 
 import { TopNav } from "../../../components/TopNav";
-import { SongBook } from "../../../components/Songbook";
-
+const SongBook = lazy(() => import('../../../components/Songbook'));
 
 import { API } from "../../../utils/fetchAPI";
 
@@ -56,18 +55,20 @@ export class SongList extends Component {
     render() {
         const { songListData } = this.state;
         return (
-            <div className="recommend-sonlist">
+            <Suspense fallback={<div>Loading.....</div>} >
+                <div className="recommend-sonlist">
 
-                <div className="recommend-sonlist-topnav">
-                    <TopNav>歌单</TopNav>
+                    <div className="recommend-sonlist-topnav">
+                        <TopNav>歌单</TopNav>
+                    </div>
+
+                    {this.renderRreator()}
+
+                    {/* 渲染主体部分 */}
+                    <SongBook songListData={songListData}></SongBook>
+
                 </div>
-
-                {this.renderRreator()}
-
-                {/* 渲染主体部分 */}
-                <SongBook songListData={songListData}></SongBook>
-
-            </div>
+            </Suspense>
         );
     }
 }
