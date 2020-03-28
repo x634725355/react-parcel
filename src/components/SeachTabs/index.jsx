@@ -18,29 +18,95 @@ export class SeachTabs extends Component {
 
     state = {
         tabs: [
-            { title: '单曲', sub: '0' },
+            { title: '单曲', sub: '1' },
             { title: '歌手', sub: '100' },
             { title: '专辑', sub: '10' },
             { title: '歌单', sub: '1000' },
         ],
         activeTab: 0,
         swipeable: true,
+        tabData: new Array(4).fill(0),
+        tabIndex: 0
     };
 
     componentDidMount() {
 
     }
 
-    
+    componentDidUpdate({ seachData }) {
+        const { seachData: { value } } = this.props;
+        const { tabs, tabIndex } = this.state;
+
+        seachData && (value === seachData.value || this.onChange(tabs[tabIndex], tabIndex, value));
+    }
+
+    async onChange(tab, index, keywords) {
+        console.log(tab);
+
+        const { result } = await API.get('/search', { keywords, type: tab.sub });
+
+        this.state.tabData[index] = result;
+
+        this.setState({ tabData: this.state.tabData, tabIndex: index }, () => console.log(this.state.tabData));
+    }
+
+    rowRenderer(tabData, id, { key, index, style }) {
+        return (
+            <div style={style} key={key} >
+                <div className='seachtabs-singer-item'>
+                    <div className="singer-item-left">
+                        <img src={tabData.artists[index].picUrl || tabData.artists[index].img1v1Url} alt="" />
+                        <span>{tabData.artists[index].name}</span>
+                        <span> {tabData.artists[index].alias[0] ? '(' : ''} {tabData.artists[index].trans || tabData.artists[index].alias[0]} {tabData.artists[index].alias[0] ? ')' : ''} </span>
+                    </div>
+                    {tabData.artists[index].followed &&
+                        <div className="singer-item-right">
+                            <div>🦄</div>
+                            <span>已入驻</span>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        );
+    }
+
+    renderSinger(index) {
+        const { tabData } = this.state;
+        return (
+            <WindowScroller>
+                {({ height, isScrolling, scrollTop }) => (
+                    <AutoSizer>
+                        {({ width }) => (
+                            <>
+                                <List
+                                    style={{ backgroundColor: '#fff' }}
+                                    autoHeight
+                                    isScrolling={isScrolling}
+                                    scrollTop={scrollTop}
+                                    width={width}
+                                    height={height}
+                                    rowCount={tabData[index].artists.length}
+                                    rowHeight={60}
+                                    rowRenderer={this.rowRenderer.bind(this, tabData[index], index)}
+                                />
+                                <div style={{ height: 60, width: 100 }}></div>
+                            </>
+                        )}
+                    </AutoSizer>
+                )}
+            </WindowScroller>
+        );
+    }
 
     render() {
-        const { tabs, activeTab, swipeable } = this.state;
+        const { tabs, activeTab, swipeable, tabData } = this.state;
         const { seachData } = this.props;
         return (
             <div className="seachtabs" >
                 <Tabs
                     tabs={tabs}
-                    onChange={(tab, index) => { console.log('onChange', index, tab); }}
+                    onChange={(tab, index) => this.onChange(tab, index, seachData.value)}
                     initialPage={activeTab}
                     tabBarUnderlineStyle={{ border: "none" }}
                     swipeable={swipeable}
@@ -58,8 +124,14 @@ export class SeachTabs extends Component {
                         </div> : <SongBook songListData={seachData} ></SongBook>}
 
                     </div>
-                    <div className="tabs-item" >
-                        歌手
+                    <div className="seachtabs-singer" >
+                        {!tabData[1] ? <div className='wait'>
+                            <ActivityIndicator
+                                toast
+                                text="Loading..."
+                                animating={!tabData[1]}
+                            />
+                        </div> : this.renderSinger(1)}
                     </div>
                     <div className="tabs-item" >
                         Content of third tab

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 import { TopNav } from "../../../components/TopNav";
-import { SongBook } from "../../../components/Songbook";
+import SongBook from "../../../components/Songbook";
 
 import { API } from "../../../utils/fetchAPI";
 
@@ -45,7 +45,7 @@ export class RecommendedDaily extends Component {
                 </div>
 
                 <div className="recommend-daily-header">
-                    <img src={mei} alt=""/>
+                    <img src={mei} alt="" />
                     <div className="daily-header-time">
                         {this.dateFormat()}
                     </div>

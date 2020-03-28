@@ -1,3 +1,40 @@
 .seachtabs {
-   
+    .seachtabs-singer {
+        &>div {
+            &:first-child {
+                height: 100% !important;
+                width: 100% !important;
+            }
+        }
+
+        .seachtabs-singer-item {
+            height: 100%;
+            padding: 0 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            .singer-item-left {
+                img {
+                    height: 50px;
+                    width: 50px;
+                    border-radius: 50%;
+                    margin-right: 8px;
+                }
+
+                span {
+                    font-size: 16px;
+                    &:last-child {
+                        font-size: 14px;
+                        color: #666;
+                    }
+                }
+            }
+
+            .singer-item-right {
+                display: flex;
+            }
+        }
+    }
+
 }

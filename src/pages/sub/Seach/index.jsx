@@ -36,6 +36,7 @@ export class Seach extends Component {
 
     clear() {
         this.setState({ value: '' });
+        this.getHotSeach();
     }
 
     handleClick() {
@@ -49,6 +50,8 @@ export class Seach extends Component {
 
         this.getSeachData(value.trim().length ? value : hotValue);
 
+        this.getHotSeach();
+
         this.props.history.push('/main/seach/tabs');
     }
 
@@ -57,7 +60,7 @@ export class Seach extends Component {
 
         const newAry = result.songs.map(p => ({ ...p, alia: p.alias, ar: p.artists, al: p.album }));
 
-        this.setState({ seachData: { tracks: newAry, value: keywords } }, () => console.log(this.state.seachData));
+        this.setState({ seachData: { tracks: newAry, value: keywords } }, () => console.log("seach",this.state.seachData));
     }
 
     async getHotSeach() {
