@@ -1,5 +1,5 @@
 .seachtabs {
-    .seachtabs-singer {
+    .seachtabs-item {
         &>div {
             &:first-child {
                 height: 100% !important;
@@ -24,6 +24,7 @@
 
                 span {
                     font-size: 16px;
+
                     &:last-child {
                         font-size: 14px;
                         color: #666;
@@ -33,6 +34,30 @@
 
             .singer-item-right {
                 display: flex;
+            }
+        }
+
+        .seachtabs-album-item {
+            display: flex;
+            height: 100%;
+            justify-content: start;
+            align-items: center;
+
+            .album-item-left {
+                img {
+                    width: 50px;
+                    height: 50px;
+                    margin: 0 15px;
+                    border-radius: 6px;
+                }
+            }
+
+            .album-item-right {
+                p {
+                    &:first-child {
+                        font-size: 16px;
+                    }
+                }
             }
         }
     }

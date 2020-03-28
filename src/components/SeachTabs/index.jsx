@@ -11,6 +11,8 @@ import { API } from "../../utils/fetchAPI";
 
 import './index.less';
 
+const tabsKey = [0, 'artists', 'albums', 'playlists'];
+
 @observer
 export class SeachTabs extends Component {
 
@@ -51,24 +53,49 @@ export class SeachTabs extends Component {
     }
 
     rowRenderer(tabData, id, { key, index, style }) {
-        return (
-            <div style={style} key={key} >
-                <div className='seachtabs-singer-item'>
-                    <div className="singer-item-left">
-                        <img src={tabData.artists[index].picUrl || tabData.artists[index].img1v1Url} alt="" />
-                        <span>{tabData.artists[index].name}</span>
-                        <span> {tabData.artists[index].alias[0] ? '(' : ''} {tabData.artists[index].trans || tabData.artists[index].alias[0]} {tabData.artists[index].alias[0] ? ')' : ''} </span>
-                    </div>
-                    {tabData.artists[index].followed &&
-                        <div className="singer-item-right">
-                            <div>🦄</div>
-                            <span>已入驻</span>
-                        </div>
-                    }
 
-                </div>
-            </div>
-        );
+        switch (id) {
+            case 1:
+                return (
+                    <div style={style} key={key} >
+                        <div className='seachtabs-singer-item'>
+                            <div className="singer-item-left">
+                                <img src={tabData.artists[index].picUrl || tabData.artists[index].img1v1Url} alt="" />
+                                <span>{tabData.artists[index].name}</span>
+                                <span> {tabData.artists[index].alias[0] ? '(' : ''} {tabData.artists[index].trans || tabData.artists[index].alias[0]} {tabData.artists[index].alias[0] ? ')' : ''} </span>
+                            </div>
+                            {tabData.artists[index].followed &&
+                                <div className="singer-item-right">
+                                    <div>🦄</div>
+                                    <span>已入驻</span>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                );
+            case 2:
+                return (
+                    <div style={style} key={key} >
+                        <div className='seachtabs-album-item'>
+                            <div className="album-item-left">
+                                <img src={tabData.albums[index].picUrl} alt="" />
+                            </div>
+                            <div className='album-item-right'>
+                                <p></p>
+                                <p></p>
+                            </div>
+                        </div>
+                    </div>
+                );
+            case 3:
+
+                break;
+            default:
+                break;
+        }
+
+
     }
 
     renderSinger(index) {
@@ -86,7 +113,7 @@ export class SeachTabs extends Component {
                                     scrollTop={scrollTop}
                                     width={width}
                                     height={height}
-                                    rowCount={tabData[index].artists.length}
+                                    rowCount={tabData[index][tabsKey[index]].length}
                                     rowHeight={60}
                                     rowRenderer={this.rowRenderer.bind(this, tabData[index], index)}
                                 />
@@ -124,7 +151,7 @@ export class SeachTabs extends Component {
                         </div> : <SongBook songListData={seachData} ></SongBook>}
 
                     </div>
-                    <div className="seachtabs-singer" >
+                    <div className="seachtabs-item" >
                         {!tabData[1] ? <div className='wait'>
                             <ActivityIndicator
                                 toast
@@ -133,10 +160,16 @@ export class SeachTabs extends Component {
                             />
                         </div> : this.renderSinger(1)}
                     </div>
-                    <div className="tabs-item" >
-                        Content of third tab
+                    <div className="seachtabs-item" >
+                        {!tabData[2] ? <div className='wait'>
+                            <ActivityIndicator
+                                toast
+                                text="Loading..."
+                                animating={!tabData[2]}
+                            />
+                        </div> : this.renderSinger(2)}
                     </div>
-                    <div className="tabs-item" >
+                    <div className="seachtabs-item" >
                         Content of third tab
                     </div>
                 </Tabs>
