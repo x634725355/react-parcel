@@ -179,7 +179,7 @@ export class Find extends Component {
                                 {resourceListData.map(p => (
                                     <div key={p.id} className="swiper-slide">
 
-                                        <Link className="find-resource" to={`/main/songlist/${p.id}`} >
+                                        <Link className="find-resource" to={`/main/songlist/${p.id}/0`} >
                                             <span>▶{this.getPlaycount(p.playcount.toString())}</span>
                                             <img src={p.img} alt="" />
                                             <p>{p.title}</p>

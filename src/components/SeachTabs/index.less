@@ -53,9 +53,65 @@
             }
 
             .album-item-right {
+                width: 75vw;
+
                 p {
                     &:first-child {
                         font-size: 16px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        margin-bottom: 10px;
+
+                        span {
+                            color: #666;
+                            font-size: 14px;
+                        }
+                    }
+
+                    &:last-child {
+                        font-size: 14px;
+                        color: #666;
+                    }
+                }
+            }
+        }
+
+        .seachtabs-playlists-item {
+            display: flex;
+            height: 100%;
+            justify-content: start;
+            align-items: center;
+
+            .playlists-item-left {
+                img {
+                    width: 50px;
+                    height: 50px;
+                    margin: 0 15px;
+                    border-radius: 6px;
+                }
+            }
+
+            .playlists-item-right {
+                width: 75vw;
+
+                p {
+                    &:first-child {
+                        font-size: 16px;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        white-space: nowrap;
+                        margin-bottom: 10px;
+
+                        span {
+                            color: #666;
+                            font-size: 14px;
+                        }
+                    }
+
+                    &:last-child {
+                        font-size: 14px;
+                        color: #666;
                     }
                 }
             }

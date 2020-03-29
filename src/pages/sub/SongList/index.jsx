@@ -8,11 +8,16 @@ import { API } from "../../../utils/fetchAPI";
 
 import './index.less';
 
+// mapkey
+const mapKey = ['/playlist/detail', '/album'];
+const dataKey = ['playlist', 'songs']
+
 @observer
 export class SongList extends Component {
 
     state = {
-        songListData: []
+        songListData: [],
+        albumData: []
     }
 
     componentDidMount() {
@@ -20,14 +25,39 @@ export class SongList extends Component {
     }
 
     async getSongListData() {
-        const { id } = this.props.match.params;
+        const { id, type } = this.props.match.params;
 
-        const { playlist } = await API.get('/playlist/detail', { id });
+        const res = await API.get(mapKey[type], { id });
+
+        console.log(res);
 
         this.setState({
-            songListData: playlist
+            songListData: type == 1 ? { tracks: res[dataKey[type]] } : res[dataKey[type]],
+            albumData: type == 1 ? res.album : []
         });
+    }
 
+    renderAlbum() {
+        const { albumData: { picUrl, name, artist, publishTime } } = this.state;
+
+        return (
+            <div className="recommend-sonlist-header">
+                <div className="sonlist-header-up">
+                    <img className="sonlist-header-up-left" src={picUrl} alt="" />
+                    <div className="sonlist-header-up-right">
+                        <h3>{name}</h3>
+                        <div className="creator">
+                            <img src={artist && artist.picUrl} alt="" />
+                            <span>{artist && artist.name}></span>
+                        </div>
+                        <p>发行时间{publishTime}</p>
+                    </div>
+                </div>
+                <div className="sonlist-header-down">
+                    {/* 暂时保留 */}
+                </div>
+            </div>
+        );
     }
 
     renderRreator() {
@@ -54,15 +84,16 @@ export class SongList extends Component {
 
     render() {
         const { songListData } = this.state;
+        const { type } = this.props.match.params;
         return (
             <Suspense fallback={<div>Loading.....</div>} >
                 <div className="recommend-sonlist">
 
                     <div className="recommend-sonlist-topnav">
-                        <TopNav>歌单</TopNav>
+                        <TopNav> {type == 1 ? '专辑' : '歌单'} </TopNav>
                     </div>
 
-                    {this.renderRreator()}
+                    {type == 1 ? this.renderAlbum() : this.renderRreator()}
 
                     {/* 渲染主体部分 */}
                     <SongBook songListData={songListData}></SongBook>

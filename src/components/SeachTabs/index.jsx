@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Link } from "react-router-dom";
 import { observer } from 'mobx-react';
 import { Tabs, ActivityIndicator } from "antd-mobile";
 import { List, AutoSizer, WindowScroller } from "react-virtualized";
@@ -8,6 +9,7 @@ import SongBook from "../Songbook";
 // 状态管理器
 import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
 import { API } from "../../utils/fetchAPI";
+import { dateFormat } from "../../utils/time";
 
 import './index.less';
 
@@ -35,6 +37,12 @@ export class SeachTabs extends Component {
 
     }
 
+    // 计算播放数据
+    getPlaycount(data) {
+        const length = data.length
+        return length > 5 ? (length > 8 ? data.substring(0, length - 7) + '.' + data.substring(1, length - 7) + '亿' : data.substring(0, length - 4) + '万') : data
+    }
+
     componentDidUpdate({ seachData }) {
         const { seachData: { value } } = this.props;
         const { tabs, tabIndex } = this.state;
@@ -43,7 +51,6 @@ export class SeachTabs extends Component {
     }
 
     async onChange(tab, index, keywords) {
-        console.log(tab);
 
         const { result } = await API.get('/search', { keywords, type: tab.sub });
 
@@ -77,20 +84,35 @@ export class SeachTabs extends Component {
             case 2:
                 return (
                     <div style={style} key={key} >
-                        <div className='seachtabs-album-item'>
-                            <div className="album-item-left">
-                                <img src={tabData.albums[index].picUrl} alt="" />
+                        <Link to={`/main/songlist/${tabData.albums[index].id}/1`} >
+                            <div className='seachtabs-album-item'>
+                                <div className="album-item-left">
+                                    <img src={tabData.albums[index].picUrl} alt="" />
+                                </div>
+                                <div className='album-item-right'>
+                                    <p>{tabData.albums[index].name} <span>{tabData.albums[index].transNames ? '(' : ''} {tabData.albums[index].transNames && tabData.albums[index].transNames[0]} {tabData.albums[index].transNames ? ')' : ''}</span>  </p>
+                                    <p>{tabData.albums[index].artist.name} &nbsp; {dateFormat(tabData.albums[index].publishTime)}</p>
+                                </div>
                             </div>
-                            <div className='album-item-right'>
-                                <p></p>
-                                <p></p>
-                            </div>
-                        </div>
+                        </Link>
                     </div>
                 );
             case 3:
-
-                break;
+                return (
+                    <div style={style} key={key} >
+                        <Link to={`/main/songlist/${tabData.playlists[index].id}/0`} >
+                            <div className='seachtabs-playlists-item'>
+                                <div className="playlists-item-left">
+                                    <img src={tabData.playlists[index].coverImgUrl} alt="" />
+                                </div>
+                                <div className='playlists-item-right'>
+                                    <p>{tabData.playlists[index].name}</p>
+                                    <p>{tabData.playlists[index].trackCount}&nbsp;by&nbsp;{tabData.playlists[index].creator.nickname},{this.getPlaycount(tabData.playlists[index].playCount + '')}次</p>
+                                </div>
+                            </div>
+                        </Link>
+                    </div>
+                );
             default:
                 break;
         }
@@ -143,34 +165,24 @@ export class SeachTabs extends Component {
                 >
                     <div className="tabs-item" >
                         {!seachData ? <div className='wait'>
-                            <ActivityIndicator
-                                toast
-                                text="Loading..."
-                                animating={!seachData}
-                            />
+                            Login.....
                         </div> : <SongBook songListData={seachData} ></SongBook>}
 
                     </div>
                     <div className="seachtabs-item" >
                         {!tabData[1] ? <div className='wait'>
-                            <ActivityIndicator
-                                toast
-                                text="Loading..."
-                                animating={!tabData[1]}
-                            />
+                            Login.....
                         </div> : this.renderSinger(1)}
                     </div>
                     <div className="seachtabs-item" >
                         {!tabData[2] ? <div className='wait'>
-                            <ActivityIndicator
-                                toast
-                                text="Loading..."
-                                animating={!tabData[2]}
-                            />
+                            Login.....
                         </div> : this.renderSinger(2)}
                     </div>
                     <div className="seachtabs-item" >
-                        Content of third tab
+                        {!tabData[3] ? <div className='wait'>
+                            Login.....
+                        </div> : this.renderSinger(3)}
                     </div>
                 </Tabs>
             </div>

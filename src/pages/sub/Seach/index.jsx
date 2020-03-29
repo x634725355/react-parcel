@@ -22,7 +22,10 @@ export class Seach extends Component {
         value: '',
         hotValue: '',
         hotPlaceholder: '',
-        seachData: null
+        seachData: null,
+        suggestData: [],
+        suggestMark: false,
+        seachMark: false
     };
 
     componentDidMount() {
@@ -30,13 +33,50 @@ export class Seach extends Component {
         this.getHotSeach();
     }
 
-    onChange(value) {
-        this.setState({ value });
+    renderSuggest() {
+        const { suggestData } = this.state;
+        return (
+            <div className='seach-suggest'>
+                <ul>
+                    {suggestData && suggestData.map(p => (
+                        <li className='seach-suggest-item' onClick={this.suggestClick.bind(this, p.keyword)} key={p.keyword}>
+                            <svg className="icon" aria-hidden="true">
+                                <use xlinkHref="#iconsousuo"></use>
+                            </svg>
+                            {p.keyword}
+                        </li>
+                    ))}
+                </ul>
+            </div >
+        );
+    }
+
+    suggestClick(value) {
+        this.setState({ value, seachMark: true, suggestMark: false });
+        this.getSeachData(value);
+    }
+
+    async getSuggest() {
+        let res;
+        const { value } = this.state;
+
+        value.trim().length && (res = await API.get('/search/suggest', { keywords: this.state.value, type: 'mobile' }));
+
+        this.setState({ suggestData: Object.keys(res.result).length ? res.result.allMatch : false });
+
+        console.log(res);
+    }
+
+    async onChange(value) {
+
+        this.getSuggest();
+
+        // 显示搜索建议
+        this.setState({ value, suggestMark: true });
     }
 
     clear() {
         this.setState({ value: '' });
-        this.getHotSeach();
     }
 
     handleClick() {
@@ -48,11 +88,11 @@ export class Seach extends Component {
 
         this.setState({ value: value.trim().length ? value : hotValue })
 
+        // 获取搜索数据
         this.getSeachData(value.trim().length ? value : hotValue);
 
-        this.getHotSeach();
-
-        this.props.history.push('/main/seach/tabs');
+        // 显示搜索结果
+        this.setState({ seachMark: true, suggestMark: false });
     }
 
     async getSeachData(keywords, offset = 0, type = 1) {
@@ -60,7 +100,9 @@ export class Seach extends Component {
 
         const newAry = result.songs.map(p => ({ ...p, alia: p.alias, ar: p.artists, al: p.album }));
 
-        this.setState({ seachData: { tracks: newAry, value: keywords } }, () => console.log("seach",this.state.seachData));
+        console.log(newAry);
+
+        this.setState({ seachData: { tracks: newAry, value: keywords } }, () => console.log("seach", this.state.seachData));
     }
 
     async getHotSeach() {
@@ -70,8 +112,7 @@ export class Seach extends Component {
     }
 
     render() {
-        const { value, hotPlaceholder, seachData } = this.state;
-
+        const { value, hotPlaceholder, seachData, seachMark, suggestMark } = this.state;
 
         return (
             <div style={{ height: iphoneHeight }} >
@@ -86,7 +127,8 @@ export class Seach extends Component {
                     onChange={this.onChange.bind(this)}
                     ref={ref => this.autoFocusInst = ref} />
 
-                <Route path="/main/seach/tabs" render={() => <SeachTabs seachData={seachData} ></SeachTabs>} />
+                {suggestMark && this.renderSuggest()}
+                {(!suggestMark && seachMark) && <SeachTabs seachData={seachData} ></SeachTabs>}
             </div>
         );
     }
