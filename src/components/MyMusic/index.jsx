@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import { observer } from 'mobx-react';
 
 
 import { MyPlayStore } from '../MyPlayStore/MyPlayStore';
 import { USER_DATA_KEY } from '../../utils/share';
 import { API } from '../../utils/fetchAPI';
+import HookImage from '../LazyLoad';
 
-import { observer } from 'mobx-react';
 
+import logo from '../../assets/images/timg.jfif';
 import './index.less';
 
 @observer
@@ -43,7 +45,7 @@ export class MyMusic extends Component {
                     <div className="music-songlist-main">
                         {mySongList.map(p => (
                             <Link key={p.id} to={`/main/songlist/${p.id}/0`} className="music-songlist-individual">
-                                <img src={p.coverImgUrl} alt="" />
+                                <HookImage src={logo} dataImg={p.coverImgUrl} ></HookImage>
                                 <div className="songlist-individual-introduction">
                                     <p>{p.name}</p>
                                     <p>{p.trackCount}首</p>
