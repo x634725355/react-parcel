@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Carousel, Flex, WingBlank, Button } from 'antd-mobile';
 import { Link } from "react-router-dom";
 
+import HookImage from "../LazyLoad";
+
 // swiper引入
 import Swiper from 'swiper/js/swiper'
 import { API } from "../../utils/fetchAPI";
@@ -9,7 +11,7 @@ import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
 
 import 'swiper/css/swiper.css';
 import './index.less';
-
+import logo from '../../assets/images/timg.jfif';
 
 export class Find extends Component {
 
@@ -181,7 +183,7 @@ export class Find extends Component {
 
                                         <Link className="find-resource" to={`/main/songlist/${p.id}/0`} >
                                             <span>▶{this.getPlaycount(p.playcount.toString())}</span>
-                                            <img src={p.img} alt="" />
+                                            <HookImage src={logo} dataImg={p.img} ></HookImage>
                                             <p>{p.title}</p>
                                         </Link>
                                     </div>
@@ -201,7 +203,7 @@ export class Find extends Component {
 
         const { songRecommendData, songRecommendId } = this.state;
 
-        const { onClickSongListId, playId } = this.context;        
+        const { onClickSongListId, playId } = this.context;
 
         return (
             <WingBlank size='sm'>
@@ -224,7 +226,7 @@ export class Find extends Component {
                                     <div key={index} className="swiper-slide">
                                         {p.map(p => (
                                             <div onClick={(e) => { onClickSongListId(p.id, e, songRecommendId); this.forceUpdate(); }} className='song-recommend-list' key={p.id}>
-                                                <img src={p.album.picUrl} alt="" />
+                                                <HookImage src={logo} dataImg={p.album.picUrl} ></HookImage>
                                                 <div className='song-recommend-singer'>
                                                     <div className="song-recommend-singer-left">
                                                         <div>
