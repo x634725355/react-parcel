@@ -8,7 +8,7 @@ import { MyPlayStore } from "../../../components/MyPlayStore/MyPlayStore";
 import './index.less';
 
 @observer
-export class PlayList extends Component {
+export default class PlayList extends Component {
 
     static contextType = MyPlayStore;
 

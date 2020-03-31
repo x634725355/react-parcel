@@ -15,7 +15,7 @@ import './index.less';
 
 
 @observer
-export class Home extends Component {
+export default class Home extends Component {
     state = {
         tabs: [
             { title: '我的', sub: '0' },

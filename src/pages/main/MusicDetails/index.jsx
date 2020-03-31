@@ -11,7 +11,7 @@ import { TopNav } from "../../../components/TopNav";
 import './index.less';
 
 @observer
-export class MusicDetails extends Component {
+export default class MusicDetails extends Component {
 
     static contextType = MyPlayStore;
 

@@ -1,17 +1,22 @@
-import React, { Component } from "react";
+import React, { Component, lazy } from "react";
 import { Route } from "react-router-dom";
 import { observer } from 'mobx-react';
 
-import { Home } from '../../pages/main/Home';
+// import Home from '../../pages/main/Home';
 import { RecommendedDaily } from '../../pages/sub/RecommendedDaily';
-import { MusicDetails } from "./MusicDetails";
-import { PlayMusic } from "../../components/PlayMusic";
-import { PlayList } from "./PlayList";
+// import MusicDetails  from "./MusicDetails";
+// import PlayMusic from "../../components/PlayMusic";
+// import PlayList from "./PlayList";
 import { SongList } from "../sub/SongList";
-import { Seach } from "../sub/Seach";
+// import Seach from "../sub/Seach";
 // 状态管理器
 import { MyPlayStore } from '../../components/MyPlayStore/MyPlayStore';
 
+const PlayMusic = lazy(async () => await import('../../components/PlayMusic'));
+const PlayList = lazy(async () => await import('./PlayList'));
+const MusicDetails = lazy(async () => await import('./MusicDetails'));
+const Seach = lazy(async () => await import('../sub/Seach'));
+const Home = lazy(async () => await import('../../pages/main/Home'));
 
 
 import './index.less';

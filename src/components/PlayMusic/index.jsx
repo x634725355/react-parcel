@@ -7,7 +7,7 @@ import { ProgressCircle } from "../ProgressCircle";
 import './index.less';
 
 @observer
-export class PlayMusic extends Component {
+export default class PlayMusic extends Component {
 
     static contextType = MyPlayStore;
 

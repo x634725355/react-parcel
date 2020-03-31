@@ -14,7 +14,7 @@ import { iphoneHeight } from "../../../utils/share";
 import './index.less';
 
 @observer
-export class Seach extends Component {
+export default class Seach extends Component {
 
     static contextType = MyPlayStore;
 
