@@ -17,7 +17,7 @@ const PlayList = lazy(async () => await import('./PlayList'));
 const MusicDetails = lazy(async () => await import('./MusicDetails'));
 const Seach = lazy(async () => await import('../sub/Seach'));
 const Home = lazy(async () => await import('../../pages/main/Home'));
-
+const Singer = lazy(async () => await import('../../components/Singer'));
 
 import './index.less';
 
@@ -35,6 +35,7 @@ export class Main extends Component {
                 <Route path="/main/recommended/:id?" exact component={RecommendedDaily} />
                 <Route path="/main/songlist/:id/:type?" exact component={SongList} />
                 <Route path="/main/seach" component={Seach} />
+                <Route path="/main/singer/:id" component={Singer} />
 
                 {
                     musicMark && (

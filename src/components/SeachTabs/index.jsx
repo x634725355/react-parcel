@@ -65,20 +65,22 @@ export class SeachTabs extends Component {
             case 1:
                 return (
                     <div style={style} key={key} >
-                        <div className='seachtabs-singer-item'>
-                            <div className="singer-item-left">
-                                <img src={tabData.artists[index].picUrl || tabData.artists[index].img1v1Url} alt="" />
-                                <span>{tabData.artists[index].name}</span>
-                                <span> {tabData.artists[index].alias[0] ? '(' : ''} {tabData.artists[index].trans || tabData.artists[index].alias[0]} {tabData.artists[index].alias[0] ? ')' : ''} </span>
-                            </div>
-                            {tabData.artists[index].followed &&
-                                <div className="singer-item-right">
-                                    <div>🦄</div>
-                                    <span>已入驻</span>
+                        <Link to={`/main/singer/${tabData.artists[index].id}`} >
+                            <div className='seachtabs-singer-item'>
+                                <div className="singer-item-left">
+                                    <img src={tabData.artists[index].picUrl || tabData.artists[index].img1v1Url} alt="" />
+                                    <span>{tabData.artists[index].name}</span>
+                                    <span> {tabData.artists[index].alias[0] ? '(' : ''} {tabData.artists[index].trans || tabData.artists[index].alias[0]} {tabData.artists[index].alias[0] ? ')' : ''} </span>
                                 </div>
-                            }
+                                {tabData.artists[index].followed &&
+                                    <div className="singer-item-right">
+                                        <div>🦄</div>
+                                        <span>已入驻</span>
+                                    </div>
+                                }
 
-                        </div>
+                            </div>
+                        </Link>
                     </div>
                 );
             case 2:

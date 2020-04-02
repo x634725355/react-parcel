@@ -11,9 +11,9 @@ import { MyPlayStore } from '../components/MyPlayStore/MyPlayStore';
 import AppState from "../stores/AppState";
 
 
-
 import './App.less';
 import '../assets/font_icons/iconfont';
+import logo from "../assets/images/logo.svg";
 
 // 创建状态管理器实例
 const store = new AppState();
@@ -24,7 +24,10 @@ export class App extends Component {
     render() {
         return (
             <Router>
-                <Suspense fallback={<div>Loading.....</div>} >
+                <Suspense fallback={<div className="wait">
+                        Loading
+                        <img src={logo} alt=""/>
+                    </div>} >
                     <MyPlayStore.Provider value={store}>
                         <Route path="/" exact render={() => <Redirect to='/login' />} />
                         <Route path="/login" exact component={BasicLogin} />
