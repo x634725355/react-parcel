@@ -4,6 +4,7 @@ import { observer } from "mobx-react";
 
 import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
 
+
 import './index.less';
 
 @observer
@@ -24,10 +25,19 @@ export default class Singer extends Component {
         tabIndex: 0
     };
 
+    componentDidMount() {
+
+    }
+
+    async getSingerData() {
+        
+    }
+
+    // style={{backgroundImage: }}
     render() {
         return (
             <div className="singer-item">
-                你好 这是歌手页面
+                <div className=""></div>
             </div>
         )
     }

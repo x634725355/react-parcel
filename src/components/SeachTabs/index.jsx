@@ -59,6 +59,7 @@ export class SeachTabs extends Component {
         this.setState({ tabData: this.state.tabData, tabIndex: index }, () => console.log(this.state.tabData));
     }
 
+    // 渲染tab栏
     rowRenderer(tabData, id, { key, index, style }) {
 
         switch (id) {
