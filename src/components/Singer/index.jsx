@@ -3,7 +3,7 @@ import { observer } from "mobx-react";
 
 
 import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
-
+import { API } from "../../utils/fetchAPI";
 
 import './index.less';
 
@@ -26,11 +26,14 @@ export default class Singer extends Component {
     };
 
     componentDidMount() {
-
+        console.log(this.props.match.params);
     }
 
-    async getSingerData() {
-        
+    async getSingerData(id) {
+        const res = await API.get('/artist/desc', { id });
+
+        console.log(res);
+
     }
 
     // style={{backgroundImage: }}
