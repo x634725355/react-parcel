@@ -22,11 +22,13 @@ export default class Singer extends Component {
         activeTab: 0,
         swipeable: true,
         tabData: new Array(4).fill(0),
-        tabIndex: 0
+        tabIndex: 0,
+        singerData: {}
     };
 
     componentDidMount() {
         console.log(this.props.match.params);
+        this.getSingerData(this.props.match.params.id);
     }
 
     async getSingerData(id) {
@@ -34,7 +36,10 @@ export default class Singer extends Component {
 
         console.log(res);
 
+        this.setState({ singerData: { data: res.introduction[0], briefDesc: res.briefDesc } });
     }
+
+
 
     // style={{backgroundImage: }}
     render() {
