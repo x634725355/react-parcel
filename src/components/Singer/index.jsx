@@ -31,17 +31,12 @@ export default class Singer extends Component {
         this.getSingerData(this.props.match.params.id);
     }
 
-<<<<<<< HEAD
-    async getSingerData() {
-        const res = API.get();
-=======
     async getSingerData(id) {
         const res = await API.get('/artist/desc', { id });
 
         console.log(res);
 
         this.setState({ singerData: { data: res.introduction[0], briefDesc: res.briefDesc } });
->>>>>>> 563b538a98824377ad66072fab8ad4a30fecd178
     }
 
 
