@@ -3,6 +3,7 @@ import { observer } from "mobx-react";
 
 
 import { MyPlayStore } from "../MyPlayStore/MyPlayStore";
+import { API } from "../../utils/fetchAPI";
 
 
 import './index.less';
@@ -30,7 +31,7 @@ export default class Singer extends Component {
     }
 
     async getSingerData() {
-        
+        const res = API.get();
     }
 
     // style={{backgroundImage: }}
